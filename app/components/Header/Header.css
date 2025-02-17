@@ -1,0 +1,46 @@
+:root{
+    --height-header:70px;
+}
+
+.Header{
+    width: 100%;
+    height: var(--height-header);
+    display: flex;
+    background-color: var(--bg-primary-dark);
+    justify-content: flex-start;
+    gap: 20px;
+    align-items: center;
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.Header__menu{
+    width: 60px;
+    height: 60px;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+}
+
+.Header>h2{
+    margin: 0;
+    color: var(--color-primary-light);
+}
+
+@media screen and (min-width:100px) and (max-width:650px) {
+    :root{
+        --height-header:50px;
+    }
+
+    .Header{
+        gap:10px;
+        padding: 0 10px;
+    }
+
+    .Header__menu{
+        height: 40px;
+    }
+
+}

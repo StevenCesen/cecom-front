@@ -1,0 +1,44 @@
+.CardOrder{
+    width: 100%;
+    display: grid;
+    grid-template-columns:5% 45% 10% 10% 20% 10%;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-primary-light);
+    border-bottom: 1px solid rgb(218, 218, 218);
+    padding: 10px 10px;
+}
+
+.CardOrder>div{
+    width: 100%;
+}
+
+.CardOrder>div>span{
+    display: block;
+    text-align: center;
+}
+
+.CardOrder>span{
+    display: block;
+    text-align: center;
+}
+
+.CardOrder>button{
+    width: 100%;
+    height: 35px;
+    border: none;
+    background-color: var(--bg-secondary-light);
+    cursor: pointer;
+    color: var(--color-primary-light);
+    font-weight: bold;
+}
+
+@media screen and (min-width:100px) and (max-width:650px) {
+    .CardOrder{
+        grid-template-columns:5% 40% 25% 20% 10%;
+    }
+
+    .CardOrder>span:nth-child(5){
+        display: none;
+    }
+}

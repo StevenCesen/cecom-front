@@ -1,0 +1,44 @@
+.CardClient{
+    width: 100%;
+    display: grid;
+    grid-template-columns:40% 15% 15% 20% 10%;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-primary-light);
+    border-bottom: 1px solid rgb(218, 218, 218);
+    padding: 10px 10px;
+}
+
+.CardClient>div{
+    width: 100%;
+}
+
+.CardClient>div>span{
+    display: block;
+    text-align: center;
+}
+
+.CardClient>span{
+    display: block;
+    text-align: center;
+}
+
+.CardClient>button{
+    width: 100%;
+    height: 35px;
+    border: none;
+    background-color: var(--bg-secondary-light);
+    cursor: pointer;
+    color: var(--color-primary-light);
+    font-weight: bold;
+}
+
+@media screen and (min-width:100px) and (max-width:650px) {
+    .CardClient{
+        grid-template-columns:40% 40% 20%;
+    }
+
+    .CardClient>span:nth-child(2),.CardClient>span:nth-child(3){
+        display: none;
+    }
+}

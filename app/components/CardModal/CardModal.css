@@ -1,0 +1,48 @@
+.CardModal{
+    width: 30%;
+    height: calc(100vh - var(--height-header));
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: var(--height-header);
+    right: 0;
+    background-color: var(--bg-primary-light);
+    z-index: 99;
+    padding: 10px 10px;
+    border-left: 1px solid rgb(230, 230, 230);
+    overflow-y: auto;
+}
+
+.CardModal__content{
+    width: 100%;
+}
+
+.CardModal>button{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    border-radius: 5px;
+    margin: 0 auto !important;
+    background-color: var(--bg-ternary-light);
+    border: none;
+    color: var(--color-primary-light);
+    font-weight: bold;
+}
+
+@media screen and (min-width:100px) and (max-width:650px) {
+    .CardModal{
+        width: 100%;
+        height: calc(100vh - var(--height-header));
+        margin: 0 auto;
+        position: absolute;
+        top: var(--height-header);
+        background-color: var(--bg-primary-light);
+        z-index: 100;
+        padding: 10px 10px;
+    }
+}

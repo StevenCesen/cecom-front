@@ -1,0 +1,175 @@
+.CardNewProduct{
+    position: relative;
+    width: 100%;
+}
+
+.CardNewProduct__title{
+    width: 90%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.CardNewProduct__principal{
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.CardNewProduct__principal>label{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.CardNewProduct__principal>label>textarea{
+    width: 100%;
+    height: 80px;
+}
+
+.CardNewProduct__principal>label>input{
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-bottom: 2px solid var(--bg-primary-dark);
+}
+
+.CardNewProduct__principal>div{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.CardNewProduct__principal>div>label{
+    width: 100%;
+    height: 40px;
+    background-color: var(--bg-primary-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-primary-light);
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.CardNewProduct__principal>div>label>input{
+    display: none;
+}
+
+.CardNewProduct__dates{
+    width: 90%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.CardNewProduct__datesBarcode{
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.CardNewProduct__datesBarcode>svg{
+    width: 50% !important;
+}
+
+.CardNewProduct__datesBarcode>label{
+    width:50%;
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.CardNewProduct__datesBarcode>label>input{
+    width:100%;
+    height:40px;
+}
+
+.CardNewProduct__dates>label{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.CardNewProduct__dates>label>input{
+    width:100%;
+    height:40px;
+}
+
+.CardNewProduct__dates>label>select{
+    width:100%;
+    height:40px;
+}
+
+.CardNewProduct__datesNew{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.CardNewProduct__datesNew>label{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.CardNewProduct__datesNew>label>input,.CardNewProduct__datesNew>label>select{
+    width: 45%;
+    height: 40px;
+}
+
+.CardNewProduct__datesNew>label>span{
+    width: 10%;
+    text-align: center;
+}
+
+.CardNewProduct__footer{
+    width: 90%;
+    margin: 0 auto;
+}
+
+.CardNewProduct__footer>button{
+    width: 100%;
+    height: 40px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    background-color: var(--bg-primary-dark);
+    border-radius: 5px;
+    color: var(--color-primary-light);
+    font-weight: bold;
+}
+
+@media screen and (min-width:100px) and (max-width:650px) {
+    .CardNewProduct__datesBarcode{
+        width: 90%;
+        flex-direction: column;
+    }
+
+    .CardNewProduct__datesBarcode>svg{
+        width: 100% !important;
+    }
+
+    .CardNewProduct__datesBarcode>label{
+        width:100%;
+    }
+    
+}

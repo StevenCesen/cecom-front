@@ -1,0 +1,96 @@
+.Setting{
+    width: 50%;
+    margin: 0 auto;
+}
+
+.Setting__me{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.Setting__me>h3{
+    text-align: center;
+    margin: 20px 0;
+}
+
+.Setting__labelInput{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.Setting__labelInput>p{
+    font-weight: normal;
+    word-wrap: break-word;
+}
+
+.Setting__labelInput>input{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    padding-left: 10px;
+}
+
+.Setting__me>form>button{
+    width: 100%;
+    height: 40px;
+}
+
+.Setting__me>form>p{
+    word-wrap: break-word;
+}
+
+.Setting__me>form>div>img{
+    display: block;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+}
+
+.Setting__labelFile{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 40px;
+    background-color: var(--bg-primary-dark);
+    margin: 10px 0;
+    border-radius: 5px;
+    color: var(--color-primary-light);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.Setting__labelFile>input{
+    display: none;
+}
+
+.Setting__labelInputLine{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.Setting__labelInputLine>input{
+    width: 100%;
+    height: 35px;
+    border:none;
+    border-bottom: 2px solid var(--bg-primary-dark);
+}
+
+
+@media screen and (min-width:100px) and (max-width:650px) {
+    .Setting{
+        width: 90%;
+        margin: 0 auto;
+    }
+    
+}

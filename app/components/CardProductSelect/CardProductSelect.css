@@ -1,0 +1,11 @@
+.CardProductSelect{
+    width: 100%;
+    background-color: var(--bg-primary-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px 10px;
+    text-decoration: none;
+    color: var(--color-secondary-light);
+}

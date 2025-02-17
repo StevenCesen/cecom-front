@@ -1,0 +1,87 @@
+.Item{
+    width: 100%;
+    padding: 20px 20px;
+}
+
+.Item__image{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Item__title{
+
+}
+
+.Item_price{
+    font-size: 18px;
+}
+
+.Item__subtitle{
+    margin: 20px 0;
+}
+
+.Item__slides{
+    width: 100%;
+    overflow-x: auto;
+}
+
+.Item__slides>div{
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+.Item__notes{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    margin: 10px 0 100px;
+}
+
+.Item__notes>textarea{
+    width: 100%;
+    height: 50px;
+}
+
+.Item__footer{
+    width: 100%;
+    left: 0;
+    right: 0;
+    position: fixed;
+    bottom: 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px;
+    border-top: 1px solid rgb(226, 226, 226);
+    background-color: var(--bg-primary-light);
+}
+
+.Item__footer>div,.Item__footer>button{
+    width: 100%;
+}
+
+.Item__footer>button{
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    background-color: var(--bg-ternary-light);
+    color: var(--color-primary-light);
+    font-weight: bold;
+}
+
+.Item__footer>div>button{
+    width: 40px;
+    height: 40px;
+}
+
+.Item__footer>div>input{
+    width: 40px;
+    height: 40px;
+}

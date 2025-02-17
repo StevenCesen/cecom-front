@@ -1,0 +1,122 @@
+:root{
+    --width-page:70%;
+}
+
+.Vouchers{
+    width: var(--width-page);
+    margin: 0 auto;
+}
+
+.Vouchers__nav{
+    width: 100%;
+    height: 40px;
+    position: sticky;
+    top: var(--height-header);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background-color: var(--bg-body-ligth);
+}
+
+.Vouchers__subtitle{
+    display: block;
+    margin-bottom: 20px;
+    font-weight: 100;
+}
+
+.Vouchers__search{
+    width: 400px !important;
+    height: 35px;
+    padding-left: 10px;
+    border: none;
+    border-bottom: 2px solid var(--color-text-dark);
+}
+
+.Vouchers__search:hover,.Vouchers__search:focus{
+    outline: none;
+}
+
+.Vouchers__actions{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+.Vouchers__actions>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.Vouchers__actions>div>button{
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-color: var(--bg-primary-light);
+    border: 1px solid rgb(214, 214, 214);
+    cursor: pointer;
+}
+
+.Vouchers__btnIni::after{
+    content: "<<";
+}
+
+.Vouchers__btnPrev::after{
+    content: "<";
+}
+
+.Vouchers__btnNext::after{
+    content: ">";
+}
+
+.Vouchers__btnEnd::after{
+    content: ">>";
+}
+
+.Vouchers__actions>div>label{
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-primary-light);
+    border: 1px solid rgb(214, 214, 214);
+}
+
+@media screen and (min-width:100px) and (max-width:650px) {
+    :root{
+        --width-page:90%;
+    }
+
+    .Vouchers__nav{
+        gap: 10px;
+    }
+
+    .Vouchers__actions{
+        justify-content: flex-start;
+    }
+
+    .Vouchers__nav{
+        height: 60px;
+    }
+
+    .Vouchers__search{
+        height: 50px;
+    }
+
+    .Vouchers__actions>div>button{
+        width: 40px;
+        height: 40px;
+    }
+
+    .Vouchers__actions>div>label{
+        width: 40px;
+        height: 40px;
+    }
+}
