@@ -1,5 +1,5 @@
 export const URL_BASE='http://127.0.0.1:8000/api/';
-export const COMMERCIAL_TYPE='CECOM EC UPDATE';
+export const COMMERCIAL_TYPE='CECOM EC UPDATE NUEVO';
 /**
  * AMBIENTE DE FACTURACIÓN
  * 1. - PRUEBAS: 1
