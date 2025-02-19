@@ -59,8 +59,8 @@ export default async function Setting({app,data_contributor}) {
                 <h3>Firma electrónica</h3>
     
                 <form>
-                    <p id="validez-cert">Fecha vencimiento: ${data_contributor.contributor.validity_date}</p>
-                    <p id="entidad-cert">Entidad: ${data_contributor.contributor.issuer_name}</p>
+                    <p id="validez-cert">Fecha vencimiento: ${(data_contributor.contributor.validity_date !== null) ? data_contributor.contributor.validity_date : ""}</p>
+                    <p id="entidad-cert">Entidad: ${(data_contributor.contributor.issuer_name!==null) ? data_contributor.contributor.issuer_name : ""}</p>
 
                     <label class="Setting__labelInput">
                         Contraseña de la firma
@@ -79,27 +79,27 @@ export default async function Setting({app,data_contributor}) {
                 <form>
                     <label class="Setting__labelInputLine">
                         Factura
-                        <input id="nro-facturas" type="number" value="${data_contributor.establishment.nro_invoices}">
+                        <input id="nro-facturas" type="number" value="${(data_contributor.establishment!==null) ? data_contributor.establishment.nro_invoices : 0}">
                     </label>
                     <label class="Setting__labelInputLine">
                         Liquidación
-                        <input id="nro-liquidacion" type="number" value="${data_contributor.establishment.nro_liquidations}">
+                        <input id="nro-liquidacion" type="number" value="${(data_contributor.establishment!==null) ? data_contributor.establishment.nro_liquidations : 0}">
                     </label>
                     <label class="Setting__labelInputLine">
                         Nota de crédito
-                        <input id="nro-ntcredito" type="number" value="${data_contributor.establishment.nro_credit_note}">
+                        <input id="nro-ntcredito" type="number" value="${(data_contributor.establishment!==null) ? data_contributor.establishment.nro_credit_note : 0}">
                     </label>
                     <label class="Setting__labelInputLine">
                         Nota de débito
-                        <input id="nro-ntdebido" type="number" value="${data_contributor.establishment.nro_debit_note}">
+                        <input id="nro-ntdebido" type="number" value="${(data_contributor.establishment!==null) ? data_contributor.establishment.nro_debit_note : 0}">
                     </label>
                     <label class="Setting__labelInputLine">
                         Guía de remisión
-                        <input id="nro-guia" type="number" value="${data_contributor.establishment.nro_guides}">
+                        <input id="nro-guia" type="number" value="${(data_contributor.establishment!==null) ? data_contributor.establishment.nro_guides : 0}">
                     </label>
                     <label class="Setting__labelInputLine">
                         Comprobante de retención
-                        <input id="nro-ctretencion" type="number" value="${data_contributor.establishment.nro_retains}">
+                        <input id="nro-ctretencion" type="number" value="${(data_contributor.establishment!==null) ? data_contributor.establishment.nro_retains : 0}">
                     </label>
                     <button id="update-estab">Actualizar</button>
                 </form>
