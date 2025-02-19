@@ -12,8 +12,8 @@ export default async function useLogin({username,password}) {
                     Accept: 'application/json'
                 },
                 body:new URLSearchParams({
-                    username,
-                    password
+                    email:username,
+                    password:password
                 })
             });
             
