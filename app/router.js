@@ -8,6 +8,7 @@ import useGetVouchers from "./hooks/useGetVouchers.js";
 import useSession from "./hooks/useSession.js";
 import Clients from "./pages/Clients/Clients.js";
 import Commander from "./pages/Commander/Commander.js";
+import Home from "./pages/Home/Home.js";
 import Item from "./pages/Item/Item.js";
 import Login from "./pages/Login/Login.js";
 import Orders from "./pages/Orders/Orders.js";
@@ -25,6 +26,11 @@ export default async function Router({title,body,app}){
         title.textContent="Inicio de sesión";
 
         Login({app});
+
+    }else if(hash==='#/home' & useSession()){
+        
+        title.textContent="Inicio";
+        Home({contributor_id:localStorage.getItem('cc'),app});
 
     }else if(hash==='#/ventas' & useSession()){
 

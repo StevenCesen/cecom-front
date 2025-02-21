@@ -5,7 +5,7 @@ export default function Nav({body}){
         <div class="Nav" id="menu">
             <div class="Nav__options">
                 <div>
-                    <a href="#/">Inicio</a>
+                    <a href="#/home">Inicio</a>
                 </div>
                 <div>
                     <a href="#/reportes">Reportes</a>

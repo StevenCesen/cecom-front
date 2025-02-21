@@ -26,7 +26,7 @@ export default async function useLogin({username,password}) {
                 useSaveSession({
                     data:response
                 });
-                location.hash='#/ventas';
+                location.hash='#/home';
             }
 
         }else{
