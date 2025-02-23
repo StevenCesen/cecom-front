@@ -1,10 +1,12 @@
 import { URL_BASE } from "../../hooks/env.js";
+import useCreateMenu from "../../hooks/useCreateMenu.js";
 import useGenerate from "../../hooks/useGenerate.js";
 import useGetContributor from "../../hooks/useGetContributor.js";
 import useGetTypeIdentification from "../../hooks/useGetTypeIdentification.js";
 import useRound from "../../hooks/useRound.js";
 import useSearchProduct from "../../hooks/useSearchProduct.js";
 import useUpdateTotal from "../../hooks/useUpdateTotal.js";
+import CartItemMenu from "../CardItemMenu/CardItemMenu.js";
 import CartItem from "../CartItem/CartItem.js";
 import loader from "../Loader/Loader.js";
 import Push from "../Push/Push.js";
@@ -324,6 +326,118 @@ export default function CardModal({template,content}){
             }
         });
 
+    }else if(!!document.getElementById('new-menu')){
+        const search=document.getElementById('search-product');
+        const content_result=document.getElementById('content-list-products');
+        const content_item=document.getElementById('content-items-menu');
+        const btn_save_menu=document.getElementById('save-menu');
+
+        search.addEventListener('change',async (e)=>{
+            if(e.target.value!==""){
+                const results=await useSearchProduct({
+                    contributor_id:localStorage.getItem('cc'),
+                    name:e.target.value
+                });
+
+                content_result.innerHTML="";
+                
+                results.data.map(item=>{
+                    content_result.insertAdjacentHTML('beforeend',`
+                        <button 
+                            data-id="${item.id}"
+                            data-name="${item.name}"
+                            data-price="${item.price}"  
+                            data-description="${item.description}" 
+                            data-descuento="${0}"
+                            data-subtotal="${0}"  
+                            data-tax="${0}"
+                            class="Cart__resultItem"
+                        >${item.name}</button>
+                    `);
+                });
+            }else{
+                content_result.innerHTML="";
+            }
+        });
+
+        content_result.addEventListener('click',(e)=>{
+            // Delegación de evento para agregar un producto al listado
+            if(e.target.matches('.Cart__resultItem')){
+                CartItemMenu({
+                    id:e.target.dataset.id,
+                    name:e.target.dataset.name,
+                    description:e.target.dataset.description,
+                    price:e.target.dataset.price,
+                    content:content_item
+                });
+
+                content_result.innerHTML="";
+            }
+        });
+
+        content_item.addEventListener('click',(e)=>{
+            // Delegación de evento para aumentar cantidad de un producto
+            if(e.target.matches('.CardItemMenu__itemMore')){
+                const input=e.target.previousElementSibling;
+                const val_total=e.target.parentElement.parentElement.nextElementSibling;
+
+                let new_value=Number(input.value)+1;
+                input.value=new_value;
+                val_total.textContent=`$ ${Number(new_value*e.target.dataset.price)}`;
+            }
+
+            // Delegación de evento para disminuir cantidad de un producto
+            if(e.target.matches('.CardItemMenu__itemMinus')){
+                const input=e.target.nextElementSibling;
+                const val_total=e.target.parentElement.parentElement.nextElementSibling;
+
+                if(input.value>1){
+                    let new_value=Number(input.value)-1;
+                    input.value=new_value;
+                    val_total.textContent=`$ ${Number(new_value)*Number(e.target.dataset.price)}`;
+                }else{
+                    Push({
+                        text:'Elimina el producto'
+                    });
+                }
+            }
+        });
+
+        btn_save_menu.addEventListener('click',async (e)=>{
+            const name=document.getElementById('name-menu');
+            let products=document.getElementsByClassName('CardItemMenu');
+            products=[].slice.call(products);
+            
+            let listado=[];
+
+            products.map((product)=>{
+                listado.push({
+                    id:product.dataset.id,
+                    price:product.children[2].value,
+                    price_original:product.dataset.price
+                });
+            });
+
+            if(name.value===""){
+                Push({
+                    text:'Por favor, introduzca un nombre para el menú'
+                });
+            }else if(listado.length==0){
+                Push({
+                    text:'Por favor, agregue productos al menú'
+                });
+            }else{
+                const create=await useCreateMenu({
+                    data:{
+                        name:name.value,
+                        productos:JSON.stringify(listado),
+                        contributor_id:localStorage.getItem('cc')
+                    }
+                });
+
+                console.log(create)
+            }
+        });
     }
 
     btn_close_modal.addEventListener('click',(e)=>{

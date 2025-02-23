@@ -70,12 +70,21 @@ export default async function Product({id,app}) {
                 </label>
             </div>
 
-            <div class="CardNewProduct__datesNew">
-                Categoría
+            <div class="CardNewProduct__dates">
                 <label>
+                    Categoría
                     <select id="category-product" value="${data.type_id}">
                         <option value="">-- Seleccionar --</option>
                         ${categories}
+                    </select>
+                </label>
+                <label>
+                    Complemento
+                    <select id="complement-product" value="">
+                        <option value="">-- Seleccionar --</option>
+                        <option value="cat">Con categoría</option>
+                        <option value="products">Con productos</option>
+                        <option value="view">Ver complementos</option>
                     </select>
                 </label>
             </div>
@@ -109,6 +118,7 @@ export default async function Product({id,app}) {
     document.getElementById('body').removeChild(document.getElementById('loader'));
 
     const btn_update_product=document.getElementById('update-product');
+    const select_complements=document.getElementById('complement-product');
 
     JsBarcode("#barcode",data.name);
 

@@ -11,6 +11,7 @@ import Commander from "./pages/Commander/Commander.js";
 import Home from "./pages/Home/Home.js";
 import Item from "./pages/Item/Item.js";
 import Login from "./pages/Login/Login.js";
+import Menus from "./pages/Menu/Menu.js";
 import Orders from "./pages/Orders/Orders.js";
 import Product from "./pages/Product/Product.js";
 import Products from "./pages/Products/Products.js";
@@ -81,17 +82,19 @@ export default async function Router({title,body,app}){
             Commander({app});
         }
 
-    }else if(hash==='#/menus' & useSession()){
+    }else if(hash.split('/')[1]==="menus" & useSession()){
 
         title.textContent="Menús";
-        //  FALTAAAAAAAAAAAAAAA DE HACER
+        const id=hash.split('/')[2];
+        console.log(id);
+        Menus({contributor_id:localStorage.getItem('cc'),app});
 
     }else if(hash.split('/')[1]==="items" & useSession()){
         title.textContent="Item seleccionado";
         
         loader();
-        const id=hash.split('/')[2];
 
+        const id=hash.split('/')[2];
         const data_product=await useGetProduct({id});
 
         Item({

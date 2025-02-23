@@ -1,0 +1,46 @@
+.CardItemMenu{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 10px;
+}
+
+.CardItemMenu:last-child{
+    margin-bottom: 40px;
+}
+
+.CardItemMenu__image{
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.CardItemMenu__dates{
+    width: calc(100% - 200px);
+}
+
+.CardItemMenu__dates>div{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.CardItemMenu__dates>div>button,.CardItemMenu__dates>div>input{
+    width: 40px;
+    height: 40px;
+    text-align: center;
+}
+
+.CardItemMenu__price{
+    width: 120px !important;
+    height: 40px;
+    border: none;
+    border-bottom: 2px solid var(--bg-primary-dark);
+    font-size: 20px;
+    text-align: center;
+}

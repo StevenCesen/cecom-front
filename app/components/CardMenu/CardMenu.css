@@ -1,0 +1,38 @@
+.CardMenu{
+    width: 100%;
+    padding: 10px 10px;
+    box-sizing: border-box;
+    background-color: var(--bg-primary-light);
+    border-radius: 5px;
+    border: 1px solid rgb(233, 233, 233);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    text-decoration: none;
+}
+
+.CardMenu__title{
+    width: 100%;
+}
+
+.CardMenu__title>h3{
+    color: var(--color-text-dark);
+}
+
+.CardMenu__title>p{
+    color: var(--color-ternary-light);
+    font-weight: bold;
+}
+
+.CardMenu__status{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+.CardMenu__status>p{
+    color: var(--color-text-dark);
+}

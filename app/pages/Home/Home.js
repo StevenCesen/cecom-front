@@ -39,7 +39,7 @@ export default async function Home({contributor_id,app}) {
     `;
 
     app.insertAdjacentHTML('beforeend',template);
-
+    
     const content_metric=document.getElementById('content-metric');
     const content_donut=document.getElementById('content-donut');
 
