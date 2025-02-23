@@ -1,36 +1,40 @@
 import loader from "../../components/Loader/Loader.js";
 import Push from "../../components/Push/Push.js";
 import { URL_BASE } from "../../hooks/env.js";
+import useGetResumeContributor from "../../hooks/useGetResumeContributor.js";
 
 export default async function Home({contributor_id,app}) {
 
-    //loader();
+    loader();
+
+    const data=await useGetResumeContributor({contributor_id});
+    console.log(data);
 
     const template=`
         <div class="Home">
             <div class="Home__head">
                 <div>
                     <label>HOY</label>
-                    <h3>$ 117.10</h3>
+                    <h3>$ ${data.total_now}</h3>
                 </div>
                 <div>
-                    <label>AYER: <strong>$ 200.00</strong></label>
-                    <label>ESTE MES: <strong>$ 2000.00</strong></label>
+                    <label>AYER: <strong>$ ${data.total_yesterday}</strong></label>
+                    <label>ESTE MES: <strong>$ ${data.total_month}</strong></label>
                 </div>
             </div>
             <div class="Home__metrics">
                 <div class="Home__labels">
                     <div class="Home__label">
                         <label>Clientes</label>
-                        <h3>120</h3>
+                        <h3>${data.clients}</h3>
                     </div>
                     <div class="Home__label">
                         <label>Productos</label>
-                        <h3>50</h3>
+                        <h3>${data.products}</h3>
                     </div>
                     <div class="Home__label">
                         <label>Ventas</label>
-                        <h3>10</h3>
+                        <h3>${data.vouchers}</h3>
                     </div>
                 </div>
                 <canvas id="content-donut"></canvas>
@@ -91,4 +95,6 @@ export default async function Home({contributor_id,app}) {
             }
         }
     });
+
+    document.getElementById('body').removeChild(document.getElementById('loader'));
 }
