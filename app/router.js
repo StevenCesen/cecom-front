@@ -8,6 +8,7 @@ import useGetVouchers from "./hooks/useGetVouchers.js";
 import useSession from "./hooks/useSession.js";
 import Clients from "./pages/Clients/Clients.js";
 import Commander from "./pages/Commander/Commander.js";
+import DetailMenu from "./pages/DetailMenu/DetailMenu.js";
 import Home from "./pages/Home/Home.js";
 import Item from "./pages/Item/Item.js";
 import Login from "./pages/Login/Login.js";
@@ -86,8 +87,12 @@ export default async function Router({title,body,app}){
 
         title.textContent="Menús";
         const id=hash.split('/')[2];
-        console.log(id);
-        Menus({contributor_id:localStorage.getItem('cc'),app});
+
+        if(id===undefined){
+            Menus({contributor_id:localStorage.getItem('cc'),app});
+        }else{
+            DetailMenu({id,app});
+        }
 
     }else if(hash.split('/')[1]==="items" & useSession()){
         title.textContent="Item seleccionado";

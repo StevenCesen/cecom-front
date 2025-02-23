@@ -51,7 +51,7 @@ export default async function Menus({contributor_id,app}) {
             name:menu.name,
             nro_products:menu.items.length,
             value:menu.import,
-            status:'ACTIVO',
+            status:menu.status,
             content:content_menus
         });
     });

@@ -414,9 +414,12 @@ export default function CardModal({template,content}){
                 listado.push({
                     id:product.dataset.id,
                     price:product.children[2].value,
-                    price_original:product.dataset.price
+                    price_original:product.dataset.price,
+                    quantity:product.children[1].children[1].children[1].value
                 });
             });
+
+            console.log(listado)
 
             if(name.value===""){
                 Push({
@@ -431,10 +434,11 @@ export default function CardModal({template,content}){
                     data:{
                         name:name.value,
                         productos:JSON.stringify(listado),
-                        contributor_id:localStorage.getItem('cc')
+                        contributor_id:localStorage.getItem('cc'),
+                        status:document.getElementById('state-menu').value
                     }
                 });
-
+                
                 console.log(create)
             }
         });

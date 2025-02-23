@@ -18,6 +18,14 @@ export default async function CardNewMenu({contributor_id}){
                 Nombre del menú
                 <input type="text" id="name-menu" placeholder="Escribe aquí...">
             </label>
+
+            <label class="Menu__label">
+                Visibilidad
+                <select id="state-menu">
+                    <option selected value="INACTIVO">INACTIVO</option>
+                    <option value="ACTIVO">ACTIVO</option>
+                </select>
+            </label>
             
             <div id="content-items-menu" class="Menu__items">
             
