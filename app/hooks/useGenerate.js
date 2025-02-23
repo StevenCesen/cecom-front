@@ -70,7 +70,7 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
 
     console.log(`CLAVE_ACCESS: ${clave_acceso}`);
 
-    const xml_firmado=await useSignXML({
+    let [xml_firmado,detalle_comprobante]=await useSignXML({
         contributor,
         detail,
         ambiente,

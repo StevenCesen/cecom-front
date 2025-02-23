@@ -139,5 +139,5 @@ export default async function useSignXML({
     
     console.log("XML FIRMADO: ");
     console.log(xml_firmado);
-    return xml_firmado;
+    return [xml_firmado,detalle_comprobante];
 }
