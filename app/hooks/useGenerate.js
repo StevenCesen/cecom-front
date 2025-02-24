@@ -141,9 +141,10 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                     'client_email':client.email,
                     'detail':JSON.stringify(detalle_comprobante),
                     'nro_estab':info_estab.estab,
-                    'concept':`CONSUMO EN ESTABLECIMIENTO ${contributor.commercial_name}`
+                    'concept':`CONSUMO EN ESTABLECIMIENTO ${contributor.commercial_name}`,
+                    'contributor_name':contributor.name
                 };
-
+                
                 console.log(comprobante)
 
                 const save_voucher=await fetch(`${URL_BASE}vouchers`,{
@@ -226,7 +227,8 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                                 'client_email':client.email,
                                 'detail':JSON.stringify(detalle_comprobante),
                                 'nro_estab':info_estab.estab,
-                                'concept':`CONSUMO EN ESTABLECIMIENTO ${contributor.commercial_name}`
+                                'concept':`CONSUMO EN ESTABLECIMIENTO ${contributor.commercial_name}`,
+                                'contributor_name':contributor.name
                             };
             
                             console.log(comprobante)
