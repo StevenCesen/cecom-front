@@ -76,10 +76,11 @@ export default async function Vouchers({app,data}) {
                 ride_path:voucher.ride_path,
                 xml_path:voucher.xml_path,
                 total:voucher.total_amount,
+                access_key:voucher.access_key,
                 date:voucher.create_date,
                 sequential:voucher.sequential,
                 app
-            })
+            });
         }
     });
 
