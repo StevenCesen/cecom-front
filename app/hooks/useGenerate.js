@@ -140,7 +140,8 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                     'client_phone':client.phone,
                     'client_email':client.email,
                     'detail':JSON.stringify(detalle_comprobante),
-                    'nro_estab':info_estab.estab
+                    'nro_estab':info_estab.estab,
+                    'concept':`CONSUMO EN ESTABLECIMIENTO ${contributor.commercial_name}`
                 };
 
                 console.log(comprobante)
@@ -224,7 +225,8 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                                 'client_phone':client.phone,
                                 'client_email':client.email,
                                 'detail':JSON.stringify(detalle_comprobante),
-                                'nro_estab':info_estab.estab
+                                'nro_estab':info_estab.estab,
+                                'concept':`CONSUMO EN ESTABLECIMIENTO ${contributor.commercial_name}`
                             };
             
                             console.log(comprobante)
