@@ -23,8 +23,17 @@ export default function CardDetailVoucher({id,client,contributor,ride_path,xml_p
                     data-id="${id}"
                 >Enviar</button>
             </div>
+            <button id="close-voucher">Volver</button>
         </div>
     `;
     app.insertAdjacentHTML('beforeend',template);
+
+    const btn_close=document.getElementById('close-voucher');
+
+    btn_close.addEventListener('click',(e)=>{
+        const parent=e.target.parentElement.parentElement;
+        parent.removeChild(e.target.parentElement);
+    });
+
     document.getElementById('body').removeChild(document.getElementById('loader'));
 }
