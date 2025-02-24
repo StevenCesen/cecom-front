@@ -8,4 +8,19 @@
     padding: 10px 10px;
     text-decoration: none;
     color: var(--color-secondary-light);
+    position: relative;
+}
+
+.CardProductSelect__button{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: var(--bg-secondary-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
 }

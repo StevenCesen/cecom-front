@@ -1,6 +1,8 @@
 import CardModal from "../../components/CardModal/CardModal.js";
 import CardProductSelect from "../../components/CardProductSelect/CardProductSelect.js";
 import Cart from "../../components/Cart/Cart.js";
+import loader from "../../components/Loader/Loader.js";
+import Push from "../../components/Push/Push.js";
 import useGetCategories from "../../hooks/useGetCategories.js";
 import useGetProducts from "../../hooks/useGetProducts.js";
 
@@ -17,21 +19,19 @@ export default async function Commander({app}) {
             first_category=type.name;
             first_category_id=type.id;
             categories+=`
-                <button class="commander-category Orders__categories--active">${type.name}</button>
+                <button data-type="${type.id}" class="commander-category Orders__categories--active">${type.name}</button>
             `;
         }else{
             categories+=`
-                <button class="commander-category">${type.name}</button>
+                <button data-type="${type.id}" class="commander-category">${type.name}</button>
             `;
         }
     });
 
-    const data_products=await useGetProducts({
+    let data_products=await useGetProducts({
         contributor_id:localStorage.getItem('cc'),
         filters:`type=${first_category_id}`
     });
-
-    console.log(data_products);
 
     const template=`
         <div class="Orders">
@@ -47,7 +47,7 @@ export default async function Commander({app}) {
             </div>
 
             <div class="Orders__list">
-                <div class="Orders__categories">
+                <div class="Orders__categories" id="content-categories">
                     ${categories}
                 </div>
             </div>
@@ -70,12 +70,38 @@ export default async function Commander({app}) {
 
     const btn_new_command=document.getElementById('new-commander');
     const content_items=document.getElementById('content-items');
+    const content_categories=document.getElementById('content-categories');
 
     btn_new_command.addEventListener('click',(e)=>{
         CardModal({
             template:Cart({mode:'only-cart'}),
             content:document.getElementById('body')
         });
+    });
+
+    content_categories.addEventListener('click',async (e)=>{
+        if(e.target.matches('.commander-category')){
+
+            loader();
+            
+            data_products=await useGetProducts({
+                contributor_id:localStorage.getItem('cc'),
+                filters:`type=${e.target.dataset.type}`
+            });
+
+            content_items.innerHTML="";
+
+            data_products.data.map(item=>{
+                CardProductSelect({
+                    id:item.id,
+                    image:"",
+                    name:item.name,
+                    price:item.price,
+                    content:content_items
+                });
+            });
+            document.getElementById('body').removeChild(document.getElementById('loader'));
+        }
     });
 
     data_products.data.map(item=>{
@@ -86,6 +112,27 @@ export default async function Commander({app}) {
             price:item.price,
             content:content_items
         });
+    });
+
+    content_items.addEventListener('click',async (e)=>{
+        if(e.target.matches('.add-to-commander')){
+            //  Enviamos al carrito
+            const cart=(localStorage.getItem('cart')!==null) ? JSON.parse(localStorage.getItem('cart')) : [];
+
+            cart.push({
+                id:e.target.dataset.id,
+                name:e.target.dataset.name,
+                price:e.target.dataset.price,
+                imagen:e.target.dataset,
+                quantity:1
+            });
+
+            localStorage.setItem('cart',JSON.stringify(cart));
+            
+            Push({
+                text:'Item agregado correctamente'
+            });
+        }
     });
 
     document.getElementById('body').removeChild(document.getElementById('loader'));

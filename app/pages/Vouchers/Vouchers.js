@@ -81,6 +81,7 @@ export default async function Vouchers({app,data}) {
                 sequential:voucher.sequential,
                 app
             });
+            
         }
     });
 

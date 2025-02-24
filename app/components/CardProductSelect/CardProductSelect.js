@@ -10,13 +10,19 @@ export default function CardProductSelect({id,image,name,price,content}){
     }
 
     const template=`
-        <a href="#/items/${id}" class="CardProductSelect">
-            <div>
+        <div class="CardProductSelect">
+            <a href="#/items/${id}">
                 ${imagen}
-            </div>
+            </a>
             <p>${name}</p>
             <span><strong>$ ${price}</strong></span>
-        </a>
+
+            <button data-id="${id}" data-name="${name}" data-image="${image}" data-price="${price}" class="CardProductSelect__button add-to-commander">
+                <svg data-id="${id}" data-name="${name}" data-image="${image}" data-price="${price}" class="add-to-commander" width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path data-id="${id}" data-name="${name}" data-image="${image}" data-price="${price}" class="add-to-commander" d="M5 12H19M12 5V19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
     `;
     content.insertAdjacentHTML('beforeend',template);
 }

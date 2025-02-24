@@ -5,6 +5,7 @@ export default function Cart({mode}){
     let search_product="";
     let client="";
     let pay="";
+    let items="";
 
     let footer=`
         <button id="generate-commander">Generar comanda</button>
@@ -95,7 +96,38 @@ export default function Cart({mode}){
         total="";
 
     }else{  // Debo consultar de la BD el pedido de la comanda para renderizar los productos
-
+        const cart=JSON.parse(localStorage.getItem('cart'));
+        cart.map(item=>{
+            items+=`
+                <div class="Cart__item">
+                    <div class="Cart__itemImage">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 21C4.45 21 3.97933 20.8043 3.588 20.413C3.19667 20.0217 3.00067 19.5507 3 19V5C3 4.45 3.196 3.97933 3.588 3.588C3.98 3.19667 4.45067 3.00067 5 3H19C19.55 3 20.021 3.196 20.413 3.588C20.805 3.98 21.0007 4.45067 21 5V19C21 19.55 20.8043 20.021 20.413 20.413C20.0217 20.805 19.5507 21.0007 19 21H5ZM6 17H18L14.25 12L11.25 16L9 13L6 17Z" fill="#AEAEAE"/>
+                        </svg>
+                    </div>
+                    <div class="Cart__itemDates">
+                        <p>${item.name}</p>
+                        <div>
+                            <button data-price="${item.price}" class="Cart__itemMinus">-</button>
+                            <input 
+                                class="Cart__itemITEM"
+                                data-id="${item.id}" 
+                                data-price="${item.price}" 
+                                data-name="${item.name}" 
+                                data-description="" 
+                                data-descuento="${0}"
+                                data-subtotal="${0}"  
+                                data-tax="${0}" 
+                                value="1"
+                                type="number"
+                            >
+                            <button data-price="${item.price}" class="Cart__itemMore">+</button>
+                        </div>
+                    </div>
+                    <label class="Cart__price">$ ${item.price}</label>
+                </div>
+            `;
+        });
     }
 
     const template=`
@@ -105,7 +137,7 @@ export default function Cart({mode}){
             <h3 class="Cart__title">Detalle</h3>
 
             <div class="Cart__list" id="cart-list">
-                
+                ${items}
             </div>
 
             <label class="Cart__total" id="total">
