@@ -1,6 +1,9 @@
+import CardDetailVoucher from "../../components/CardDetailVoucher/CardDetailVoucher.js";
 import CardModal from "../../components/CardModal/CardModal.js";
 import CardVoucher from "../../components/CardVoucher/CardVoucher.js";
 import Cart from "../../components/Cart/Cart.js";
+import loader from "../../components/Loader/Loader.js";
+import useGetVoucher from "../../hooks/useGetVoucher.js";
 
 export default async function Vouchers({app,data}) {
 
@@ -43,7 +46,7 @@ export default async function Vouchers({app,data}) {
 
     data.data.map((voucher)=>{
         CardVoucher({
-            id:9,
+            id:voucher.id,
             client_name:voucher.client.name,
             client_ci:voucher.client.identification,
             pay_type:"",
@@ -59,6 +62,25 @@ export default async function Vouchers({app,data}) {
             template:Cart({mode:'with-search'}),
             content:document.getElementById('body')
         });
+    });
+
+    content.addEventListener('click',async (e)=>{
+        if(e.target.matches('.CardVoucher__button')){
+            loader();
+            const voucher=await useGetVoucher({id:e.target.dataset.id});
+    
+            CardDetailVoucher({
+                id:voucher.id,
+                client:voucher.client,
+                contributor:voucher.contributor_identification,
+                ride_path:voucher.ride_path,
+                xml_path:voucher.xml_path,
+                total:voucher.total_amount,
+                date:voucher.create_date,
+                sequential:voucher.sequential,
+                app
+            })
+        }
     });
 
     document.getElementById('body').removeChild(document.getElementById('loader'));

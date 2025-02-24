@@ -1,0 +1,55 @@
+.CardDetailVoucher{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: var(--height-header);
+    background-color: var(--bg-primary-light);
+    border: 1px solid grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.CardDetailVoucher__name{
+    font-size: 25px;
+    font-weight: 100;
+}
+
+.CardDetailVoucher__total{
+    font-size: 35px;
+    margin: 20px 0;
+}
+
+.CardDetailVoucher__dates{
+    width: 70%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.CardDetailVoucher__dates>label{
+    text-align: center;
+}
+
+.CardDetailVoucher__access{
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.CardDetailVoucher__access>a,.CardDetailVoucher__access>button{
+    text-decoration: none;
+    height: 40px;
+    width: 100px;
+    background-color: var(--bg-primary-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+    cursor: pointer;
+    color: var(--color-primary-light);
+}

@@ -1,4 +1,4 @@
-export default function CartItemMenu({id,name,description,price,content}){
+export default function CartItemMenu({id,name,quantity,price,content}){
 
     let imagen=`
         <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -19,12 +19,8 @@ export default function CartItemMenu({id,name,description,price,content}){
                         class="CardItemMenu__ITEM"
                         data-id="${id}" 
                         data-price="${price}" 
-                        data-name="${name}" 
-                        data-description="${description}" 
-                        data-descuento="${0}"
-                        data-subtotal="${0}"  
-                        data-tax="${0}" 
-                        value="1"
+                        data-name="${name}"
+                        value="${quantity}"
                         type="number"
                     >
                     <button data-price="${price}" class="CardItemMenu__itemMore">+</button>

@@ -8,7 +8,6 @@ export default async function Home({contributor_id,app}) {
     loader();
 
     const data=await useGetResumeContributor({contributor_id});
-    console.log(data);
 
     const template=`
         <div class="Home">
@@ -44,7 +43,6 @@ export default async function Home({contributor_id,app}) {
 
     app.insertAdjacentHTML('beforeend',template);
     
-    const content_metric=document.getElementById('content-metric');
     const content_donut=document.getElementById('content-donut');
 
     new Chart(content_donut, {
@@ -63,27 +61,6 @@ export default async function Home({contributor_id,app}) {
                 'rgb(54, 162, 235)',
                 'rgb(255, 205, 86)'
               ]
-            }]
-        },
-        options: {
-            responsive:true,
-            scales: {
-            y: {
-                beginAtZero: true
-            }
-            }
-        }
-    });
-
-    new Chart(content_metric, {
-        type: 'line',
-        data: {
-            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
-            datasets: [{
-            label: 'Ingresos mensuales',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10000, 5000, 2000, 1000, 30,0,0,0,0,0,0],
-            borderWidth: 1
             }]
         },
         options: {
