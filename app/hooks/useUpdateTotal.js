@@ -7,6 +7,7 @@ export default function useUpdateTotal(){
     let new_total=0;
 
     items.map(item=>{
+        console.log(item)
         new_total+=Number(item.children[2].textContent.split(' ')[1]);
     });
 

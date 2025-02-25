@@ -8,6 +8,29 @@
     margin: 10px 0;
 }
 
+.Cart__client{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.Cart__client>label,.Cart__client>label>input,.Cart__client>label>select{
+    width: 100%;
+}
+
+.Cart__client>label>input,.Cart__client>label>select{
+    height: 40px;
+    border: none;
+    border-bottom: 2px solid var(--bg-primary-dark);
+}
+
+.Cart__client>label>input:focus,.Cart__client>label>select:focus{
+    outline: none;
+}
+
 .Cart__search{
     width: 100%;
     display: flex;
@@ -109,6 +132,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    gap: 10px;
     padding: 10px 10px;
 }
 
@@ -150,6 +174,17 @@
     display: block;
     font-size: 18px;
     margin-bottom: 50px;
+}
+
+.Cart__button--delete{
+    width: 30px;
+    height: 30px;
+    background-color: inherit;
+    border: none;
+}
+
+.Cart__button--delete:focus,.Cart__button--delete:hover{
+    transform: rotate(-30deg);
 }
 
 @media screen and (min-width:100px) and (max-width:650px) {

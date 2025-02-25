@@ -11,6 +11,7 @@
     padding: 20px 20px;
     transform: translateX(-100%);
     transition: all 0.5s ease-in-out;
+    z-index: 200000;
 }
 
 .Nav--active{

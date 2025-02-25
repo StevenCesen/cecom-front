@@ -5,6 +5,7 @@ import loader from "../../components/Loader/Loader.js";
 import Push from "../../components/Push/Push.js";
 import useGetCategories from "../../hooks/useGetCategories.js";
 import useGetProducts from "../../hooks/useGetProducts.js";
+import useSumCart from "../../hooks/useSumCart.js";
 
 export default async function Commander({app}) {
 
@@ -128,7 +129,7 @@ export default async function Commander({app}) {
             });
 
             localStorage.setItem('cart',JSON.stringify(cart));
-            
+
             Push({
                 text:'Item agregado correctamente'
             });

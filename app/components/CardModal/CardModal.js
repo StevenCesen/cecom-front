@@ -1,10 +1,13 @@
 import { URL_BASE } from "../../hooks/env.js";
 import useCreateMenu from "../../hooks/useCreateMenu.js";
+import useCreateOrder from "../../hooks/useCreateOrder.js";
+import useDeleteCartItem from "../../hooks/useDeleteCartItem.js";
 import useGenerate from "../../hooks/useGenerate.js";
 import useGetContributor from "../../hooks/useGetContributor.js";
 import useGetTypeIdentification from "../../hooks/useGetTypeIdentification.js";
 import useRound from "../../hooks/useRound.js";
 import useSearchProduct from "../../hooks/useSearchProduct.js";
+import useUpdateCart from "../../hooks/useUpdateCart.js";
 import useUpdateTotal from "../../hooks/useUpdateTotal.js";
 import CartItemMenu from "../CardItemMenu/CardItemMenu.js";
 import CartItem from "../CartItem/CartItem.js";
@@ -194,10 +197,12 @@ export default function CardModal({template,content}){
             }
 
             // Delegación de evento para eliminar un producto
+            
         });
 
         //  Para generar la factura
         const btn_confirm_voucher=document.getElementById('generate-invoice');
+
         btn_confirm_voucher.addEventListener('click',async (e)=>{
             
             loader();
@@ -206,8 +211,6 @@ export default function CardModal({template,content}){
 
             const contributor   =data_contributor.contributor;
             contributor.cert=data_contributor.cert;
-
-            console.log(contributor);
             
             if(contributor.cert!==""){
                 const info_estab    =   {
@@ -276,7 +279,7 @@ export default function CardModal({template,content}){
                 if(
                     client.identification_type!=="" & 
                     client.name!=="" & 
-                    client.identification!=="" & 
+                    (client.identification!=="" & client.identification.length>=10) & 
                     client.email!=="" & 
                     client.phone!=="" & 
                     client.dir!=="" &
@@ -323,8 +326,9 @@ export default function CardModal({template,content}){
     
                 }else{
                     Push({
-                        text:'Por favor, ingrese todos los datos del cliente.'
+                        text:'Por favor, revise o ingrese todos los datos correctos del cliente.'
                     });
+                    document.getElementById('body').removeChild(document.getElementById('loader'));
                 }
             }else{
                 Push({
@@ -449,6 +453,96 @@ export default function CardModal({template,content}){
                 
                 console.log(create)
             }
+        });
+    }else if(!!document.getElementById('generate-commander')){
+        const content_list=document.getElementById('cart-list');
+        const btn_generate_command=document.getElementById('generate-commander');
+
+        content_list.addEventListener('click',(e)=>{
+            // Delegación de evento para aumentar cantidad de un producto
+            if(e.target.matches('.Cart__itemMore')){
+                const input=e.target.previousElementSibling;
+                const val_total=e.target.parentElement.parentElement.nextElementSibling;
+
+                let new_value=Number(input.value)+1;
+                input.value=new_value;
+                val_total.textContent=`$ ${Number(new_value*e.target.dataset.price)}`;
+                useUpdateTotal();
+                useUpdateCart();
+            }
+
+            // Delegación de evento para disminuir cantidad de un producto
+            if(e.target.matches('.Cart__itemMinus')){
+                const input=e.target.nextElementSibling;
+                const val_total=e.target.parentElement.parentElement.nextElementSibling;
+
+                if(input.value>1){
+                    let new_value=Number(input.value)-1;
+                    input.value=new_value;
+                    val_total.textContent=`$ ${Number(new_value)*Number(e.target.dataset.price)}`;
+                    useUpdateTotal();
+                    useUpdateCart();
+                }else{
+                    Push({
+                        text:'Elimina el producto.'
+                    });
+                }
+            }
+
+            // Delegación de evento para eliminar un producto
+            if(e.target.matches('.remove-to-commander')){
+                const id=e.target.dataset.id;
+                useDeleteCartItem({id});
+                useUpdateTotal();
+            }
+        });
+
+        btn_generate_command.addEventListener('click',async (e)=>{
+            const client_name=document.getElementById('client_name');
+            const client_piso=document.getElementById('client_piso');
+            const client_mesa=document.getElementById('client_mesa');
+            let items=[].slice.call(document.getElementsByClassName('Cart__item'));
+
+            if(client_name.value!==""){
+                if(items.length>0){
+
+                    let item_list=[];
+
+                    items.map((item)=>{
+                        item_list.push({
+                            id:item.dataset.id,
+                            name:item.dataset.name,
+                            price:item.dataset.price,
+                            imagen:'',
+                            quantity:item.children[1].children[1].children[1].value,
+                            notes:''
+                        });
+                    });
+
+                    const data={
+                        client_name:client_name.value,
+                        client_piso:client_piso.value,
+                        client_mesa:client_mesa.value,
+                        items:JSON.stringify(item_list),
+                        contributor_id:localStorage.getItem('cc'),
+                        user_id:localStorage.getItem('ui')
+                    };
+
+                    console.log(data);
+                    const response=await useCreateOrder({data});
+                    console.log(response);
+
+                }else{
+                    Push({
+                        text:'Agregue productos'
+                    });
+                }
+            }else{
+                Push({
+                    text:'Ingrese el nombre y apellido del cliente'
+                });
+            }
+
         });
     }
 

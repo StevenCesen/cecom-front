@@ -1,5 +1,6 @@
 .Push{
-    padding: 10px 10px;
+    padding: 20px 10px;
+    height: 50px !important;
     border-radius: 5px;
     position: fixed;
     z-index: 2000;
@@ -12,10 +13,13 @@
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .Push>p{
-    font-size: 12px;
+    font-size: 14px;
 }
 
 @media screen and (min-width:100px) and (max-width:650px) {

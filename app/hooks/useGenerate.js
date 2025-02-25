@@ -170,11 +170,12 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                 }
             
             }else{
+                console.log(auth_SRI)
                 if('RespuestaAutorizacionComprobante' in auth_SRI.response){
-                    if('autorizaciones' in reception_SRI.response.RespuestaAutorizacionComprobante){
-                        const message=reception_SRI.response.RespuestaAutorizacionComprobante.autorizaciones.autorizacion.mensajes.mensaje.mensaje;
-                        const adicional=reception_SRI.response.RespuestaAutorizacionComprobante.autorizaciones.autorizacion.mensajes.mensaje.informacionAdicional;
-        
+                    if('autorizaciones' in auth_SRI.response.RespuestaAutorizacionComprobante){
+                        const message=auth_SRI.response.RespuestaAutorizacionComprobante.autorizaciones.autorizacion.mensajes.mensaje.mensaje;
+                        const adicional=auth_SRI.response.RespuestaAutorizacionComprobante.autorizaciones.autorizacion.mensajes.mensaje.informacionAdicional;
+                        
                         console.log(message)
                         console.log(adicional)
                         Push({
@@ -191,7 +192,7 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                     const message=reception_SRI.response.RespuestaRecepcionComprobante.comprobantes.comprobante.mensajes.mensaje.mensaje;
                     const adicional=reception_SRI.response.RespuestaRecepcionComprobante.comprobantes.comprobante.mensajes.mensaje.informacionAdicional;
                     
-                    if(message==='CLAVE ACCESO REGISTRADA'){
+                    if(message==='CLAVE ACCESO REGISTRADA' || message==='LIMITE DE INTENTOS NO AUTORIZADOS POR DIA'){
                         //  Enviamos a autorizar
                         const auth_SRI=await useAuthSRI({
                             ambiente,
@@ -257,10 +258,11 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                         
                         }else{
                             if('RespuestaAutorizacionComprobante' in auth_SRI.response){
-                                if('autorizaciones' in reception_SRI.response.RespuestaAutorizacionComprobante){
-                                    const message=reception_SRI.response.RespuestaAutorizacionComprobante.autorizaciones.autorizacion.mensajes.mensaje.mensaje;
-                                    const adicional=reception_SRI.response.RespuestaAutorizacionComprobante.autorizaciones.autorizacion.mensajes.mensaje.informacionAdicional;
-                    
+                                console.log(auth_SRI)
+                                if('autorizaciones' in auth_SRI.response.RespuestaAutorizacionComprobante){
+                                    const message=auth_SRI.response.RespuestaAutorizacionComprobante.autorizaciones.autorizacion.mensajes.mensaje.mensaje;
+                                    const adicional=auth_SRI.response.RespuestaAutorizacionComprobante.autorizaciones.autorizacion.mensajes.mensaje.informacionAdicional;
+                                    
                                     console.log(message)
                                     console.log(adicional)
                                     Push({

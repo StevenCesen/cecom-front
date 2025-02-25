@@ -1,6 +1,10 @@
 import CardOrder from "../../components/CardOrder/CardOrder.js";
+import loader from "../../components/Loader/Loader.js";
+import useGetOrders from "../../hooks/useGetOrders.js";
 
 export default async function Orders({app}) {
+    const orders=await useGetOrders({contributor_id:localStorage.getItem('cc'),filters:''});
+
     const template=`
         <div class="Orders">
             <div class="Orders__nav">
@@ -20,26 +24,17 @@ export default async function Orders({app}) {
 
     const content=document.getElementById('content-list');
 
-    CardOrder({
-        id:2,
-        client_name:'Sara Young',
-        table:'1',
-        floor:'2',
-        status:'FINALIZADO',
-        date:'2025/02/09 19:00:06',
-        total:23.75,
-        content:content
-    });
-
-    CardOrder({
-        id:2,
-        client_name:'John Doe',
-        table:'1',
-        floor:'2',
-        status:'PENDIENTE',
-        date:'2025/02/09 19:00:06',
-        total:23.75,
-        content:content
+    orders.data.map(order=>{
+        CardOrder({
+            id:order.id,
+            client_name:order.client_name,
+            table:order.table,
+            floor:order.floor,
+            status:order.status,
+            date:order.create_date,
+            total:'',
+            content:content
+        });
     });
 
     document.getElementById('body').removeChild(document.getElementById('loader'));
