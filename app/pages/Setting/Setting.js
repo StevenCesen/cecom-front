@@ -11,6 +11,8 @@ export default async function Setting({app,data_contributor}) {
         </svg>
     `;
 
+    console.log(data_contributor)
+
     if(data_contributor.contributor.logo_path!==null){
         imagen=`
             <img src="${URL_ROOT}public/logos/${data_contributor.contributor.logo_path}">
@@ -109,30 +111,30 @@ export default async function Setting({app,data_contributor}) {
                 <form>
                     <label class="Setting__labelInputLine">
                         IP Pública VPN
-                        <input id="public-ip" type="number" placeholder="10.XXX.XXX.XXX" value="${data_contributor.public_ip}">
+                        <input id="public-ip" type="number" placeholder="10.XXX.XXX.XXX" value="${data_contributor.contributor.public_ip}">
                     </label>
                     <label class="Setting__labelInputLine">
                         IP Impresora ZONA 1
-                        <input id="ip-zona1" type="number" placeholder="172.XXX.XXX.XXX" value="${data_contributor.zone1_ip}">
+                        <input id="ip-zona1" type="number" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone1_ip}">
                     </label>
                     <label class="Setting__labelInputLine">
                         IP Impresora ZONA 2
-                        <input id="ip-zona12" type="number" placeholder="172.XXX.XXX.XXX" value="${data_contributor.zone2_ip}">
+                        <input id="ip-zona12" type="number" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone2_ip}">
                     </label>
                     <label class="Setting__labelInputLine">
                         IP Impresora ZONA 3
-                        <input id="ip-zona3" type="number" placeholder="172.XXX.XXX.XXX" value="${data_contributor.zone3_ip}">
+                        <input id="ip-zona3" type="number" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone3_ip}">
                     </label>
                     <label class="Setting__labelInputLine">
                         Nro. Impresiones (se aplica a las 3 zonas)
-                        <input id="nro-impresiones" type="number" placeholder="1" value="${data_contributor.nro_prints}">
+                        <input id="nro-impresiones" type="number" placeholder="1" value="${data_contributor.contributor.nro_prints}">
                     </label>
                     <button id="update-impresion">Actualizar</button>
                 </form>
             </div>
         </div>
     `;
-    
+
     app.insertAdjacentHTML('beforeend',template);
     document.getElementById('body').removeChild(document.getElementById('loader'));
 
