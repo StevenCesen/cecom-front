@@ -111,19 +111,19 @@ export default async function Setting({app,data_contributor}) {
                 <form>
                     <label class="Setting__labelInputLine">
                         IP Pública VPN
-                        <input id="public-ip" type="number" placeholder="10.XXX.XXX.XXX" value="${data_contributor.contributor.public_ip}">
+                        <input id="public-ip" type="text" placeholder="10.XXX.XXX.XXX" value="${data_contributor.contributor.public_ip}">
                     </label>
                     <label class="Setting__labelInputLine">
                         IP Impresora ZONA 1
-                        <input id="ip-zona1" type="number" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone1_ip}">
+                        <input id="ip-zona1" type="text" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone1_ip}">
                     </label>
                     <label class="Setting__labelInputLine">
                         IP Impresora ZONA 2
-                        <input id="ip-zona12" type="number" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone2_ip}">
+                        <input id="ip-zona12" type="text" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone2_ip}">
                     </label>
                     <label class="Setting__labelInputLine">
                         IP Impresora ZONA 3
-                        <input id="ip-zona3" type="number" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone3_ip}">
+                        <input id="ip-zona3" type="text" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone3_ip}">
                     </label>
                     <label class="Setting__labelInputLine">
                         Nro. Impresiones (se aplica a las 3 zonas)
