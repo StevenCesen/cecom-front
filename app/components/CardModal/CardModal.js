@@ -505,7 +505,7 @@ export default function CardModal({template,content}){
 
             if(client_name.value!==""){
                 if(items.length>0){
-
+                    loader();
                     let item_list=[];
 
                     items.map((item)=>{
@@ -531,6 +531,7 @@ export default function CardModal({template,content}){
                     console.log(data);
                     const response=await useCreateOrder({data});
                     console.log(response);
+                    document.getElementById('body').removeChild(document.getElementById('loader'));
 
                 }else{
                     Push({

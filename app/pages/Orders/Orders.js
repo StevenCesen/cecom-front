@@ -25,6 +25,7 @@ export default async function Orders({app}) {
     const content=document.getElementById('content-list');
 
     orders.data.map(order=>{
+        console.log(order)
         CardOrder({
             id:order.id,
             client_name:order.client_name,
