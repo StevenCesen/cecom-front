@@ -4,6 +4,7 @@ import Cart from "../../components/Cart/Cart.js";
 import loader from "../../components/Loader/Loader.js";
 import Push from "../../components/Push/Push.js";
 import useGetCategories from "../../hooks/useGetCategories.js";
+import useGetOrders from "../../hooks/useGetOrders.js";
 import useGetProducts from "../../hooks/useGetProducts.js";
 import useSumCart from "../../hooks/useSumCart.js";
 
@@ -20,18 +21,34 @@ export default async function Commander({app}) {
             first_category=type.name;
             first_category_id=type.id;
             categories+=`
-                <button data-type="${type.id}" class="commander-category Orders__categories--active">${type.name}</button>
+                <button data-type="${type.id}" data-name="${type.name}" class="commander-category Orders__categories--active">${type.name}</button>
             `;
         }else{
             categories+=`
-                <button data-type="${type.id}" class="commander-category">${type.name}</button>
+                <button data-type="${type.id}" data-name="${type.name}" class="commander-category">${type.name}</button>
             `;
         }
     });
 
-    let data_products=await useGetProducts({
+    let orders="";
+
+    const data_orders=await useGetOrders({
         contributor_id:localStorage.getItem('cc'),
-        filters:`type=${first_category_id}`
+        filters:`user_id=${localStorage.getItem('ui')}`
+    });
+
+    first_category='Pendientes de hoy';
+
+    data_orders.data.map(order=>{
+        orders+=`
+            <div class="OrderItem">
+                <h4>${order.client_name}</h4>
+                <p>${order.floor} | ${order.table}</p>
+                <p>${order.create_date}</p>
+                <p># ${order.order_number_day}</p>
+                <button>Ver</button>
+            </div>
+        `;
     });
 
     const template=`
@@ -42,7 +59,8 @@ export default async function Commander({app}) {
             </div>
 
             <div class="Orders__select">
-                <button class="Orders__select--buttonActive">PISO 1</button>
+                <button class="Orders__select--buttonActive" id="list">Listar</button>
+                <button>PISO 1</button>
                 <button>PISO 2</button>
                 <button>PISO 3</button>
             </div>
@@ -53,10 +71,14 @@ export default async function Commander({app}) {
                 </div>
             </div>
 
-            <h3 class="Orders__subtitle">${first_category}</h3>
+            <h3 class="Orders__subtitle" id="category">${first_category}</h3>
 
             <div class="Orders_contentItems" id="content-items">
                 
+            </div>
+
+            <div class="Orders_contentOrders" id="content-orders">
+                ${orders}
             </div>
 
             <button class="Orders__button" id="new-commander">
@@ -72,6 +94,8 @@ export default async function Commander({app}) {
     const btn_new_command=document.getElementById('new-commander');
     const content_items=document.getElementById('content-items');
     const content_categories=document.getElementById('content-categories');
+    const content_orders=document.getElementById('content-orders');
+    const btn_list=document.getElementById('list');
 
     btn_new_command.addEventListener('click',(e)=>{
         CardModal({
@@ -80,17 +104,46 @@ export default async function Commander({app}) {
         });
     });
 
+    btn_list.addEventListener('click',async (e)=>{
+        loader();
+        content_items.innerHTML="";
+        const data_orders=await useGetOrders({
+            contributor_id:localStorage.getItem('cc'),
+            filters:`user_id=${localStorage.getItem('ui')}`
+        });
+
+        document.getElementById('category').textContent="Pendientes de hoy";
+        let new_orders="";
+
+        data_orders.data.map(order=>{
+            new_orders+=`
+                <div class="OrderItem">
+                    <h4>${order.client_name}</h4>
+                    <p>${order.floor} | ${order.table}</p>
+                    <p>${order.create_date}</p>
+                    <p># ${order.order_number_day}</p>
+                    <button>Ver</button>
+                </div>
+            `;
+        });
+
+        content_orders.insertAdjacentHTML('beforeend',new_orders);
+        document.getElementById('body').removeChild(document.getElementById('loader'));
+    });
+
     content_categories.addEventListener('click',async (e)=>{
         if(e.target.matches('.commander-category')){
 
             loader();
+            content_orders.innerHTML="";
             
-            data_products=await useGetProducts({
+            let data_products=await useGetProducts({
                 contributor_id:localStorage.getItem('cc'),
                 filters:`type=${e.target.dataset.type}`
             });
 
             content_items.innerHTML="";
+            document.getElementById('category').textContent=e.target.dataset.name;
 
             data_products.data.map(item=>{
                 CardProductSelect({
@@ -105,15 +158,20 @@ export default async function Commander({app}) {
         }
     });
 
-    data_products.data.map(item=>{
-        CardProductSelect({
-            id:item.id,
-            image:"",
-            name:item.name,
-            price:item.price,
-            content:content_items
-        });
-    });
+    // data_products.data.map(item=>{
+    //     CardProductSelect({
+    //         id:item.id,
+    //         image:"",
+    //         name:item.name,
+    //         price:item.price,
+    //         content:content_items
+    //     });
+    // });
+
+    // let data_products=await useGetProducts({
+    //     contributor_id:localStorage.getItem('cc'),
+    //     filters:`type=${first_category_id}`
+    // });
 
     content_items.addEventListener('click',async (e)=>{
         if(e.target.matches('.add-to-commander')){

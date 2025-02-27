@@ -116,6 +116,29 @@
     gap: 10px 10px;
 }
 
+.OrderItem{
+    width: 100%;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 30% 10% 30% 15% 15%;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgb(206, 206, 206);
+}
+
+.OrderItem>h3,.OrderItem>p{
+    word-wrap: break-word;
+}
+
+.OrderItem>button{
+    width: 100%;
+    height: 40px;
+    border: none;
+    color: var(--color-primary-light);
+    font-weight: bold;
+    background-color: var(--bg-secondary-light);
+}
+
 @media screen and (min-width:100px) and (max-width:650px) {
     :root{
         --width-page:90%;

@@ -115,19 +115,19 @@ export default async function Setting({app,data_contributor}) {
                     </label>
                     <label class="Setting__labelInputLine">
                         IP Impresora ZONA 1
-                        <input id="ip-zona1" type="text" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone1_ip}">
+                        <input id="zone1-ip" type="text" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone1_ip}">
                     </label>
                     <label class="Setting__labelInputLine">
                         IP Impresora ZONA 2
-                        <input id="ip-zona12" type="text" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone2_ip}">
+                        <input id="zone2-ip" type="text" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone2_ip}">
                     </label>
                     <label class="Setting__labelInputLine">
                         IP Impresora ZONA 3
-                        <input id="ip-zona3" type="text" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone3_ip}">
+                        <input id="zone3-ip" type="text" placeholder="172.XXX.XXX.XXX" value="${data_contributor.contributor.zone3_ip}">
                     </label>
                     <label class="Setting__labelInputLine">
                         Nro. Impresiones (se aplica a las 3 zonas)
-                        <input id="nro-impresiones" type="number" placeholder="1" value="${data_contributor.contributor.nro_prints}">
+                        <input id="nro-print" type="number" placeholder="1" value="${data_contributor.contributor.nro_prints}">
                     </label>
                     <button id="update-impresion">Actualizar</button>
                 </form>
@@ -146,6 +146,7 @@ export default async function Setting({app,data_contributor}) {
     const message_validez=document.getElementById('validez-cert');
     const message_entidad=document.getElementById('entidad-cert');
     const btn_update_estab=document.getElementById('update-estab');
+    const btn_update_prints=document.getElementById('update-impresion');
 
     /**
      *  Para actualizar el certificado de firma electrónica
@@ -259,6 +260,7 @@ export default async function Setting({app,data_contributor}) {
 
 
     btn_update_estab.addEventListener('click',async (e)=>{
+        e.preventDefault();
         loader();
         const data={
             'nro_estab':'001',
@@ -328,6 +330,40 @@ export default async function Setting({app,data_contributor}) {
 
         Push({
             text:'Logo actualizado correctamente.'
+        });
+
+        document.getElementById('body').removeChild(document.getElementById('loader'));
+    });
+
+    /**
+     *  Para actualizar preferencias de impresión
+     */
+    btn_update_prints.addEventListener('click',async (e)=>{
+        e.preventDefault();
+
+        loader();
+        document.getElementById('content-logo').innerHTML="";
+        
+        const request_update=await fetch(`${URL_BASE}contributors/general/${localStorage.getItem('cc')}`,{
+            method:'PUT',
+            headers: {
+                Accept: 'application/json'
+            },
+            body:new URLSearchParams({
+                "public_ip":document.getElementById('public-ip').value,
+                "zone1_ip":document.getElementById('zone1-ip').value,
+                "zone2_ip":document.getElementById('zone2-ip').value,
+                "zone3_ip":document.getElementById('zone3-ip').value,
+                "nro_prints":document.getElementById('nro-print').value
+            })
+        });
+
+        const response=await request_update.json();
+
+        console.log(response);
+
+        Push({
+            text:'Configuración de impresión exitosa.'
         });
 
         document.getElementById('body').removeChild(document.getElementById('loader'));
