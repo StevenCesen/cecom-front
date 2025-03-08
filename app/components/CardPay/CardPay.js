@@ -13,7 +13,7 @@ export default async function CardPay({data,content}){
         total+=Number(item.price)*Number(item.quantity);
         detalle+=`
             <div>
-                <input data-id="${item.id}" data-descuento="0" data-name="${item.name}" data-description="${item.description}" data-price="${item.price}" data-quantity="${item.quantity}" type="checkbox" class="check-item" checked>
+                <input data-codigo="${item.item_id}" data-id="${item.id}" data-descuento="0" data-name="${item.name}" data-description="${item.description}" data-price="${item.price}" data-quantity="${item.quantity}" type="checkbox" class="check-item" checked>
                 <label>${item.name}</label>
                 <label>${item.quantity}</label>
                 <input value="${item.price}">
@@ -197,6 +197,7 @@ export default async function CardPay({data,content}){
                         descuento:item.dataset.descuento,
                         subtotal:useRound({value:sub_total}),
                         tax:useRound({value:tax_total}),
+                        codigo:item.dataset.codigo
                     });
 
                     total+=Number(i_total);
@@ -251,7 +252,7 @@ export default async function CardPay({data,content}){
                         });
 
                         console.log(voucher);
-                        
+
                     }else{
                         Push({
                             text:'Por favor, ingrese la forma de pago.'
