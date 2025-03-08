@@ -7,6 +7,7 @@ import useGetCategories from "../../hooks/useGetCategories.js";
 import useGetOrders from "../../hooks/useGetOrders.js";
 import useGetProducts from "../../hooks/useGetProducts.js";
 import useSumCart from "../../hooks/useSumCart.js";
+import useUpdateOrder from "../../hooks/useUpdateoOrder.js";
 
 export default async function Commander({app}) {
 
@@ -192,6 +193,19 @@ export default async function Commander({app}) {
 
             Push({
                 text:'Item agregado correctamente'
+            });
+        }
+    });
+
+    content_orders.addEventListener('click',async (e)=>{
+        if(e.target.matches('.CardOrder__finish')){
+            const id=e.target.dataset.id;
+            const update=await useUpdateOrder({id});
+
+            console.log(update);
+
+            Push({
+                text:'Comanda completada'
             });
         }
     });
