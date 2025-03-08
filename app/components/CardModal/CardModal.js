@@ -250,7 +250,7 @@ export default function CardModal({template,content}){
                     // let tax_total=sub_total*0.15;
                     let tax_total=0;
                     let i_total=Number(item.dataset.price)*Number(item.value)
-                    
+
                     detail.push({
                         id:item.dataset.id,
                         name:item.dataset.name,
@@ -310,7 +310,8 @@ export default function CardModal({template,content}){
                                 detail,
                                 info_pay,
                                 btn,
-                                context:'NORMAL'
+                                context:'NORMAL',
+                                order:null
                             });
     
                             console.log(voucher);

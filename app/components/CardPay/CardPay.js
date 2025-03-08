@@ -9,6 +9,8 @@ export default async function CardPay({data,content}){
 
     let detalle="",total=0;
 
+    console.log(data)
+
     data.details.map(item=>{
         total+=Number(item.price)*Number(item.quantity);
         detalle+=`
@@ -248,7 +250,8 @@ export default async function CardPay({data,content}){
                             detail,
                             info_pay,
                             btn,
-                            context:'ORDER'
+                            context:'ORDER',
+                            order:data.id
                         });
 
                         console.log(voucher);

@@ -23,7 +23,7 @@ function padDate(value){
     }
 }
 
-export default async function useGenerate({contributor,info_estab,info_doc,date,client,detail,info_pay,btn,context}){
+export default async function useGenerate({contributor,info_estab,info_doc,date,client,detail,info_pay,btn,context,order}){
     btn.textContent="Generando...";
 
     //  1) Ambiente y régimen de facturación
@@ -145,7 +145,8 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                     'nro_estab':info_estab.estab,
                     'concept':`CONSUMO EN ESTABLECIMIENTO ${contributor.commercial_name}`,
                     'contributor_name':contributor.name,
-                    'context':context
+                    'context':context,
+                    'order':order
                 };
                 
                 console.log(comprobante)
