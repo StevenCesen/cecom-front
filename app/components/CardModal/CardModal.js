@@ -513,13 +513,14 @@ export default function CardModal({template,content}){
                     let item_list=[];
 
                     items.map((item)=>{
+                        console.log(item)
                         item_list.push({
                             id:item.dataset.id,
                             name:item.dataset.name,
                             price:item.dataset.price,
                             imagen:'',
                             quantity:item.children[1].children[1].children[1].value,
-                            notes:item.children[6].value
+                            notes:item.children[5].value
                         });
                     });
 
