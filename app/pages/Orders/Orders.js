@@ -14,7 +14,7 @@ export default async function Orders({app}) {
                 <input class="Orders__search" id="search-order" type="search" placeholder="Nombre del cliente o cédula">
             </div>
             
-            <span class="Orders__subtitle">50 items encontrados</span>
+            <span class="Orders__subtitle">${orders.total} items encontrados</span>
 
             <div class="Orders__list" id="content-list">
                 
