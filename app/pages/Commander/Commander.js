@@ -5,6 +5,7 @@ import loader from "../../components/Loader/Loader.js";
 import Push from "../../components/Push/Push.js";
 import useGetCategories from "../../hooks/useGetCategories.js";
 import useGetOrders from "../../hooks/useGetOrders.js";
+import useGetOrdersMesero from "../../hooks/useGetOrdersMesero.js";
 import useGetProducts from "../../hooks/useGetProducts.js";
 import useSumCart from "../../hooks/useSumCart.js";
 import useUpdateOrder from "../../hooks/useUpdateoOrder.js";
@@ -33,7 +34,7 @@ export default async function Commander({app}) {
 
     let orders="";
 
-    const data_orders=await useGetOrders({
+    const data_orders=await useGetOrdersMesero({
         contributor_id:localStorage.getItem('cc'),
         filters:`user_id=${localStorage.getItem('ui')}`
     });
