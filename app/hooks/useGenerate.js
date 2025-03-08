@@ -23,7 +23,7 @@ function padDate(value){
     }
 }
 
-export default async function useGenerate({contributor,info_estab,info_doc,date,client,detail,info_pay,btn}){
+export default async function useGenerate({contributor,info_estab,info_doc,date,client,detail,info_pay,btn,context}){
     btn.textContent="Generando...";
 
     //  1) Ambiente y régimen de facturación
@@ -94,6 +94,8 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
         client_dir
     });
 
+    console.log(xml_firmado);
+
     try {
         //  8) Enviamos el XML a recepción del SRI
         const reception_SRI=await useReceiveSRI({
@@ -142,7 +144,8 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                     'detail':JSON.stringify(detalle_comprobante),
                     'nro_estab':info_estab.estab,
                     'concept':`CONSUMO EN ESTABLECIMIENTO ${contributor.commercial_name}`,
-                    'contributor_name':contributor.name
+                    'contributor_name':contributor.name,
+                    'context':context
                 };
                 
                 console.log(comprobante)

@@ -47,6 +47,7 @@ export default async function Commander({app}) {
                 <p>${order.create_date}</p>
                 <p># ${order.order_number_day}</p>
                 <button>Ver</button>
+                <button data-id="${order.id}" class="CardOrder__finish">Finalizar</button>
             </div>
         `;
     });
@@ -123,6 +124,7 @@ export default async function Commander({app}) {
                     <p>${order.create_date}</p>
                     <p># ${order.order_number_day}</p>
                     <button>Ver</button>
+                    <button data-id="${order.id}" class="CardOrder__finish">Finalizar</button>
                 </div>
             `;
         });

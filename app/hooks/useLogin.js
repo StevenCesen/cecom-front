@@ -26,7 +26,12 @@ export default async function useLogin({username,password}) {
                 useSaveSession({
                     data:response
                 });
-                location.hash='#/home';
+                
+                if(localStorage.getItem('ur')==='AP-UA1'){
+                    location.hash='#/home';
+                }else{
+                    location.hash='#/pedidos';
+                }
             }
 
         }else{

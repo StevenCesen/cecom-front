@@ -1,0 +1,129 @@
+.CardPay{
+    width: 100%;
+    height: calc(100vh - var(--height-header));
+    border-radius: 5px;
+    background-color: var(--color-primary-light);
+    position: fixed;
+    top: calc(var(--height-header));
+    left: 50%;
+    transform: translateX(-50%);
+    border: 1px solid rgb(209, 209, 209);
+    padding: 20px 20px;
+}
+
+.CardPay__close{
+    color: rgb(94, 158, 211);
+    background-color: inherit;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.CardPay__close::before{
+    content:'<< ';
+    color: rgb(94, 158, 211);
+    font-weight: bold;
+}
+
+.CardPay__client{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.CardPay__result{
+    position: absolute;
+    width: 500px;
+    height: 200px;
+    bottom:-200px;
+    border: 1px solid rgb(209, 209, 209);
+    background-color: var(--color-primary-light);
+    display: none;
+}
+
+.CardPay__result--active{
+    display: block;
+}
+
+.CardPay__client>label{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.CardPay__detail{
+    margin-bottom: 20px;
+}
+
+.CardPay__detail>div{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 16px 30% 10% 100px 15% 15%;
+    margin-bottom: 5px;
+    gap: 10px;
+}
+
+.CardPay__detail>div>input[type=text]{
+    width: 100%;
+    text-align: center;
+}
+
+.CardPay__detail>div>input[type=checkbox]{
+    width:16px;
+}
+
+.CardPay__totals{
+    margin-bottom: 20px;
+}
+
+.CardPay__totals>label:first-child{
+    font-size: 20px;
+}
+
+.CardPay__totals>label:last-child{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.CardPay__payways{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.CardPay__payways>div{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.CardPay__payway{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.CardPay__payway>label{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.CardPay__pay{
+    width: 200px;
+    height: 40px;
+    border: none;
+    background-color: var(--bg-primary-dark);
+    color: var(--color-primary-light);
+    font-weight: bold;
+    font-size: 15px;
+}

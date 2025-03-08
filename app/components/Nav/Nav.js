@@ -1,9 +1,12 @@
 import { COMMERCIAL_TYPE } from "../../hooks/env.js";
 
 export default function Nav({body}){
-    const template=`
-        <div class="Nav" id="menu">
-            <div class="Nav__options">
+
+    let list="";
+
+    if(localStorage.getItem('ur')!==undefined){
+        if(localStorage.getItem('ur')==='AP-UA1'){
+            list=`
                 <div>
                     <a href="#/home">Inicio</a>
                 </div>
@@ -31,6 +34,23 @@ export default function Nav({body}){
                 <div>
                     <a href="#/logout">Cerrar sesión</a>
                 </div>
+            `;
+        }else{
+            list=`
+                <div>
+                    <a href="#/pedidos">Pedidos</a>
+                </div>
+                <div>
+                    <a href="#/logout">Cerrar sesión</a>
+                </div>
+            `;
+        }
+    }
+
+    const template=`
+        <div class="Nav" id="menu">
+            <div class="Nav__options">
+                ${list}
             </div>
             <div class="Nav__footer">
                 <span>${COMMERCIAL_TYPE} © 2025</span>

@@ -65,7 +65,7 @@ export default async function useSignXML({
             xml+=`<totalConImpuestos>\n`;
                 xml+=`<totalImpuesto>\n`;
                     xml+=`<codigo>2</codigo>\n`;
-                    xml+=`<codigoPorcentaje>4</codigoPorcentaje>\n`;
+                    xml+=`<codigoPorcentaje>0</codigoPorcentaje>\n`;
                     xml+=`<baseImponible>${info_pay.subtotal}</baseImponible>\n`;
                     xml+=`<valor>${info_pay.tax}</valor>\n`;
                 xml+=`</totalImpuesto>\n`;
@@ -108,8 +108,8 @@ export default async function useSignXML({
                     xml+=`<impuestos>\n`;
                         xml+=`<impuesto>\n`;
                             xml+=`<codigo>2</codigo>\n`;
-                            xml+=`<codigoPorcentaje>4</codigoPorcentaje>\n`;
-                            xml+=`<tarifa>15</tarifa>\n`;
+                            xml+=`<codigoPorcentaje>0</codigoPorcentaje>\n`;
+                            xml+=`<tarifa>0</tarifa>\n`;
                             xml+=`<baseImponible>${product.subtotal}</baseImponible>\n`;
                             xml+=`<valor>${useRound({value:Number(product.tax)})}</valor>\n`;
                         xml+=`</impuesto>\n`;

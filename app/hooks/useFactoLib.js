@@ -213,7 +213,7 @@ export default async function firmarComprobante({contribuyente,comprobante}) {
         xades_bes += '</ds:Object>';
     xades_bes += '</ds:Signature>';
     // Devolvemos el comprobante para que sea enviado al SRI
-    // console.log(btoa(comprobante.replace(/(<[^<]+)$/, xades_bes + '$1')));
+    console.log(comprobante.replace(/(<[^<]+)$/, xades_bes + '$1'));
 
     return btoa(comprobante.replace(/(<[^<]+)$/, xades_bes + '$1'));
 }

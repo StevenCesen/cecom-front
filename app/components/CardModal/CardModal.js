@@ -247,9 +247,10 @@ export default function CardModal({template,content}){
                 items.map(item=>{
                     let pre_total=Number(item.dataset.price)/1.15;
                     let sub_total=pre_total*Number(item.value);
-                    let tax_total=sub_total*0.15;
+                    // let tax_total=sub_total*0.15;
+                    let tax_total=0;
                     let i_total=Number(item.dataset.price)*Number(item.value)
-
+                    
                     detail.push({
                         id:item.dataset.id,
                         name:item.dataset.name,
@@ -270,7 +271,8 @@ export default function CardModal({template,content}){
                     pay_way:document.getElementById('pay-way').value,
                     subtotal:useRound({value:subtotal}),
                     descuento:0,
-                    tax:useRound({value:iva}),
+                    // tax:useRound({value:iva}),
+                    tax:0,
                     total:useRound({value:total})
                 };
 
@@ -307,7 +309,8 @@ export default function CardModal({template,content}){
                                 client,
                                 detail,
                                 info_pay,
-                                btn
+                                btn,
+                                context:'NORMAL'
                             });
     
                             console.log(voucher);
