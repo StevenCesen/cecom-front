@@ -165,6 +165,8 @@ export default function Cart({mode}){
                             <path data-id="${item.id}"  class="remove-to-commander" d="M6 20.0005V6.00047H5V5.00047H9V4.23047H15V5.00047H19V6.00047H18V20.0005H6ZM7 19.0005H17V6.00047H7V19.0005ZM9.808 17.0005H10.808V8.00047H9.808V17.0005ZM13.192 17.0005H14.192V8.00047H13.192V17.0005Z" fill="#FF5152"/>
                         </svg>
                     </button>
+                    <div></div>
+                    <textarea class="Cart__itemNote" placeholder="Nueva nota"></textarea>
                 </div>
             `;
         });

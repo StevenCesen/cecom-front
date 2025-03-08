@@ -519,7 +519,7 @@ export default function CardModal({template,content}){
                             price:item.dataset.price,
                             imagen:'',
                             quantity:item.children[1].children[1].children[1].value,
-                            notes:''
+                            notes:item.children[6].value
                         });
                     });
 
@@ -532,15 +532,15 @@ export default function CardModal({template,content}){
                         user_id:localStorage.getItem('ui')
                     };
 
-                    console.log(data);
                     const response=await useCreateOrder({data});
-                    console.log(response);
+                    
                     if(response.status===200){
                         localStorage.removeItem('cart');
                         Push({
                             text:'Comanda generada correctamente'
                         });
                     }
+
                     document.getElementById('body').removeChild(document.getElementById('loader'));
 
                 }else{
