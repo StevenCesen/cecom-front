@@ -525,8 +525,8 @@ export default function CardModal({template,content}){
 
                     const data={
                         client_name:client_name.value,
-                        client_piso:client_piso.value,
-                        client_mesa:client_mesa.value,
+                        client_piso:(client_piso.value==="") ? "N/D" : client_piso.value,
+                        client_mesa:(client_mesa.value==="") ? "N/D" : client_mesa.value,
                         items:JSON.stringify(item_list),
                         contributor_id:localStorage.getItem('cc'),
                         user_id:localStorage.getItem('ui')
@@ -537,6 +537,9 @@ export default function CardModal({template,content}){
                     console.log(response);
                     if(response.status===200){
                         localStorage.removeItem('cart');
+                        Push({
+                            text:'Comanda generada correctamente'
+                        });
                     }
                     document.getElementById('body').removeChild(document.getElementById('loader'));
 
