@@ -535,6 +535,9 @@ export default function CardModal({template,content}){
                     console.log(data);
                     const response=await useCreateOrder({data});
                     console.log(response);
+                    if(response.status===200){
+                        localStorage.removeItem('cart');
+                    }
                     document.getElementById('body').removeChild(document.getElementById('loader'));
 
                 }else{
