@@ -7,7 +7,7 @@ export default function CardOrder({id,client_name,table,floor,status,date,total,
         </svg>
     `;
 
-    if(status==="FINALIZADO"){
+    if(status==="EN MESA"){
         status_order=`
             <svg width="35" height="35" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_1980_627)">
