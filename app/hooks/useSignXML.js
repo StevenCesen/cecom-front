@@ -35,6 +35,10 @@ export default async function useSignXML({
 
     let items=detail;
 
+    let tarifa=0,codigo_impuesto=0;
+
+    
+
     let xml='<?xml version="1.0" encoding="UTF-8"?>\n';
     xml+='<factura id="comprobante" version="2.1.0">\n';
         // Información tributaria
@@ -86,8 +90,6 @@ export default async function useSignXML({
 
             items.map((product)=>{
 
-                console.log(product.codigo);
-
                 detalle_comprobante.push({
                     codigo:(product.codigo!==undefined) ? product.codigo : product.id,
                     nombre:product.name.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").trimStart().trimEnd(),
@@ -125,7 +127,7 @@ export default async function useSignXML({
         xml+=`<infoAdicional>\n`;
             xml+=`<campoAdicional nombre="Email">${client_email.trimStart().trimEnd()}</campoAdicional>\n`;
             xml+=`<campoAdicional nombre="Telefono">${client_phone.trimStart().trimEnd()}</campoAdicional>\n`;
-            xml+=`<campoAdicional nombre="Direccion">${client_dir.trimStart().trimEnd()}</campoAdicional>\n`;
+            xml+=`<campoAdicional nombre="Direccion">${client_dir.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").trimStart().trimEnd()}</campoAdicional>\n`;
         xml+=`</infoAdicional>\n`;
 
     xml+=`</factura>\n`;

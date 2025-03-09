@@ -245,7 +245,7 @@ export default function CardModal({template,content}){
                 let subtotal=0,iva=0,total=0;
 
                 items.map(item=>{
-                    let pre_total=Number(item.dataset.price)/1.15;
+                    let pre_total=Number(item.dataset.price);
                     let sub_total=pre_total*Number(item.value);
                     // let tax_total=sub_total*0.15;
                     let tax_total=0;
