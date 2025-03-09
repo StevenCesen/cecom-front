@@ -51,7 +51,8 @@ export default async function Router({title,body,app}){
         loader();
 
         const data=await useGetClients({
-            contributor_id:localStorage.getItem('cc')
+            contributor_id:localStorage.getItem('cc'),
+            filters:""
         });
 
         await Clients({app,data});

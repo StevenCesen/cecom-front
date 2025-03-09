@@ -23,7 +23,7 @@ export default function Cart({mode}){
                     <input type="search" id="search-client" placeholder="Nombre o identificación">
                 </label>
                 <div class="Cart__searchList" id="content-list-clients">
-
+                    
                 </div>
                 <div class="Cart__searchClient">
                     <label>

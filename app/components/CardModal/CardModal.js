@@ -3,6 +3,7 @@ import useCreateMenu from "../../hooks/useCreateMenu.js";
 import useCreateOrder from "../../hooks/useCreateOrder.js";
 import useDeleteCartItem from "../../hooks/useDeleteCartItem.js";
 import useGenerate from "../../hooks/useGenerate.js";
+import useGetClients from "../../hooks/useGetClients.js";
 import useGetContributor from "../../hooks/useGetContributor.js";
 import useGetTypeIdentification from "../../hooks/useGetTypeIdentification.js";
 import useRound from "../../hooks/useRound.js";
@@ -120,11 +121,13 @@ export default function CardModal({template,content}){
         });
     }else if(!!document.getElementById('generate-invoice')){
         const search_product=document.getElementById('search-product');
+        const search_client=document.getElementById('search-client');
         const content_list_products=document.getElementById('content-list-products');
+        const content_list_clients=document.getElementById('content-list-clients');
         const content_list=document.getElementById('cart-list');
 
-        search_product.addEventListener('change',async (e)=>{
-            if(e.target.value!==""){
+        search_product.addEventListener('keyup',async (e)=>{
+            if(e.target.value!=="" & e.target.value.length>4){
                 const results=await useSearchProduct({
                     contributor_id:localStorage.getItem('cc'),
                     name:e.target.value
@@ -151,6 +154,32 @@ export default function CardModal({template,content}){
             }
         });
 
+        search_client.addEventListener('keyup',async (e)=>{
+            if(e.target.value.length>6){
+                const clients=await useGetClients({
+                    contributor_id:localStorage.getItem('cc'),
+                    filters:`identification=${e.target.value}`
+                });
+
+                content_list_clients.innerHTML="";
+
+                clients.data.map(client=>{
+                    content_list_clients.insertAdjacentHTML('beforeend',`
+                        <button 
+                            data-name="${client.name}" 
+                            data-identification="${client.identification}" 
+                            data-email="${client.email}"
+                            data-direction="${client.direction}"
+                            data-phone="${client.phone}"  
+                            class="client-option" 
+                        >${client.name}</button>
+                    `);
+                });
+            }else{
+                content_list_clients.innerHTML="";
+            }
+        });
+
         content_list_products.addEventListener('click',(e)=>{
             // Delegación de evento para agregar un producto al listado
             if(e.target.matches('.Cart__resultItem')){
@@ -164,6 +193,19 @@ export default function CardModal({template,content}){
 
                 content_list_products.innerHTML="";
                 useUpdateTotal();
+            }
+        });
+
+        content_list_clients.addEventListener('click',(e)=>{
+            if(e.target.matches('.client-option')){
+                document.getElementById('name-client').value=e.target.dataset.name;
+                document.getElementById('identification-client').value=e.target.dataset.identification;
+                document.getElementById('email-client').value=e.target.dataset.email;
+                document.getElementById('phone-client').value=e.target.dataset.phone;
+                document.getElementById('direction-client').value=e.target.dataset.direction;
+                
+                content_list_clients.innerHTML="";
+                search_client.value="";
             }
         });
 
