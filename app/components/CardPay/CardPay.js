@@ -1,4 +1,5 @@
 import useGenerate from "../../hooks/useGenerate.js";
+import useGetClients from "../../hooks/useGetClients.js";
 import useGetTypeIdentification from "../../hooks/useGetTypeIdentification.js";
 import usePayWays from "../../hooks/usePayWays.js";
 import useRound from "../../hooks/useRound.js";
@@ -20,6 +21,7 @@ export default async function CardPay({data,content}){
                 <label>${item.quantity}</label>
                 <input value="${item.price}">
                 ${(item.quantity>1) ? "<button>Desglozar item</button>" : ""}
+
             </div>
         `;
     });
@@ -33,23 +35,23 @@ export default async function CardPay({data,content}){
             <div class="CardPay__client">
                 <label>
                     Nombre del cliente
-                    <input id="name-client" type="text">
+                    <input id="name-client" type="text" placeholder="Escribe o busca aquí">
                 </label>
                 <label>
                     Cédula
-                    <input id="identification-client" type="text">
+                    <input id="identification-client" type="text" placeholder="Escribe aquí">
                 </label>
                 <label>
                     Dirección
-                    <input id="direction-client" type="text">
+                    <input id="direction-client" type="text" placeholder="Escribe aquí">
                 </label>
                 <label>
                     Teléfono
-                    <input id="phone-client" type="text">
+                    <input id="phone-client" type="text" placeholder="Escribe aquí">
                 </label>
                 <label>
                     Correo
-                    <input id="email-client" type="text">
+                    <input id="email-client" type="text" placeholder="Escribe aquí">
                 </label>
 
                 <label>
@@ -57,10 +59,9 @@ export default async function CardPay({data,content}){
                     <input id="date" type="date">
                 </label>
                 
-                <div class="CardPay__result">
+                <div class="CardPay__result" id="client-results">
 
                 </div>
-
             </div>
 
             <h3>Detalle</h3>
@@ -83,12 +84,21 @@ export default async function CardPay({data,content}){
                     <div class="CardPay__payway">
                         <label>
                             Forma de pago
-                            ${usePayWays()}
+                            <select class="pay-way">
+                                <option value="01">EFECTIVO - SIN UTILIZACIÓN DEL SISTEMA FINANCIERO</option>
+                                <option value="15">COMPENSACIÓN DE DEUDAS</option>
+                                <option value="16">TARJETA DE DÉBITO</option>
+                                <option value="17">DINERO ELECTRÓNICO</option>
+                                <option value="18">TARJETA PREPAGO</option>
+                                <option value="19">TARJETA DE CRÉDITO</option>
+                                <option value="20">OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO</option>
+                                <option value="21">ENDOSO DE TÍTULOS</option>
+                            </select>
                         </label>
 
                         <label>
                             Tipo de pago
-                            <select id="pay-way">
+                            <select class="pay-type">
                                 <option value="EFECTIVO">EFECTIVO</option>
                                 <option value="AHORITA">AHORITA - BANCO DE LOJA</option>
                                 <option value="DE UNA">DE UNA - BANCO PICHINCHA</option>
@@ -98,13 +108,18 @@ export default async function CardPay({data,content}){
                         </label>
                         <label>
                             Valor
-                            <input type="text">
+                            <input type="text" class="pay-value" value="0">
                         </label>
                         <button class="CardPay__paywayDelete">Eliminar</button>
                     </div>
                 </div>
                 <button id="new-payway">Nueva forma de pago</button>
             </div>
+
+            <label class="CardPay__note">
+                Nota
+                <textarea id="note" placeholder="Escribe una nota"></textarea>
+            </label>
 
             <button class="CardPay__pay" id="CardPay__pay">Cobrar</button>
         </div>
@@ -116,6 +131,46 @@ export default async function CardPay({data,content}){
     const btn_new_payway=document.getElementById('new-payway');
     const btn_pay=document.getElementById('CardPay__pay');
     const btn_close=document.getElementById('close-pay');
+    const search_client=document.getElementById('name-client');
+    const content_clients=document.getElementById('client-results');
+
+    search_client.addEventListener('keyup',async (e)=>{
+        if(e.target.value.length>6){
+            const clients=await useGetClients({
+                contributor_id:localStorage.getItem('cc'),
+                filters:`identification=${e.target.value}`
+            });
+
+            content_clients.innerHTML="";
+
+            clients.data.map(client=>{
+                content_clients.insertAdjacentHTML('beforeend',`
+                    <button 
+                        data-name="${client.name}" 
+                        data-identification="${client.identification}" 
+                        data-email="${client.email}"
+                        data-direction="${client.direction}"
+                        data-phone="${client.phone}"  
+                        class="client-option" 
+                    >${client.name}</button>
+                `);
+            });
+        }else{
+            content_clients.innerHTML="";
+        }
+    });
+
+    content_clients.addEventListener('click',(e)=>{
+        if(e.target.matches('.client-option')){
+            document.getElementById('name-client').value=e.target.dataset.name;
+            document.getElementById('identification-client').value=e.target.dataset.identification;
+            document.getElementById('email-client').value=e.target.dataset.email;
+            document.getElementById('phone-client').value=e.target.dataset.phone;
+            document.getElementById('direction-client').value=e.target.dataset.direction;
+
+            content_clients.innerHTML="";
+        }
+    });
 
     btn_new_payway.addEventListener('click',(e)=>{
         const content=document.getElementById('content-payways');
@@ -124,12 +179,21 @@ export default async function CardPay({data,content}){
             <div class="CardPay__payway">
                 <label>
                     Forma de pago
-                    ${usePayWays()}
+                    <select class="pay-way">
+                        <option value="01">EFECTIVO - SIN UTILIZACIÓN DEL SISTEMA FINANCIERO</option>
+                        <option value="15">COMPENSACIÓN DE DEUDAS</option>
+                        <option value="16">TARJETA DE DÉBITO</option>
+                        <option value="17">DINERO ELECTRÓNICO</option>
+                        <option value="18">TARJETA PREPAGO</option>
+                        <option value="19">TARJETA DE CRÉDITO</option>
+                        <option value="20">OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO</option>
+                        <option value="21">ENDOSO DE TÍTULOS</option>
+                    </select>
                 </label>
 
                 <label>
                     Tipo de pago
-                    <select id="pay-way">
+                    <select class="pay-type">
                         <option value="EFECTIVO">EFECTIVO</option>
                         <option value="AHORITA">AHORITA - BANCO DE LOJA</option>
                         <option value="DE UNA">DE UNA - BANCO PICHINCHA</option>
@@ -139,12 +203,11 @@ export default async function CardPay({data,content}){
                 </label>
                 <label>
                     Valor
-                    <input type="text">
+                    <input type="text" class="pay-value" value="0">
                 </label>
                 <button class="CardPay__paywayDelete">Eliminar</button>
             </div>
         `);
-
     });
 
     btn_pay.addEventListener('click',async (e)=>{
@@ -208,70 +271,101 @@ export default async function CardPay({data,content}){
                 }
             });
 
-            const info_pay      =   {
-                pay_way:document.getElementById('pay-way').value,
-                subtotal:useRound({value:subtotal}),
-                descuento:0,
-                tax:useRound({value:iva}),
-                total:useRound({value:total})
-            };
+            //  Seleccionamos las formas de pago
 
-            //  Validamos los datos ingresados
-        
-            if(
-                client.identification_type!=="" & 
-                client.name!=="" & 
-                (client.identification!=="" & client.identification.length>=10) & 
-                client.email!=="" & 
-                client.phone!=="" & 
-                client.dir!=="" &
-                date!==""
-            ){ //    Válidamos que estén todos los datos del cliente
+            let pay_ways=document.getElementsByClassName('CardPay__payway');
+            pay_ways=[].slice.call(pay_ways);
 
-                if(detail.length>0){   //  Validamos que existen productos
+            const nota=document.getElementById('note').value;
+            
+            let data_pays=[],cont=true,sum=0;
 
-                    if(
-                        info_pay.pay_way!=="" 
-                    ){   //  Validamos la información del pago
+            pay_ways.map(pay=>{
 
-                        /**
-                         * ====================> Enviamos a facturar
-                         */
+                sum+=Number(pay.children[2].children[0].value);
 
-                        console.log(detail)
-                        console.log(info_pay)
-
-                        const voucher=await useGenerate({
-                            contributor,
-                            info_estab,
-                            info_doc,
-                            date,
-                            client,
-                            detail,
-                            info_pay,
-                            btn,
-                            context:'ORDER',
-                            order:data.id
-                        });
-
-                        console.log(voucher);
-
-                    }else{
-                        Push({
-                            text:'Por favor, ingrese la forma de pago.'
-                        });
-                    }
-
-                }else{
+                if(pay.children[2].children[0].value===0){
                     Push({
-                        text:'Por favor, agregue productos.'
+                        text:'Por favor, introduzca el valor cobrado en todas las formas de pago.'
+                    });
+                    cont=false;
+                }else{
+                    data_pays.push({
+                        pay_way:pay.children[0].children[0].value,
+                        type_pay:pay.children[1].children[0].value,
+                        value:pay.children[2].children[0].value
                     });
                 }
+            });
 
+            if(cont){
+                const info_pay      =   {
+                    pay_way:data_pays,
+                    subtotal:useRound({value:subtotal}),
+                    descuento:0,
+                    tax:useRound({value:iva}),
+                    total:useRound({value:total})
+                };
+    
+                if(
+                    client.identification_type!=="" & 
+                    client.name!=="" & 
+                    (client.identification!=="" & client.identification.length>=10) & 
+                    client.email!=="" & 
+                    client.phone!=="" & 
+                    client.dir!=="" &
+                    date!=="" &
+                    sum==total
+                ){ //    Válidamos que estén todos los datos del cliente
+    
+                    if(detail.length>0){   //  Validamos que existen productos
+    
+                        if(
+                            info_pay.pay_way!=="" 
+                        ){   //  Validamos la información del pago
+    
+                            /**
+                             * ====================> Enviamos a facturar
+                             */
+    
+                            console.log(detail)
+                            console.log(info_pay)
+    
+                            const voucher=await useGenerate({
+                                contributor,
+                                info_estab,
+                                info_doc,
+                                date,
+                                client,
+                                detail,
+                                info_pay,
+                                nota,
+                                btn,
+                                context:'ORDER',
+                                order:data.id
+                            });
+    
+                            console.log(voucher);
+    
+                        }else{
+                            Push({
+                                text:'Por favor, ingrese la forma de pago.'
+                            });
+                        }
+    
+                    }else{
+                        Push({
+                            text:'Por favor, agregue productos.'
+                        });
+                    }
+    
+                }else{
+                    Push({
+                        text:'No existen datos del cliente, fecha o las formas de pago no suman el total.'
+                    });
+                    document.getElementById('body').removeChild(document.getElementById('loader'));
+                }
             }else{
-                Push({
-                    text:'Por favor, revise o ingrese todos los datos correctos del cliente.'
-                });
                 document.getElementById('body').removeChild(document.getElementById('loader'));
             }
         }else{

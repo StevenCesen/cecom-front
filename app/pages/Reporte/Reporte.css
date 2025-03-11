@@ -1,0 +1,33 @@
+.Reporte{
+    width: 60%;
+    margin: 20px auto 0;
+}
+
+.Reporte__filters{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.Reporte__filters>label{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.Reporte__filters>a{
+    height: 40px;
+    background-color: var(--bg-primary-dark);
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--color-primary-light);
+    padding: 0 10px;
+    align-self: flex-end;
+}

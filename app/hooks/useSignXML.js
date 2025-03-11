@@ -28,16 +28,22 @@ export default async function useSignXML({
     forma_pago,
     client_email,
     client_phone,
-    client_dir
+    client_dir,
+    nota
 }){
     //  6) Generamos el XML sin firmar
     let detalle_comprobante=[];
 
     let items=detail;
 
-    let tarifa=0,codigo_impuesto=0;
+    let tarifa=0,codigo_impuesto=0,pagos="";
 
-    
+    info_pay.pay_way.map(pay=>{
+        pagos+=`<pago>\n`;
+            pagos+=`<formaPago>${pay.pay_way}</formaPago>\n`;
+            pagos+=`<total>${pay.value}</total>\n`;
+        pagos+=`</pago>\n`;
+    });
 
     let xml='<?xml version="1.0" encoding="UTF-8"?>\n';
     xml+='<factura id="comprobante" version="2.1.0">\n';
@@ -77,11 +83,10 @@ export default async function useSignXML({
             xml+=`<propina>0</propina>\n`;
             xml+=`<importeTotal>${info_pay.total}</importeTotal>\n`;
             xml+=`<moneda>DOLAR</moneda>\n`;
+
+            // INFORMACIÓN PAGOS
             xml+=`<pagos>\n`;
-                xml+=`<pago>\n`;
-                    xml+=`<formaPago>${forma_pago}</formaPago>\n`;
-                    xml+=`<total>${info_pay.total}</total>\n`;
-                xml+=`</pago>\n`;
+                xml+=pagos;
             xml+=`</pagos>\n`;
         xml+=`</infoFactura>\n`;
 
@@ -126,12 +131,16 @@ export default async function useSignXML({
         // Información adicional
         xml+=`<infoAdicional>\n`;
             xml+=`<campoAdicional nombre="Email">${client_email.trimStart().trimEnd()}</campoAdicional>\n`;
+            (nota!=="") 
+            ? 
+                xml+=`<campoAdicional nombre="Nota">${nota}</campoAdicional>\n`
+            :   "";
             xml+=`<campoAdicional nombre="Telefono">${client_phone.trimStart().trimEnd()}</campoAdicional>\n`;
             xml+=`<campoAdicional nombre="Direccion">${client_dir.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").trimStart().trimEnd()}</campoAdicional>\n`;
         xml+=`</infoAdicional>\n`;
-
+            
     xml+=`</factura>\n`;
-
+    
     console.log("XML: ");
     console.log(xml);
 

@@ -132,6 +132,28 @@ export default async function Setting({app,data_contributor}) {
                     <button id="update-impresion">Actualizar</button>
                 </form>
             </div>
+
+            <div class="Setting__me">
+                <h3>Cuentas bancarias</h3>
+                <form id="accounts">
+                    <label class="Setting__labelAccount">
+                        <label>BANCO DE LOJA | AHORROS</label>
+                    </label>
+
+                    <label class="Setting__labelAccount">
+                        <label>BANCO PICHINCHA | AHORROS</label>
+                    </label>
+
+                    <div class="Setting__labelAddAccount">
+                        <label>
+                            Nombre cuenta
+                            <input type="text" id="name-account">
+                        </label>
+                        <button id="add-account">Añadir cuenta</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     `;
 
@@ -147,6 +169,8 @@ export default async function Setting({app,data_contributor}) {
     const message_entidad=document.getElementById('entidad-cert');
     const btn_update_estab=document.getElementById('update-estab');
     const btn_update_prints=document.getElementById('update-impresion');
+    const btn_account=document.getElementById('add-account');
+    const name_account=document.getElementById('name-account');
 
     /**
      *  Para actualizar el certificado de firma electrónica
@@ -367,6 +391,26 @@ export default async function Setting({app,data_contributor}) {
         });
 
         document.getElementById('body').removeChild(document.getElementById('loader'));
+    });
+
+    btn_account.addEventListener('click',async (e)=>{
+        e.preventDefault();
+
+        if(name_account.value!=="" & name_account.value.length>5){
+
+            document.getElementById('accounts').insertAdjacentHTML('beforebegin',`
+                <label class="Setting__labelAccount">
+                    <label>${name_account.value}</label>
+                </label>
+            `);
+
+            name_account.value="";
+
+        }else{
+            Push({
+                text:'Por favor, revisa el nombre de la cuenta.'
+            });
+        }
     });
 
 }

@@ -203,7 +203,7 @@ export default function CardModal({template,content}){
                 document.getElementById('email-client').value=e.target.dataset.email;
                 document.getElementById('phone-client').value=e.target.dataset.phone;
                 document.getElementById('direction-client').value=e.target.dataset.direction;
-                
+
                 content_list_clients.innerHTML="";
                 search_client.value="";
             }
@@ -552,10 +552,10 @@ export default function CardModal({template,content}){
             if(client_name.value!==""){
                 if(items.length>0){
                     loader();
+
                     let item_list=[];
 
                     items.map((item)=>{
-                        console.log(item)
                         item_list.push({
                             id:item.dataset.id,
                             name:item.dataset.name,
@@ -574,11 +574,13 @@ export default function CardModal({template,content}){
                         contributor_id:localStorage.getItem('cc'),
                         user_id:localStorage.getItem('ui')
                     };
-
+                    
                     const response=await useCreateOrder({data});
                     
                     if(response.status===200){
                         localStorage.removeItem('cart');
+                        document.getElementById('cart-list').innerHTML="";
+                        document.getElementById('total').innerHTML=`<strong>Total:</strong>`;
                         Push({
                             text:'Comanda generada correctamente'
                         });
@@ -596,7 +598,6 @@ export default function CardModal({template,content}){
                     text:'Ingrese el nombre y apellido del cliente'
                 });
             }
-
         });
     }
 

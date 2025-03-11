@@ -16,6 +16,7 @@ import Menus from "./pages/Menu/Menu.js";
 import Orders from "./pages/Orders/Orders.js";
 import Product from "./pages/Product/Product.js";
 import Products from "./pages/Products/Products.js";
+import Reporte from "./pages/Reporte/Reporte.js";
 import Setting from "./pages/Setting/Setting.js";
 import Vouchers from "./pages/Vouchers/Vouchers.js";
 
@@ -120,10 +121,10 @@ export default async function Router({title,body,app}){
             app
         });
 
-    }else if(hash==='#/balance' & useSession()){
+    }else if(hash==='#/reportes' & useSession()){
         
         title.textContent="Balance";
-        // Falta hacer
+        Reporte({app});
 
     }else if(hash==='#/usuarios' & useSession()){
 

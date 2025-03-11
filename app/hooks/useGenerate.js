@@ -23,7 +23,7 @@ function padDate(value){
     }
 }
 
-export default async function useGenerate({contributor,info_estab,info_doc,date,client,detail,info_pay,btn,context,order}){
+export default async function useGenerate({contributor,info_estab,info_doc,date,nota,client,detail,info_pay,btn,context,order}){
     btn.textContent="Generando...";
 
     //  1) Ambiente y régimen de facturación
@@ -91,7 +91,8 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
         forma_pago,
         client_email,
         client_phone,
-        client_dir
+        client_dir,
+        nota
     });
 
     console.log(xml_firmado);
@@ -146,10 +147,13 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                     'concept':`CONSUMO EN ESTABLECIMIENTO ${contributor.commercial_name}`,
                     'contributor_name':contributor.name,
                     'context':context,
-                    'order':order
+                    'order':order,
+                    //Información pagos
+                    'info_pay':JSON.stringify(info_pay),
+                    'nota':nota
                 };
                 
-                console.log(comprobante)
+                console.log(comprobante);
 
                 const save_voucher=await fetch(`${URL_BASE}vouchers`,{
                     method:'POST',
@@ -183,7 +187,7 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                         console.log(message)
                         console.log(adicional)
                         Push({
-                            text:message
+                            text:message+adicional
                         });
                     }
                 }

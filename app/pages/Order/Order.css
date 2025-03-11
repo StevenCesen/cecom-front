@@ -1,0 +1,91 @@
+.Order{
+    width: 100%;
+    top: var(--height-header);
+    height: calc(100vh - var(--height-header));
+    position: fixed;
+    background-color: var(--bg-primary-light);
+    padding: 20px 20px;
+    overflow-y:auto;
+}
+
+.Order__client{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.Order__items{
+    margin-bottom: 20px;
+}
+
+.Order__item{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 25% 25%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.Order__item>label{
+    font-size: 14px;
+}
+
+.Order__contentNew{
+    width: 100%;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.Order__searchNew{
+    width: 100%;
+}
+
+.Order__searchNew>div{
+    width: 100%;
+    position: absolute;
+    background-color: var(--bg-primary-light);
+    top: 60px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.Order__searchNew>div>button{
+    width: 100%;
+    height: 40px;
+}
+
+.Order__searchNew>label{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.Order__searchNew>label>input{
+    width: 100%;
+    height: 40px;
+}
+
+.Order__btn--update{
+    width: 100%;
+    height: 40px;
+    background-color: var(--bg-primary-dark);
+    color: var(--color-primary-light);
+    font-weight: bold;
+    border: none;
+}
+
+.Order__btn--close{
+    width: 100%;
+    height: 40px;
+    background-color: var(--bg-ternary-light);
+    color: var(--color-primary-light);
+    font-weight: bold;
+    border: none;
+    margin-bottom: 20px;
+}

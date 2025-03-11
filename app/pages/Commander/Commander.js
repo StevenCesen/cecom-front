@@ -4,11 +4,13 @@ import Cart from "../../components/Cart/Cart.js";
 import loader from "../../components/Loader/Loader.js";
 import Push from "../../components/Push/Push.js";
 import useGetCategories from "../../hooks/useGetCategories.js";
+import useGetOrder from "../../hooks/useGetOrder.js";
 import useGetOrders from "../../hooks/useGetOrders.js";
 import useGetOrdersMesero from "../../hooks/useGetOrdersMesero.js";
 import useGetProducts from "../../hooks/useGetProducts.js";
 import useSumCart from "../../hooks/useSumCart.js";
 import useUpdateOrder from "../../hooks/useUpdateoOrder.js";
+import Order from "../Order/Order.js";
 
 export default async function Commander({app}) {
 
@@ -48,7 +50,7 @@ export default async function Commander({app}) {
                 <p>${order.floor} | ${order.table}</p>
                 <p>${order.create_date}</p>
                 <p># ${order.order_number_day}</p>
-                <button>Ver</button>
+                <button data-id="${order.id}" class="CardOrder__view">Ver</button>
                 <button data-id="${order.id}" class="CardOrder__finish">Finalizar</button>
             </div>
         `;
@@ -58,7 +60,7 @@ export default async function Commander({app}) {
         <div class="Orders">
             <div class="Orders__nav">
                 <h3>Comandas</h3>
-                <input class="Orders__search" type="search" placeholder="Nombre del producto">
+                <input class="Orders__search" type="search" placeholder="Nombre del cliente">
             </div>
 
             <div class="Orders__select">
@@ -109,7 +111,9 @@ export default async function Commander({app}) {
 
     btn_list.addEventListener('click',async (e)=>{
         loader();
+        content_orders.innerHTML="";
         content_items.innerHTML="";
+
         const data_orders=await useGetOrders({
             contributor_id:localStorage.getItem('cc'),
             filters:`user_id=${localStorage.getItem('ui')}`
@@ -125,7 +129,7 @@ export default async function Commander({app}) {
                     <p>${order.floor} | ${order.table}</p>
                     <p>${order.create_date}</p>
                     <p># ${order.order_number_day}</p>
-                    <button>Ver</button>
+                    <button data-id="${order.id}" class="CardOrder__view">Ver</button>
                     <button data-id="${order.id}" class="CardOrder__finish">Finalizar</button>
                 </div>
             `;
@@ -162,21 +166,6 @@ export default async function Commander({app}) {
         }
     });
 
-    // data_products.data.map(item=>{
-    //     CardProductSelect({
-    //         id:item.id,
-    //         image:"",
-    //         name:item.name,
-    //         price:item.price,
-    //         content:content_items
-    //     });
-    // });
-
-    // let data_products=await useGetProducts({
-    //     contributor_id:localStorage.getItem('cc'),
-    //     filters:`type=${first_category_id}`
-    // });
-
     content_items.addEventListener('click',async (e)=>{
         if(e.target.matches('.add-to-commander')){
             //  Enviamos al carrito
@@ -209,6 +198,20 @@ export default async function Commander({app}) {
                 text:'Comanda completada'
             });
         }
+
+        if(e.target.matches('.CardOrder__view')){
+            const id=e.target.dataset.id;
+            loader();
+            const order=await useGetOrder({id});
+
+            console.log(order);
+
+            await Order({
+                data:order,
+                app
+            });
+        }
+
     });
 
     document.getElementById('body').removeChild(document.getElementById('loader'));
