@@ -31,3 +31,32 @@
     padding: 0 10px;
     align-self: flex-end;
 }
+
+.Reporte__head{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+}
+
+.Reporte__item{
+    width: 100%;
+}
+
+.Reporte__item>h4{
+    background-color: var(--bg-primary-dark);
+    color: var(--color-primary-light);
+    padding: 10px 10px;
+}
+
+.Reporte__item>div>div{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 16px;
+}
