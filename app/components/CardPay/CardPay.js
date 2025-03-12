@@ -19,7 +19,7 @@ export default async function CardPay({data,content}){
                 <input data-codigo="${item.item_id}" data-id="${item.id}" data-descuento="0" data-name="${item.name}" data-description="${item.description}" data-price="${item.price}" data-quantity="${item.quantity}" type="checkbox" class="check-item" checked>
                 <label>${item.name}</label>
                 <label>${item.quantity}</label>
-                <input value="${item.price}">
+                <input class="product-price" value="${item.price}">
                 ${(item.quantity>1) ? "<button>Desglozar item</button>" : ""}
 
             </div>
@@ -74,7 +74,7 @@ export default async function CardPay({data,content}){
 
             <div class="CardPay__totals">
                 <label>Total a cobrar:</label>
-                <label id="total-pay">$ ${total}</label>
+                <label id="total-pay" data-total="${total}">$ ${total}</label>
             </div>
 
             <h3>Forma y tipo de pago</h3>
@@ -277,7 +277,7 @@ export default async function CardPay({data,content}){
             pay_ways=[].slice.call(pay_ways);
 
             const nota=document.getElementById('note').value;
-            
+
             let data_pays=[],cont=true,sum=0;
 
             pay_ways.map(pay=>{
@@ -315,7 +315,7 @@ export default async function CardPay({data,content}){
                     client.phone!=="" & 
                     client.dir!=="" &
                     date!=="" &
-                    sum==total
+                    sum==document.getElementById('total-pay').dataset.total
                 ){ //    Válidamos que estén todos los datos del cliente
     
                     if(detail.length>0){   //  Validamos que existen productos
@@ -395,6 +395,23 @@ export default async function CardPay({data,content}){
                 }
             });
 
+            document.getElementById('total-pay').textContent=`$ ${new_total}`;
+        }
+    });
+
+    content_details.addEventListener('change',(e)=>{
+        if(e.target.matches('.product-price')){
+
+            let prices=document.getElementsByClassName('product-price');
+            prices=[].slice.call(prices);
+
+            let new_total=0;
+
+            prices.map((price)=>{
+                new_total+=Number(price.value);
+            });
+
+            document.getElementById('total-pay').dataset.total=new_total;
             document.getElementById('total-pay').textContent=`$ ${new_total}`;
         }
     });
