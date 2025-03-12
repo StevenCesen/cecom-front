@@ -6,7 +6,7 @@ export const COMMERCIAL_TYPE='CECOM EC';
  * 1. - PRUEBAS: 1
  * 2. - PRODUCCION: 2
  */
-export const AMBIENTE=1;
+export const AMBIENTE=2;
 export const CONTABILIDAD="NO";
 export const URL_ROOT="https://softsen.space/anyplace/";
 export const URL_RECEP_PROD='https://softsen.space/anyplace/services/sendSRI.php';
