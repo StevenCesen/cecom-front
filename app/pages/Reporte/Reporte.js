@@ -60,6 +60,7 @@ export default async function Reporte({app}) {
             });
 
             console.log(data);
+            content.innerHTML="";
 
             data.data.map((pay)=>{
                 let detail="";
