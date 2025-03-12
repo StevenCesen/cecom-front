@@ -63,11 +63,11 @@ export default function CardModal({template,content}){
                 state_product!==""
             ){  
                 const data={
-                    'name':name_product,
+                    'name':name_product.toUpperCase(),
                     'code_aux':code_product,
                     'quantity':size_product,
                     'tax':tax_product,
-                    'description':description_product,
+                    'description':description_product.toUpperCase(),
                     'image_path':"",
                     'price':price_product,
                     'state':state_product,

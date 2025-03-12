@@ -20,8 +20,7 @@ export default async function CardPay({data,content}){
                 <label>${item.name}</label>
                 <label>${item.quantity}</label>
                 <input class="product-price" value="${item.price}">
-                ${(item.quantity>1) ? "<button>Desglozar item</button>" : ""}
-
+                ${(item.quantity>1) ? `<button class="product-desgloce" data-codigo="${item.item_id}" data-id="${item.id}" data-descuento="0" data-name="${item.name}" data-description="${item.description}" data-price="${item.price}" data-quantity="${item.quantity}">Desglozar item</button>` : ""}
             </div>
         `;
     });
@@ -397,6 +396,31 @@ export default async function CardPay({data,content}){
 
             document.getElementById('total-pay').textContent=`$ ${new_total}`;
         }
+
+        if(e.target.matches('.product-desgloce')){
+            const cantidad=e.target.dataset.quantity;
+            const price=e.target.dataset.price;
+            const dscto=e.target.dataset.descuento;
+            const name=e.target.dataset.name;
+            const codigo=e.target.dataset.codigo;
+            const id=e.target.dataset.id;
+            const description=e.target.dataset.description;
+
+            e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+
+            //  Insertamos los nuevos productos
+
+            for (let i = 0; i < cantidad; i++) {
+                content_details.insertAdjacentHTML('beforeend',`
+                    <div>
+                        <input data-codigo="${codigo}" data-id="${id}" data-descuento="${dscto}" data-name="${name}" data-description="${description}" data-price="${price}" data-quantity="${1}" type="checkbox" class="check-item" checked>
+                        <label>${name}</label>
+                        <label>1</label>
+                        <input class="product-price" value="${price}">
+                    </div>    
+                `);
+            }
+        }
     });
 
     content_details.addEventListener('change',(e)=>{
@@ -406,6 +430,8 @@ export default async function CardPay({data,content}){
             prices=[].slice.call(prices);
 
             let new_total=0;
+
+            e.target.parentElement.children[0].dataset.price=e.target.value;
 
             prices.map((price)=>{
                 new_total+=Number(price.value);
