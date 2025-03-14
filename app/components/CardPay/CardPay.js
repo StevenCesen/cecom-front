@@ -424,6 +424,7 @@ export default async function CardPay({data,content}){
     });
 
     content_details.addEventListener('change',(e)=>{
+        console.log(e)
         if(e.target.matches('.product-price')){
 
             let prices=document.getElementsByClassName('product-price');
@@ -440,6 +441,27 @@ export default async function CardPay({data,content}){
             document.getElementById('total-pay').dataset.total=new_total;
             document.getElementById('total-pay').textContent=`$ ${new_total}`;
         }
+
+        if(e.target.matches('.check-item')){
+
+            let prices=document.getElementsByClassName('check-item');
+            prices=[].slice.call(prices);
+
+            let new_total=0;
+
+            prices.map((price)=>{
+                console.log(price);
+                if(price.checked){
+                    new_total+=Number(price.dataset.price);
+                }
+            });
+
+            console.log(new_total)
+
+            document.getElementById('total-pay').setAttribute('data-total',new_total);
+            document.getElementById('total-pay').textContent=`$ ${new_total}`;
+        }
+
     });
 
     document.getElementById('body').removeChild(document.getElementById('loader'));
