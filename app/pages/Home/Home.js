@@ -45,33 +45,33 @@ export default async function Home({contributor_id,app}) {
     
     const content_donut=document.getElementById('content-donut');
 
-    new Chart(content_donut, {
-        type: 'doughnut',
-        data: {
-            labels: [
-              'Pendientes',
-              'Procesados',
-              'Finalizados'
-            ],
-            datasets: [{
-              label: 'Pedidos de hoy',
-              data: [300, 50, 100],
-              backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
-              ]
-            }]
-        },
-        options: {
-            responsive:true,
-            scales: {
-            y: {
-                beginAtZero: true
-            }
-            }
-        }
-    });
+    // new Chart(content_donut, {
+    //     type: 'doughnut',
+    //     data: {
+    //         labels: [
+    //           'Pendientes',
+    //           'Procesados',
+    //           'Finalizados'
+    //         ],
+    //         datasets: [{
+    //           label: 'Pedidos de hoy',
+    //           data: [300, 50, 100],
+    //           backgroundColor: [
+    //             'rgb(255, 99, 132)',
+    //             'rgb(54, 162, 235)',
+    //             'rgb(255, 205, 86)'
+    //           ]
+    //         }]
+    //     },
+    //     options: {
+    //         responsive:true,
+    //         scales: {
+    //         y: {
+    //             beginAtZero: true
+    //         }
+    //         }
+    //     }
+    // });
 
     document.getElementById('body').removeChild(document.getElementById('loader'));
 }

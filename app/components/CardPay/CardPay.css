@@ -174,3 +174,20 @@
     width: 400px;
 }
 
+.CardPay__addItems{
+    position: relative;
+}
+
+.CardPay__addItems>div{
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    width: 400px;
+    background-color: var(--bg-primary-light);
+}
+
+.CardPay__addItems>div>button{
+    width: 100%;
+    height: 35px;
+    display: block;
+}

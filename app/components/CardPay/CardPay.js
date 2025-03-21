@@ -1,8 +1,11 @@
+import useCreateItemcart from "../../hooks/useCreateItemcart.js";
+import useDeleteItemcart from "../../hooks/useDeleteItemcart.js";
 import useGenerate from "../../hooks/useGenerate.js";
 import useGetClients from "../../hooks/useGetClients.js";
 import useGetTypeIdentification from "../../hooks/useGetTypeIdentification.js";
 import usePayWays from "../../hooks/usePayWays.js";
 import useRound from "../../hooks/useRound.js";
+import useSearchProduct from "../../hooks/useSearchProduct.js";
 import loader from "../Loader/Loader.js";
 import Push from "../Push/Push.js";
 
@@ -21,9 +24,23 @@ export default async function CardPay({data,content}){
                 <label>${item.quantity}</label>
                 <input class="product-price" value="${item.price}">
                 ${(item.quantity>1) ? `<button class="product-desgloce" data-codigo="${item.item_id}" data-id="${item.id}" data-descuento="0" data-name="${item.name}" data-description="${item.description}" data-price="${item.price}" data-quantity="${item.quantity}">Desglozar item</button>` : ""}
+                <button data-codigo="${item.item_id}" data-id="${item.id}" class="product-delete" class="product-delete">Quitar</button>
             </div>
         `;
     });
+
+    detalle+=`
+        <div class="CardPay__addItems">
+            <label></label>
+            <input id="new-item-name" type="text" placeholder="Buscar producto">
+            <input id="new-item-size" type="number" value="1">
+            <input id="new-item-price" type="number" value="">
+            <button id="add-item-commander">Agregar al pedido actual</button>
+            <div id="content-new-items">
+
+            </div>
+        </div>
+    `;
 
     const template=`
         <div class="CardPay">
@@ -381,7 +398,7 @@ export default async function CardPay({data,content}){
         parent.removeChild(e.target.parentElement);
     });
 
-    content_details.addEventListener('click',(e)=>{
+    content_details.addEventListener('click',async (e)=>{
         if(e.target.matches('.check-item')){
             let checks=document.getElementsByClassName('check-item');
             checks=[].slice.call(checks);
@@ -406,10 +423,10 @@ export default async function CardPay({data,content}){
             const id=e.target.dataset.id;
             const description=e.target.dataset.description;
 
+            e.target.parentElement.parentElement.removeChild(e.target.parentElement.parentElement.children[e.target.parentElement.parentElement.children.length-1]);
             e.target.parentElement.parentElement.removeChild(e.target.parentElement);
-
+            
             //  Insertamos los nuevos productos
-
             for (let i = 0; i < cantidad; i++) {
                 content_details.insertAdjacentHTML('beforeend',`
                     <div>
@@ -417,14 +434,98 @@ export default async function CardPay({data,content}){
                         <label>${name}</label>
                         <label>1</label>
                         <input class="product-price" value="${price}">
-                    </div>    
+                        <button data-codigo="${codigo}" data-id="${id}" class="product-delete">Quitar</button>
+                    </div>
                 `);
             }
+
+            content_details.insertAdjacentHTML('beforeend',`
+                <div class="CardPay__addItems">
+                    <label></label>
+                    <input id="new-item-name" type="text" placeholder="Buscar producto">
+                    <input id="new-item-size" type="number" value="1">
+                    <input id="new-item-price" type="number" value="">
+                    <button id="add-item-commander">Agregar al pedido actual</button>
+                    <div id="content-new-items">
+
+                    </div>
+                </div>
+            `);
+
         }
+
+        if(e.target.matches('.Cart__resultItem')){
+            document.getElementById('new-item-name').value=e.target.dataset.name;
+            document.getElementById('new-item-name').dataset.id=e.target.dataset.id;
+            document.getElementById('new-item-name').dataset.codigo=e.target.dataset.item_id;
+            document.getElementById('new-item-price').value=e.target.dataset.price;
+            document.getElementById('content-new-items').innerHTML="";
+        }
+
+        if(e.target.matches('#add-item-commander')){
+            const data_new_item={
+                "item_id":Number(document.getElementById('new-item-name').dataset.id),
+                "quantity":Number(document.getElementById('new-item-size').value),
+                "order_id":data.id,
+                "notes":""
+            };
+
+            const create=await useCreateItemcart({
+                data:data_new_item
+            });
+            
+            if(create.status===200){
+
+                const producto=create.data;
+
+                content_details.insertAdjacentHTML('afterbegin',`
+                    <div>
+                        <input data-codigo="${producto.item_id}" data-id="${producto.id}" data-descuento="0" data-name="${producto.name}" data-description="${producto.description}" data-price="${producto.price}" data-quantity="${producto.quantity}" type="checkbox" class="check-item" checked>
+                        <label>${producto.name}</label>
+                        <label>${producto.quantity}</label>
+                        <input class="product-price" value="${producto.price}">
+                        ${(producto.quantity>1) ? `<button class="product-desgloce" data-codigo="${producto.item_id}" data-id="${producto.id}" data-descuento="0" data-name="${producto.name}" data-description="${producto.description}" data-price="${producto.price}" data-quantity="${producto.quantity}">Desglozar item</button>` : ""}
+                        <button data-codigo="${producto.item_id}" data-id="${producto.id}" class="product-delete">Quitar</button>
+                    </div>
+                `);
+
+                Push({
+                    text:'Producto agregado.'
+                });
+
+                document.getElementById('new-item-name').value="";
+                document.getElementById('new-item-size').value="";
+                document.getElementById('new-item-price').value="";
+                
+            }else{
+                Push({
+                    text:'No se pudo agregar el producto'
+                });
+            }
+        }
+
+        if(e.target.matches('.product-delete')){
+            const id=e.target.dataset.id;
+            const del=await useDeleteItemcart({id});
+
+            if(del.status===200){
+                Push({
+                    text:'Producto eliminado.'
+                });
+
+                e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+                
+            }else{
+                Push({
+                    text:'No se pudo eliminar el producto'
+                });
+            }
+
+        }
+
     });
 
     content_details.addEventListener('change',(e)=>{
-        console.log(e)
         if(e.target.matches('.product-price')){
 
             let prices=document.getElementsByClassName('product-price');
@@ -450,19 +551,48 @@ export default async function CardPay({data,content}){
             let new_total=0;
 
             prices.map((price)=>{
-                console.log(price);
                 if(price.checked){
-                    new_total+=Number(price.dataset.price);
+                    new_total+=Number(price.dataset.price)*Number(price.dataset.quantity);
                 }
             });
-
-            console.log(new_total)
 
             document.getElementById('total-pay').setAttribute('data-total',new_total);
             document.getElementById('total-pay').textContent=`$ ${new_total}`;
         }
-
     });
+
+
+    content_details.addEventListener('keyup',async (e)=>{
+        if(e.target.matches('#new-item-name')){
+            const content_new_items=document.getElementById('content-new-items');
+
+            if(e.target.value!=="" & e.target.value.length>3){
+                const results=await useSearchProduct({
+                    contributor_id:localStorage.getItem('cc'),
+                    name:e.target.value
+                });
+    
+                content_new_items.innerHTML="";
+                
+                results.data.map(item=>{
+                    content_new_items.insertAdjacentHTML('beforeend',`
+                        <button 
+                            data-id="${item.id}"
+                            data-name="${item.name}"
+                            data-price="${item.price}"  
+                            data-description="${item.description}" 
+                            data-descuento="${0}"
+                            data-subtotal="${0}"  
+                            data-tax="${0}"
+                            class="Cart__resultItem"
+                        >${item.name}</button>
+                    `);
+                });
+            }else{
+                content_new_items.innerHTML="";
+            }
+        }
+    })
 
     document.getElementById('body').removeChild(document.getElementById('loader'));
 }
