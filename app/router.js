@@ -18,6 +18,7 @@ import Product from "./pages/Product/Product.js";
 import Products from "./pages/Products/Products.js";
 import Reporte from "./pages/Reporte/Reporte.js";
 import Setting from "./pages/Setting/Setting.js";
+import Tickets from "./pages/Tickets/Tickets.js";
 import Vouchers from "./pages/Vouchers/Vouchers.js";
 
 export default async function Router({title,body,app}){
@@ -84,6 +85,11 @@ export default async function Router({title,body,app}){
         }else if(localStorage.getItem('ur')==='AP-UM2'){
             Commander({app});
         }
+    }else if(hash==="#/tickets" & useSession()){
+
+        title.textContent="Tickets";
+        loader();
+        Tickets({app});
 
     }else if(hash.split('/')[1]==="menus" & useSession()){
 

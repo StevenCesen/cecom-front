@@ -13,8 +13,6 @@ export default async function CardPay({data,content}){
 
     let detalle="",total=0;
 
-    console.log(data)
-
     data.details.map(item=>{
         total+=Number(item.price)*Number(item.quantity);
         detalle+=`
@@ -604,20 +602,20 @@ export default async function CardPay({data,content}){
         }
     })
 
-    document.getElementById('dsct-pay').addEventListener('keyup',(e)=>{
-        if(e.target.matches('#dsct-pay')){
-            let prices=document.getElementsByClassName('check-item');
-            prices=[].slice.call(prices);
-            if(e.target.value>0){
-                prices.map((price)=>{
-                    if(price.checked){
-                        price.parentElement.children[3].value=price.dataset.price*(e.target.value/100)
-                        console.log(price)
-                    }
-                });
-            }
-        }
-    })
+    // document.getElementById('dsct-pay').addEventListener('keyup',(e)=>{
+    //     if(e.target.matches('#dsct-pay')){
+    //         let prices=document.getElementsByClassName('check-item');
+    //         prices=[].slice.call(prices);
+    //         if(e.target.value>0){
+    //             prices.map((price)=>{
+    //                 if(price.checked){
+    //                     price.parentElement.children[3].value=price.dataset.price*(e.target.value/100)
+    //                     console.log(price)
+    //                 }
+    //             });
+    //         }
+    //     }
+    // })
 
     document.getElementById('body').removeChild(document.getElementById('loader'));
 }

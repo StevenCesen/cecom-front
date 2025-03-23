@@ -25,6 +25,7 @@ export default function Nav({body}){
                 <div>
                     <a href="#/pedidos">Pedidos</a>
                 </div>
+                
                 <div>
                     <a href="#/productos">Productos</a>
                 </div>
