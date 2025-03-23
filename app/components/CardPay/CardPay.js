@@ -93,11 +93,7 @@ export default async function CardPay({data,content}){
                 <label id="total-pay" data-total="${total}">$ ${total}</label>
             </div>
 
-            <div class="CardPay__descuento">
-                <label>Descuento:</label>
-                <input id="dsct-pay" placeholder="0">
-                <button>Aplicar descuento</button>
-            </div>
+            
 
             <h3>Forma y tipo de pago</h3>
 
@@ -148,6 +144,14 @@ export default async function CardPay({data,content}){
     `;
 
     content.insertAdjacentHTML('beforeend',template);
+
+    /*
+    <div class="CardPay__descuento">
+                <label>Descuento:</label>
+                <input id="dsct-pay" placeholder="0">
+                <button>Aplicar descuento</button>
+            </div>
+    */
 
     const content_details=document.getElementById('detalle');
     const btn_new_payway=document.getElementById('new-payway');
