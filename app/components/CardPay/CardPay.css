@@ -104,6 +104,15 @@
     font-weight: bold;
 }
 
+.CardPay__descuento{
+
+}
+
+.CardPay__descuento>input{
+    width: 60px;
+    text-align: center;
+}
+
 .CardPay__payways{
     width: 100%;
     margin-bottom: 20px;

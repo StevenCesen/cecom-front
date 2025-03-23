@@ -237,7 +237,12 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                                 'detail':JSON.stringify(detalle_comprobante),
                                 'nro_estab':info_estab.estab,
                                 'concept':`CONSUMO EN ESTABLECIMIENTO ${contributor.commercial_name}`,
-                                'contributor_name':contributor.name
+                                'contributor_name':contributor.name,
+                                'context':context,
+                                'order':order,
+                                //Información pagos
+                                'info_pay':JSON.stringify(info_pay),
+                                'nota':nota
                             };
             
                             console.log(comprobante)

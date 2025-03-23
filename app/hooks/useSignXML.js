@@ -103,9 +103,10 @@ export default async function useSignXML({
                     precio_unitario:product.price,
                     descuento:product.descuento,
                     importe:product.subtotal,
-                    iva:product.tax
+                    iva:product.tax,
+                    itemcart_id:product.id
                 });
-
+                
                 xml+=`<detalle>\n`;
                     xml+=`<codigoPrincipal>${product.id}</codigoPrincipal>\n`;
                     xml+=`<codigoAuxiliar>${product.id}</codigoAuxiliar>\n`;

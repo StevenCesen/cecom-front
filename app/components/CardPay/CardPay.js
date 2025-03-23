@@ -93,6 +93,12 @@ export default async function CardPay({data,content}){
                 <label id="total-pay" data-total="${total}">$ ${total}</label>
             </div>
 
+            <div class="CardPay__descuento">
+                <label>Descuento:</label>
+                <input id="dsct-pay" placeholder="0">
+                <button>Aplicar descuento</button>
+            </div>
+
             <h3>Forma y tipo de pago</h3>
 
             <div class="CardPay__payways">
@@ -559,8 +565,8 @@ export default async function CardPay({data,content}){
             document.getElementById('total-pay').setAttribute('data-total',new_total);
             document.getElementById('total-pay').textContent=`$ ${new_total}`;
         }
-    });
 
+    });
 
     content_details.addEventListener('keyup',async (e)=>{
         if(e.target.matches('#new-item-name')){
@@ -590,6 +596,21 @@ export default async function CardPay({data,content}){
                 });
             }else{
                 content_new_items.innerHTML="";
+            }
+        }
+    })
+
+    document.getElementById('dsct-pay').addEventListener('keyup',(e)=>{
+        if(e.target.matches('#dsct-pay')){
+            let prices=document.getElementsByClassName('check-item');
+            prices=[].slice.call(prices);
+            if(e.target.value>0){
+                prices.map((price)=>{
+                    if(price.checked){
+                        price.parentElement.children[3].value=price.dataset.price*(e.target.value/100)
+                        console.log(price)
+                    }
+                });
             }
         }
     })
