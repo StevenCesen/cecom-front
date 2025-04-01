@@ -1,5 +1,5 @@
-export const URL_BASEs='https://softsen.space/anyplace/public/api/';
-export const URL_BASE='http://127.0.0.1:8000/api/';
+export const URL_BASE='https://softsen.space/anyplace/public/api/';
+export const URL_BASEs='http://127.0.0.1:8000/api/';
 export const COMMERCIAL_TYPE='CECOM EC';
 /**
  * AMBIENTE DE FACTURACIÓN
