@@ -1,9 +1,11 @@
 import CardModal from "../../components/CardModal/CardModal.js";
 import CardNewTicket from "../../components/CardNewTicket/CardNewTicket.js";
-import useGetOrders from "../../hooks/useGetOrders.js";
+import CardOrder from "../../components/CardOrder/CardOrder.js";
+import CardTicket from "../../components/CardTicket/CardTicket.js";
+import useGetTickets from "../../hooks/useGetTickets.js";
 
 export default async function Tickets({app}) {
-    const orders=await useGetOrders({contributor_id:localStorage.getItem('cc'),filters:''});
+    const orders=await useGetTickets({contributor_id:localStorage.getItem('cc'),filters:`status=EN PROCESO`});
 
     const template=`
         <div class="Orders">
@@ -37,6 +39,21 @@ export default async function Tickets({app}) {
             template:await CardNewTicket(),
             content:document.getElementById('body')
         });
+    });
+    
+    orders.data.map(order=>{
+
+        CardTicket({
+            id:order.id,
+            client_name:order.title,
+            table:order.date_create,
+            floor:order.date_finish,
+            status:order.status,
+            date:order.last_interaction,
+            total:'',
+            content:content
+        });
+        
     });
 
     document.getElementById('body').removeChild(document.getElementById('loader'));

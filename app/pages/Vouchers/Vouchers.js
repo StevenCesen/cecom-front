@@ -1,8 +1,10 @@
 import CardDetailVoucher from "../../components/CardDetailVoucher/CardDetailVoucher.js";
 import CardModal from "../../components/CardModal/CardModal.js";
+import CardPay from "../../components/CardPay/CardPay.js";
 import CardVoucher from "../../components/CardVoucher/CardVoucher.js";
 import Cart from "../../components/Cart/Cart.js";
 import loader from "../../components/Loader/Loader.js";
+import useGetContributor from "../../hooks/useGetContributor.js";
 import useGetVoucher from "../../hooks/useGetVoucher.js";
 
 export default async function Vouchers({app,data}) {
@@ -57,11 +59,30 @@ export default async function Vouchers({app,data}) {
         });
     });
 
-    btn_new_command.addEventListener('click',(e)=>{
-        CardModal({
-            template:Cart({mode:'with-search'}),
-            content:document.getElementById('body')
+    btn_new_command.addEventListener('click',async (e)=>{
+        // CardModal({
+        //     template:Cart({mode:'with-search'}),
+        //     content:document.getElementById('body')
+        // });
+
+        loader();
+
+        let data_contributor=await useGetContributor({contributor_id:localStorage.getItem('cc')});
+
+        const contributor=data_contributor.contributor;
+        contributor.cert=data_contributor.cert;
+
+        await CardPay({
+            data:{
+                details:[],
+                contributor:contributor,
+                establishment:data_contributor.establishment,
+                id:"without-order"
+            },
+            context:"",
+            content:content
         });
+
     });
 
     content.addEventListener('click',async (e)=>{

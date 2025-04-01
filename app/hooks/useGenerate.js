@@ -60,15 +60,12 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
 
     //  5) Generamos la clave de acceso
     let clave_acceso=date_emision+type_doc+ruc+ambiente+estab+info_estab.pto_emi+pad((info_estab.nro+1),9)+'122456781';
+
     let mod11=await useCheckMod11({
         clave_acceso:clave_acceso
     });
 
-    console.log(`MOD_11: ${mod11}`);
-
     clave_acceso+=mod11;
-
-    console.log(`CLAVE_ACCESS: ${clave_acceso}`);
 
     let [xml_firmado,detalle_comprobante]=await useSignXML({
         contributor,
@@ -94,8 +91,6 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
         client_dir,
         nota
     });
-
-    console.log(xml_firmado);
 
     try {
         //  8) Enviamos el XML a recepción del SRI
@@ -170,7 +165,8 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                     Push({
                         text:response_voucher.message
                     });
-                    document.getElementById('modal').parentElement.removeChild(document.getElementById('modal'));
+
+                    return response_voucher;
                 }else{
                     Push({
                         text:response_voucher.message
@@ -294,6 +290,10 @@ export default async function useGenerate({contributor,info_estab,info_doc,date,
                     }
                 }
 
+            }else{
+                Push({
+                    text:reception_SRI.message
+                });
             }
         }
 

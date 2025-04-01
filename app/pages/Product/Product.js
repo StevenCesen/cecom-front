@@ -43,7 +43,7 @@ export default async function Product({id,app}) {
 
             <p class="Product_price">
                 $
-                <input type="number" id="price-product" value="${data.price}">
+                <input type="number" value="${data.price}">
             </p>
 
             <label>
@@ -136,15 +136,16 @@ export default async function Product({id,app}) {
 
         //  Validamos los datos
         if(
-            name_product!=="" &
-            description_product!=="" &
-            size_product!=="" &
-            price_product!=="" &
-            (category_product!=="") &
-            tax_product!=="" &
+            name_product!=="" ||
+            description_product!=="" ||
+            size_product!=="" ||
+            price_product!=="" ||
+            (category_product!=="") ||
+            tax_product!=="" ||
             state_product!==""
         ){  
-            const data={
+
+            const data_update={
                 'name':name_product,
                 'code_aux':code_product,
                 'quantity':size_product,
@@ -155,17 +156,18 @@ export default async function Product({id,app}) {
                 'state':state_product,
                 'type_id':category_product
             };
-            
+
             //  Creamos el producto
             const request_product=await fetch(`${URL_BASE}products/${id}`,{
                 method:'PUT',
                 headers: {
                     Accept: 'application/json'
                 },
-                body:new URLSearchParams(data)
+                body:new URLSearchParams(data_update)
             });
         
             const response_product=await request_product.json();
+
             if(response_product.status===200){
                 Push({
                     text: 'Producto actualizado correctamente.'

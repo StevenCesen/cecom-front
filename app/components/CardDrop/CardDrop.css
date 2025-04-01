@@ -1,0 +1,134 @@
+.CardDrop{
+    width: 100%;
+    margin: 20px 0;
+    position: relative;
+}
+
+.CardDrop__button{
+    width: 400px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-primary-light);
+    border: 1px solid rgb(211, 211, 211);
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.CardDrop__button:focus,.CardDrop__button:hover,.CardDrop__item:hover,.CardDrop__item:focus{
+    background-color: rgb(230, 230, 230) !important;
+}
+
+.CardDrop__contentSearch{
+    display: none;
+    top: 40px;
+    position: absolute;
+    width: 400px;
+    margin: 20px 0;
+    background-color: var(--bg-primary-light);
+    border: 1px solid rgb(216, 216, 216);
+}
+
+.CardDrop__contentSearch--active{
+    display: block !important;
+}
+
+.CardDrop__search{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: var(--bg-primary-light);
+}
+
+.CardDrop__search>input{
+    width: 100%;
+    height: 40px;
+    background-color: inherit;
+    border: none;
+    font-size: 14px;
+}
+
+.CardDrop__search>input:hover,.CardDrop__search>input:focus{
+    outline: none;
+}
+
+.CardDrop__results{
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    overflow-y: auto;
+    background-color: var(--bg-primary-light);
+}
+
+.CardDrop__item{
+    width: 100%;
+    height: 40px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    background-color: inherit;
+    border: none;
+}
+
+.CardDrop__item>label:first-child{
+    text-align: left;
+}
+
+@media screen and (min-width:100px) and (max-width:650px) {
+    .CardDrop{
+        margin: 10px 0;
+    }
+    
+    .CardDrop__button{
+        width: 100%;
+        height: 40px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    
+    .CardDrop__contentSearch{
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    .CardDrop__search{
+        width: 100%;
+        height: 40px;
+    }
+    
+    .CardDrop__search>input{
+        width: 100%;
+        height: 40px;
+        background-color: inherit;
+        border: none;
+        font-size: 14px;
+    }
+    
+    .CardDrop__search>input:hover,.CardDrop__search>input:focus{
+        outline: none;
+    }
+    
+    .CardDrop__results{
+        width: 100%;
+        height: 400px;
+    }
+    
+    .CardDrop__item{
+        width: 100%;
+        height: 40px !important;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        background-color: inherit;
+        border: none;
+    }
+}

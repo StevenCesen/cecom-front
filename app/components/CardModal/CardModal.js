@@ -1,6 +1,7 @@
 import { URL_BASE } from "../../hooks/env.js";
 import useCreateMenu from "../../hooks/useCreateMenu.js";
 import useCreateOrder from "../../hooks/useCreateOrder.js";
+import useCreateTicket from "../../hooks/useCreateTicket.js";
 import useDeleteCartItem from "../../hooks/useDeleteCartItem.js";
 import useGenerate from "../../hooks/useGenerate.js";
 import useGetClients from "../../hooks/useGetClients.js";
@@ -598,6 +599,192 @@ export default function CardModal({template,content}){
                     text:'Ingrese el nombre y apellido del cliente'
                 });
             }
+        });
+    }else if(!!document.getElementById('save-ticket')){
+        const btn_file_image=document.getElementById('file-ticket');
+        const content_image=document.getElementById('preview-image');
+        const add_complement=document.getElementById('add-complement');
+        const content_complements=document.getElementById('content-complements');
+        const search_product=document.getElementById('code-product');
+        const content_results=document.getElementById('search-results');
+        const content_products=document.getElementById('content-products');
+        const btn_save_ticket=document.getElementById('save-ticket');
+
+        btn_file_image.addEventListener('change',(e)=>{
+            content_image.setAttribute('src',URL.createObjectURL(e.target.files[0]));
+        });
+
+        add_complement.addEventListener('click',(e)=>{
+
+            const text_complement=document.getElementById('text-complement');
+            const quantity_complement=document.getElementById('quantity-complement');
+
+            content_complements.insertAdjacentHTML('beforeend',`
+                <div 
+                    data-text="${text_complement.value}"
+                    data-quantity="${quantity_complement.value}"
+                    data-file="${URL.createObjectURL(btn_file_image.files[0])}"
+                    class="CardNewTicket__itemcomplement"
+                >
+                    <label>${text_complement.value}</label>
+                    <label>${quantity_complement.value}</label>
+                    <img src="${URL.createObjectURL(btn_file_image.files[0])}">
+                </div>
+            `);
+            
+            text_complement.value="";
+            quantity_complement.value="";
+        });
+
+        search_product.addEventListener('keyup',async (e)=>{
+            if(e.target.value!=="" & e.target.value.length>4){
+                const results=await useSearchProduct({
+                    contributor_id:localStorage.getItem('cc'),
+                    name:e.target.value
+                });
+
+                content_results.innerHTML="";
+                
+                results.data.map(item=>{
+                    content_results.insertAdjacentHTML('beforeend',`
+                        <button 
+                            data-id="${item.id}"
+                            data-name="${item.name}"
+                            data-price="${item.price}"  
+                            data-description="${item.description}" 
+                            data-descuento="${0}"
+                            data-subtotal="${0}"  
+                            data-tax="${0}"
+                            class="Cart__resultItem"
+                        >${item.name}</button>
+                    `);
+                });
+            }else{
+                content_results.innerHTML="";
+            }
+        });
+
+        content_results.addEventListener('click',(e)=>{
+            // Delegación de evento para agregar un producto al listado
+            if(e.target.matches('.Cart__resultItem')){
+                CartItem({
+                    id:e.target.dataset.id,
+                    name:e.target.dataset.name,
+                    description:e.target.dataset.description,
+                    price:e.target.dataset.price,
+                    content:content_products
+                });
+                
+                content_results.innerHTML="";
+            }
+        });
+
+        btn_save_ticket.addEventListener('click',async (e)=>{
+            const name=document.getElementById('name-ticket');
+            const date_ticket=document.getElementById('date-ticket');
+            const description=document.getElementById('description-ticket');
+            const client=document.getElementById('client-ci');
+
+            let complements=document.getElementsByClassName('CardNewTicket__itemcomplement');
+            complements=[].slice.call(complements);
+
+            let products=document.getElementsByClassName('Cart__itemITEM');
+            products=[].slice.call(products);
+
+            const value_pay=document.getElementById('value-pay');
+            const pay_way=document.getElementById('pay-way');
+            const pay_type=document.getElementById('pay-type');
+
+            loader();
+
+            if(name.value!==""){
+                if(date_ticket.value!==""){
+                    if(description.value!==""){
+
+                        if(client.value!==""){
+                            if(products.length>0){
+
+                                if((value_pay.value>0 & pay_type.value!=="" & pay_way.value!=="") | value_pay.value===0){
+                                    let items_complements=[],item_products=[];
+    
+                                    complements.map(complement=>{
+                                        items_complements.push({
+                                            text:complement.dataset.text,
+                                            quantity:complement.dataset.quantity,
+                                            media:complement.dataset.file
+                                        });
+                                    });
+    
+                                    products.map(product=>{
+                                        item_products.push({
+                                            id:product.dataset.id, 
+                                            price:product.dataset.price, 
+                                            name:product.dataset.name, 
+                                            description:product.dataset.description, 
+                                            descuento:product.dataset.descuento, 
+                                            subtotal:product.dataset.subtotal,  
+                                            tax:product.dataset.tax, 
+                                            quantity:product.value
+                                        });
+                                    });
+                                    
+                                    const data={
+                                        name:name.value,
+                                        date_finish:date_ticket.value,
+                                        description:description.value,
+                                        client_identification:client.value,
+                                        complements:JSON.stringify(items_complements),
+                                        products:JSON.stringify(item_products),
+                                        value_pay:value_pay.value,
+                                        pay_type:pay_type.value,
+                                        pay_way:pay_way.value,
+                                        user_id:localStorage.getItem('ui'),
+                                        contributor_id:localStorage.getItem('cc')
+                                    };
+                                    
+                                    console.log(data);
+    
+                                    const create_ticket=await useCreateTicket({data});
+
+                                    Push({
+                                        text:'Ticket creado correctamente'
+                                    });
+    
+                                }else{
+                                    Push({
+                                        text:'Por favor, complete la forma y tipo de pago'
+                                    });
+                                }
+    
+                            }else{
+                                Push({
+                                    text:'Ingrese productos al ticket'
+                                });
+                            }
+                        }else{
+                            Push({
+                                text:'Ingrese identificación del cliente'
+                            });
+                        }
+
+                    }else{
+                        Push({
+                            text:'Ingrese una descripción para el ticket'
+                        });
+                    }
+                }else{
+                    Push({
+                        text:'Ingrese una fecha de entrega para el ticket'
+                    });
+                }
+            }else{
+                Push({
+                    text:'Ingrese un motivo para el ticket'
+                });
+            }
+
+            document.getElementById('body').removeChild(document.getElementById('loader'));
+
         });
     }
 

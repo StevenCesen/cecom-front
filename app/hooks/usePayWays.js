@@ -1,6 +1,7 @@
 export default function usePayWays(){
     const select=`
         <select id="pay-way">
+            <option value="">-- Seleccionar --</option>
             <option value="01">EFECTIVO - SIN UTILIZACIÓN DEL SISTEMA FINANCIERO</option>
             <option value="15">COMPENSACIÓN DE DEUDAS</option>
             <option value="16">TARJETA DE DÉBITO</option>

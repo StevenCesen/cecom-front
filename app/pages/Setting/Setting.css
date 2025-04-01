@@ -128,6 +128,18 @@
     align-self: flex-end;
 }
 
+.Setting__text{
+    text-align: center;
+}
+
+.Setting__qr{
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 @media screen and (min-width:100px) and (max-width:650px) {
     .Setting{

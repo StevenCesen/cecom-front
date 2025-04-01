@@ -96,7 +96,7 @@ export default async function useSignXML({
             items.map((product)=>{
 
                 detalle_comprobante.push({
-                    codigo:(product.codigo!==undefined) ? product.codigo : product.id,
+                    codigo:(product.codigo!==undefined & product.codigo!=="") ? product.codigo : product.id,
                     nombre:product.name.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").trimStart().trimEnd(),
                     descripcion:product.description.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").trimStart().trimEnd(),
                     cantidad:product.quantity,

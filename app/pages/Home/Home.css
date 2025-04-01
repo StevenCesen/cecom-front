@@ -16,11 +16,12 @@
 }
 
 .Home__head>div>label{
+    font-size: 20px;
     color: var(--color-primary-light);
 }
 
 .Home__head>div>h3{
-    font-size: 55px;
+    font-size: 70px;
     color: var(--color-ternary-light);
 }
 
@@ -33,12 +34,12 @@
 }
 
 .Home__metrics{
-    width: 100%;
-    padding: 10px 10px;
+    width: 80%;
     display: grid;
     grid-template-columns: calc(100% - 700px) 700px;
     gap: 20px;
     box-sizing: border-box;
+    margin: 20px auto;
 }
 
 .Home__labels{
@@ -46,8 +47,6 @@
     height: 140px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    margin: 10px 10px;
-    padding: 10px 10px;
     gap:10px 10px;
     box-sizing: border-box;
 }
@@ -64,9 +63,64 @@
     font-size: 40px;
 }
 
-.Home__metrics>canvas{
-    width: 650px !important;
-    height: 600px !important;
+.Home__graphics{
+    width: 80%;
+    background-color: var(--bg-primary-light);
+    border: 1px solid rgb(216, 216, 216);
+    margin: 0 auto;
+    margin-bottom: 20px;
+    padding: 20px 20px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 70% 30%;
+}
+
+.Home__graphics>div>canvas{
+    width: 95% !important;
+    height: 450px !important;
+}
+
+.Home__contentBars{
+    width: 100%;
+    height: 450px;
+    margin-top: 20px;
+    overflow-y: auto;
+}
+
+.Home__metricsBar{
+    width: 100%;
+    padding: 20px 0;
+}
+
+.Home__metricsBar>div{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.Home__metricsBar>span{
+    display: block;
+    margin-top: 10px;
+    height: 10px;
+    border-radius: 5px;
+    position: relative;
+    z-index: 10;
+    background-color: var(--bg-primary-dark);
+}
+
+.Home__metricsBar>div::after{
+    content: "";
+    width: 100% !important;
+    height: 10px;
+    position: absolute;
+    bottom: -20px;
+    border-radius: 5px;
+    left: 0;
+    background-color: rgb(224, 224, 224);
+    z-index: 9;
 }
 
 @media screen and (min-width:100px) and (max-width:650px) {

@@ -94,10 +94,9 @@ export default async function Orders({app}) {
 
             const data=await useGetOrder({id});
 
-            console.log(data);
-
             await CardPay({
                 data:data,
+                context:'ORDER',
                 content:app
             });
 

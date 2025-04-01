@@ -2,236 +2,260 @@ import useCreateItemcart from "../../hooks/useCreateItemcart.js";
 import useDeleteItemcart from "../../hooks/useDeleteItemcart.js";
 import useGenerate from "../../hooks/useGenerate.js";
 import useGetClients from "../../hooks/useGetClients.js";
+import useGetProducts from "../../hooks/useGetProducts.js";
 import useGetTypeIdentification from "../../hooks/useGetTypeIdentification.js";
 import usePayWays from "../../hooks/usePayWays.js";
 import useRound from "../../hooks/useRound.js";
 import useSearchProduct from "../../hooks/useSearchProduct.js";
+import CardDrop from "../CardDrop/CardDrop.js";
+import CardInformationAdditional from "../CardInformationAdditional/CardInformationAdditional.js";
+import CardPayWay from "../CardPayWay/CardPayWay.js";
 import loader from "../Loader/Loader.js";
 import Push from "../Push/Push.js";
 
-export default async function CardPay({data,content}){
+export default async function CardPay({data,context,content}){
 
     let detalle="",total=0;
 
-    data.details.map(item=>{
-        total+=Number(item.price)*Number(item.quantity);
-        detalle+=`
-            <div>
-                <input data-codigo="${item.item_id}" data-id="${item.id}" data-descuento="0" data-name="${item.name}" data-description="${item.description}" data-price="${item.price}" data-quantity="${item.quantity}" type="checkbox" class="check-item" checked>
-                <label>${item.name}</label>
-                <label>${item.quantity}</label>
-                <input class="product-price" value="${item.price}">
-                ${(item.quantity>1) ? `<button class="product-desgloce" data-codigo="${item.item_id}" data-id="${item.id}" data-descuento="0" data-name="${item.name}" data-description="${item.description}" data-price="${item.price}" data-quantity="${item.quantity}">Desglozar item</button>` : ""}
-                <button data-codigo="${item.item_id}" data-id="${item.id}" class="product-delete" class="product-delete">Quitar</button>
-            </div>
-        `;
-    });
+    if(data.details.length>0){
+        data.details.map(item=>{
+            total+=Number(item.price)*Number(item.quantity);
+            
+            detalle+=`
+                <div class="CardPay__listItem">
+                    <label>
+                        <input 
+                            data-codigo="${item.item_id}" 
+                            data-id="${item.id}" 
+                            data-descuento="0" 
+                            data-name="${item.name}" 
+                            data-description="${item.description}" 
+                            data-price="${item.price}" 
+                            data-quantity="${item.quantity}" 
+                            type="checkbox" 
+                            class="check-item" 
+                            checked
+                        >
+                        <label>${item.name}</label>
+                    </label>
+                    <label>${item.quantity}</label>
+                    
+                    <input type="number" class="product-price" value="${item.price}">
+                    <input type="number" class="product-price" value="0.00">
+                    <input type="number" class="product-price" value="0.00">
+                    <label>${Number(item.quantity)*Number(item.price)}</label>
 
-    detalle+=`
-        <div class="CardPay__addItems">
-            <label></label>
-            <input id="new-item-name" type="text" placeholder="Buscar producto">
-            <input id="new-item-size" type="number" value="1">
-            <input id="new-item-price" type="number" value="">
-            <button id="add-item-commander">Agregar al pedido actual</button>
-            <div id="content-new-items">
+                    <div>
+                        <button 
+                            data-codigo="${item.item_id}" 
+                            data-id="${item.id}" 
+                            class="product-delete" 
+                            class="product-delete"
+                        >Quitar</button>
 
-            </div>
-        </div>
-    `;
+                        ${(item.quantity>1) 
+                            ? 
+                                `<button 
+                                    class="product-desgloce" 
+                                    data-codigo="${item.item_id}" 
+                                    data-id="${item.id}" 
+                                    data-descuento="0" 
+                                    data-name="${item.name}" 
+                                    data-description="${item.description}" 
+                                    data-price="${item.price}" 
+                                    data-quantity="${item.quantity}"
+                                >Desglozar</button>` 
+                            :   
+                                ""
+                        }
+                    </div>
+                </div>
+            `;
+        });
+    }
 
     const template=`
         <div class="CardPay">
             <button class="CardPay__close" id="close-pay">Regresar</button>
 
-            <h3>Información del cliente</h3>
+            <h3>Nueva factura</h3>
 
-            <div class="CardPay__client">
-                <label>
-                    Nombre del cliente
-                    <input id="name-client" type="text" placeholder="Escribe o busca aquí">
-                </label>
-                <label>
-                    Cédula
-                    <input id="identification-client" type="text" placeholder="Escribe aquí">
-                </label>
-                <label>
-                    Dirección
-                    <input id="direction-client" type="text" placeholder="Escribe aquí">
-                </label>
-                <label>
-                    Teléfono
-                    <input id="phone-client" type="text" placeholder="Escribe aquí">
-                </label>
-                <label>
-                    Correo
-                    <input id="email-client" type="text" placeholder="Escribe aquí">
-                </label>
-
-                <label>
-                    Fecha
-                    <input id="date" type="date">
-                </label>
-                
-                <div class="CardPay__result" id="client-results">
-
-                </div>
-            </div>
-
-            <h3>Detalle</h3>
-
-            <div class="CardPay__detail" id="detalle">
-                ${detalle}
-            </div>
-
-            <h3>Totales</h3>
-
-            <div class="CardPay__totals">
-                <label>Total a cobrar:</label>
-                <label id="total-pay" data-total="${total}">$ ${total}</label>
-            </div>
-
-            
-
-            <h3>Forma y tipo de pago</h3>
-
-            <div class="CardPay__payways">
-                <div id="content-payways">
-                    <div class="CardPay__payway">
+            <div class="CardPay__section">
+                <div class="CardPay__products">
+                    <h2>Productos y servicios</h2>
+                    <span>Agregue los productos o servicios a facturar</span>
+                    
+                    <div class="CardPay__SearchProducts">
+                        <h3>Agregar nuevo artículo</h3>
+                        <div class="CardPay__search" id="search-product">
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="CardPay__previewProduct">
                         <label>
-                            Forma de pago
-                            <select class="pay-way">
-                                <option value="01">EFECTIVO - SIN UTILIZACIÓN DEL SISTEMA FINANCIERO</option>
-                                <option value="15">COMPENSACIÓN DE DEUDAS</option>
-                                <option value="16">TARJETA DE DÉBITO</option>
-                                <option value="17">DINERO ELECTRÓNICO</option>
-                                <option value="18">TARJETA PREPAGO</option>
-                                <option value="19">TARJETA DE CRÉDITO</option>
-                                <option value="20">OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO</option>
-                                <option value="21">ENDOSO DE TÍTULOS</option>
+                            Cantidad
+                            <input type="number" id="new-item-size" step="0.01" value="1">
+                        </label>
+                        <label>
+                            Precio
+                            <input type="number" id="new-item-price" step="0.01" value="0">
+                        </label>
+                        <label>
+                            Descuento
+                            <input type="number" id="new-item-dscto" step="0.01" value="1">
+                        </label>
+                        <label>
+                            IVA
+                            <select id="new-item-iva">
+                                <option value="0">NO APLICA</option>
+                                <option selected value="0">IVA 0%</option>
+                                <option value="5">IVA 5%</option>
+                                <option value="12">IVA 12%</option>
+                                <option value="15">IVA 15%</option>
                             </select>
                         </label>
+                    </div>
 
-                        <label>
-                            Tipo de pago
-                            <select class="pay-type">
-                                <option value="EFECTIVO">EFECTIVO</option>
-                                <option value="AHORITA">AHORITA - BANCO DE LOJA</option>
-                                <option value="DE UNA">DE UNA - BANCO PICHINCHA</option>
-                                <option value="TARJETA CREDITO">TARJETA DE CRÉDITO - DATAFAST</option>
-                                <option value="TARJETA DEBITO">TARJETA DE DEBITO - DATAFAST</option>
-                            </select>
-                        </label>
-                        <label>
-                            Valor
-                            <input type="text" class="pay-value" value="0">
-                        </label>
-                        <button class="CardPay__paywayDelete">Eliminar</button>
+                    <div class="CardPay__action">
+                        <strong>Subtotal: </strong>
+                        <button id="add-item-commander">Agregar item</button>
+                    </div>
+
+                    <div class="CardPay__contentlist">
+                        <div class="CardPay__listHead">
+                            <label>Nombre</label>
+                            <label>Cantidad</label>
+                            <label>Precio</label>
+                            <label>Descuento</label>
+                            <label>IVA</label>
+                            <label>Total</label>
+                            <label>Acciones</label>
+                        </div>
+                        <div id="content-items">
+                            ${detalle}
+                        </div>
                     </div>
                 </div>
-                <button id="new-payway">Nueva forma de pago</button>
+
+                <div class="CardPay__datesInvoice">
+                    <div class="CardPay__datesClient" id="content-dates-invoice">
+                        <h2>Datos de la factura</h2>
+                        <span>Elija un cliente</span>
+
+                        <label class="CardPay__date">
+                            Fecha de emisión
+                            <input type="date" id="date">
+                        </label>
+                    </div>
+
+                    <div class="CardPay__client" id="content-dates-client">
+                        <h2>Cliente seleccionado</h2>
+                        <span>Con estos datos se generará la factura electrónica</span>
+
+                        <div>
+                            <label>
+                                Nombre del cliente
+                                <input id="name-client" type="text" placeholder="Escribe o busca aquí">
+                            </label>
+                            <label>
+                                Cédula
+                                <input id="identification-client" type="text" placeholder="Escribe aquí">
+                            </label>
+                            <label>
+                                Dirección
+                                <input id="direction-client" type="text" placeholder="Escribe aquí">
+                            </label>
+                            <label>
+                                Teléfono
+                                <input id="phone-client" type="text" placeholder="Escribe aquí">
+                            </label>
+                            <label>
+                                Correo
+                                <input id="email-client" type="text" placeholder="Escribe aquí">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="CardPay__datesResumen">
+                        <h2>Resumen</h2>
+                        <span></span>
+
+                        <div class="CardPay__totals">
+                            <label>Total a cobrar:</label>
+                            <label id="total-pay" data-total="${total}">$ ${total}</label>
+                        </div>
+                    </div>
+
+                    <div class="CardPay__datesResumen" id="content-pay-ways">
+                        <h2>Forma de pago</h2>
+                        <span>Agrega todas las formas de pago que se realicen en esta factura</span>
+
+                        <button class="CardPay__btnGenerate" id="btn-new-pay">Agregar forma de pago</button>
+                    </div>
+
+                    <div class="CardPay__datesResumen" id="content-pay-adicional">
+                        <h2>Información adicional</h2>
+                        <span>Ingresa parámetros adicionales a la factura</span>
+
+                        <button class="CardPay__btnGenerate" id="btn-new-adicional">Agregar adicional</button>
+
+                    </div>
+
+                    <button class="CardPay__btnGenerate" id="CardPay__pay">Generar factura</button>
+                </div>
             </div>
-
-            <label class="CardPay__note">
-                Nota
-                <textarea id="note" placeholder="Escribe una nota"></textarea>
-            </label>
-
-            <button class="CardPay__pay" id="CardPay__pay">Cobrar</button>
         </div>
     `;
 
     content.insertAdjacentHTML('beforeend',template);
 
-    /*
-    <div class="CardPay__descuento">
-                <label>Descuento:</label>
-                <input id="dsct-pay" placeholder="0">
-                <button>Aplicar descuento</button>
-            </div>
-    */
-
-    const content_details=document.getElementById('detalle');
-    const btn_new_payway=document.getElementById('new-payway');
+    const content_search_products=document.getElementById('search-product');
+    const content_dates_invoice=document.getElementById('content-dates-invoice');
     const btn_pay=document.getElementById('CardPay__pay');
     const btn_close=document.getElementById('close-pay');
-    const search_client=document.getElementById('name-client');
-    const content_clients=document.getElementById('client-results');
+    const content_pay_ways=document.getElementById('content-pay-ways');
+    const content_pay_adicionales=document.getElementById('content-pay-adicional');
+    const btn_add_adicional=document.getElementById('btn-new-adicional');
+    const content_details=document.getElementById('content-items');
+    const btn_new_pays=document.getElementById('btn-new-pay');
 
-    search_client.addEventListener('keyup',async (e)=>{
-        if(e.target.value.length>6){
-            const clients=await useGetClients({
-                contributor_id:localStorage.getItem('cc'),
-                filters:`identification=${e.target.value}`
-            });
-
-            content_clients.innerHTML="";
-
-            clients.data.map(client=>{
-                content_clients.insertAdjacentHTML('beforeend',`
-                    <button 
-                        data-name="${client.name}" 
-                        data-identification="${client.identification}" 
-                        data-email="${client.email}"
-                        data-direction="${client.direction}"
-                        data-phone="${client.phone}"  
-                        class="client-option" 
-                    >${client.name}</button>
-                `);
-            });
-        }else{
-            content_clients.innerHTML="";
-        }
+    //  Importamos el CardDrop para buscar productos
+    await CardDrop({
+        title:'Producto/Servicio',
+        subtitle:'Seleccionar producto',
+        placeholder:'Buscar producto...',
+        icon:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21.984 10C21.947 8.689 21.823 7.853 21.403 7.14C20.805 6.125 19.729 5.56 17.578 4.432L15.578 3.382C13.822 2.461 12.944 2 12 2C11.056 2 10.178 2.46 8.422 3.382L6.422 4.432C4.271 5.56 3.195 6.125 2.597 7.14C2 8.154 2 9.417 2 11.942V12.059C2 14.583 2 15.846 2.597 16.86C3.195 17.875 4.271 18.44 6.422 19.569L8.422 20.618C10.178 21.539 11.056 22 12 22C12.944 22 13.822 21.54 15.578 20.618L17.578 19.568C19.729 18.439 20.805 17.875 21.403 16.86C21.823 16.147 21.947 15.311 21.984 14M21 7.5L17 9.5M17 9.5L16.5 9.75L12 12M17 9.5V13M17 9.5L7.5 4.5M12 12L3 7.5M12 12V21.5" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>`,
+        datalist:await useGetProducts({contributor_id:localStorage.getItem('cc'),filters:""}),
+        order_id:data.id,
+        content:content_search_products
     });
 
-    content_clients.addEventListener('click',(e)=>{
-        if(e.target.matches('.client-option')){
-            document.getElementById('name-client').value=e.target.dataset.name;
-            document.getElementById('identification-client').value=e.target.dataset.identification;
-            document.getElementById('email-client').value=e.target.dataset.email;
-            document.getElementById('phone-client').value=e.target.dataset.phone;
-            document.getElementById('direction-client').value=e.target.dataset.direction;
-
-            content_clients.innerHTML="";
-        }
+    //  Importamos el CardDrop para buscar clientes
+    await CardDrop({
+        title:'Cliente',
+        subtitle:'Seleccionar cliente',
+        placeholder:'Buscar cliente...',
+        icon:`
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C11.0111 2 10.0444 2.29324 9.22215 2.84265C8.3999 3.39206 7.75904 4.17295 7.3806 5.08658C7.00216 6.00021 6.90315 7.00555 7.09607 7.97545C7.289 8.94536 7.7652 9.83627 8.46447 10.5355C9.16373 11.2348 10.0546 11.711 11.0245 11.9039C11.9945 12.0969 12.9998 11.9978 13.9134 11.6194C14.827 11.241 15.6079 10.6001 16.1573 9.77785C16.7068 8.95561 17 7.98891 17 7C17 5.67392 16.4732 4.40215 15.5355 3.46447C14.5979 2.52678 13.3261 2 12 2ZM12 10C11.4067 10 10.8266 9.82405 10.3333 9.49441C9.83994 9.16476 9.45542 8.69623 9.22836 8.14805C9.0013 7.59987 8.94189 6.99667 9.05764 6.41473C9.1734 5.83279 9.45912 5.29824 9.87868 4.87868C10.2982 4.45912 10.8328 4.1734 11.4147 4.05764C11.9967 3.94189 12.5999 4.0013 13.1481 4.22836C13.6962 4.45542 14.1648 4.83994 14.4944 5.33329C14.8241 5.82664 15 6.40666 15 7C15 7.79565 14.6839 8.55871 14.1213 9.12132C13.5587 9.68393 12.7956 10 12 10ZM21 21V20C21 18.1435 20.2625 16.363 18.9497 15.0503C17.637 13.7375 15.8565 13 14 13H10C8.14348 13 6.36301 13.7375 5.05025 15.0503C3.7375 16.363 3 18.1435 3 20V21H5V20C5 18.6739 5.52678 17.4021 6.46447 16.4645C7.40215 15.5268 8.67392 15 10 15H14C15.3261 15 16.5979 15.5268 17.5355 16.4645C18.4732 17.4021 19 18.6739 19 20V21H21Z" fill="black"/>
+            </svg>
+        `,
+        datalist:await useGetClients({contributor_id:localStorage.getItem('cc'),filters:""}),
+        order_id:data.id,
+        content:content_dates_invoice
     });
 
-    btn_new_payway.addEventListener('click',(e)=>{
-        const content=document.getElementById('content-payways');
+    //  Insertamos el Card de la forma de pago
+    CardPayWay({
+        content:content_pay_ways
+    });
 
-        content.insertAdjacentHTML('beforeend',`
-            <div class="CardPay__payway">
-                <label>
-                    Forma de pago
-                    <select class="pay-way">
-                        <option value="01">EFECTIVO - SIN UTILIZACIÓN DEL SISTEMA FINANCIERO</option>
-                        <option value="15">COMPENSACIÓN DE DEUDAS</option>
-                        <option value="16">TARJETA DE DÉBITO</option>
-                        <option value="17">DINERO ELECTRÓNICO</option>
-                        <option value="18">TARJETA PREPAGO</option>
-                        <option value="19">TARJETA DE CRÉDITO</option>
-                        <option value="20">OTROS CON UTILIZACIÓN DEL SISTEMA FINANCIERO</option>
-                        <option value="21">ENDOSO DE TÍTULOS</option>
-                    </select>
-                </label>
-
-                <label>
-                    Tipo de pago
-                    <select class="pay-type">
-                        <option value="EFECTIVO">EFECTIVO</option>
-                        <option value="AHORITA">AHORITA - BANCO DE LOJA</option>
-                        <option value="DE UNA">DE UNA - BANCO PICHINCHA</option>
-                        <option value="TARJETA CREDITO">TARJETA DE CRÉDITO - DATAFAST</option>
-                        <option value="TARJETA DEBITO">TARJETA DE DEBITO - DATAFAST</option>
-                    </select>
-                </label>
-                <label>
-                    Valor
-                    <input type="text" class="pay-value" value="0">
-                </label>
-                <button class="CardPay__paywayDelete">Eliminar</button>
-            </div>
-        `);
+    //  Insertamos el Card para información adicional
+    CardInformationAdditional({
+        content:content_pay_adicionales
     });
 
     btn_pay.addEventListener('click',async (e)=>{
@@ -243,7 +267,7 @@ export default async function CardPay({data,content}){
                 estab:data.establishment.nro_estab,   //    Numeración del establecimiento
                 pto_emi:"001", //    Numeración del punto de emisión
                 nro:data.establishment.nro_invoices      //    Secuencial del documento a generar (Número de factura)
-            };
+            }; 
 
             const info_doc      =   {
                 type:'01',
@@ -297,10 +321,10 @@ export default async function CardPay({data,content}){
 
             //  Seleccionamos las formas de pago
 
-            let pay_ways=document.getElementsByClassName('CardPay__payway');
+            let pay_ways=document.getElementsByClassName('CardPayWay');
             pay_ways=[].slice.call(pay_ways);
 
-            const nota=document.getElementById('note').value;
+            // const nota=document.getElementById('note').value;
 
             let data_pays=[],cont=true,sum=0;
 
@@ -354,8 +378,7 @@ export default async function CardPay({data,content}){
     
                             console.log(detail)
                             console.log(info_pay)
-    
-                            const voucher=await useGenerate({
+                            console.log({
                                 contributor,
                                 info_estab,
                                 info_doc,
@@ -363,14 +386,37 @@ export default async function CardPay({data,content}){
                                 client,
                                 detail,
                                 info_pay,
-                                nota,
+                                nota:'',
                                 btn,
-                                context:'ORDER',
-                                order:data.id
-                            });
+                                context,
+                                order:(data.id!=="without-order") ? data.id : null
+                            })
     
-                            console.log(voucher);
-    
+                            try {
+                                const voucher=await useGenerate({
+                                    contributor,
+                                    info_estab,
+                                    info_doc,
+                                    date,
+                                    client,
+                                    detail,
+                                    info_pay,
+                                    nota:'',
+                                    btn,
+                                    context,
+                                    order:(data.id!=="") ? data.id : null
+                                });
+        
+                                console.log(voucher);
+                                
+                                if(voucher!==undefined){
+                                    document.getElementById('body').removeChild(document.getElementById('loader'));
+                                }
+                                
+                            } catch (error) {
+                                
+                            }
+                            
                         }else{
                             Push({
                                 text:'Por favor, ingrese la forma de pago.'
@@ -398,12 +444,18 @@ export default async function CardPay({data,content}){
             });
             document.getElementById('body').removeChild(document.getElementById('loader'));
         }
-    
+        
     });
 
     btn_close.addEventListener('click',(e)=>{
         const parent=e.target.parentElement.parentElement;
         parent.removeChild(e.target.parentElement);
+    });
+
+    btn_add_adicional.addEventListener('click',(e)=>{
+        CardInformationAdditional({
+            content:content_pay_adicionales
+        });
     });
 
     content_details.addEventListener('click',async (e)=>{
@@ -462,56 +514,6 @@ export default async function CardPay({data,content}){
 
         }
 
-        if(e.target.matches('.Cart__resultItem')){
-            document.getElementById('new-item-name').value=e.target.dataset.name;
-            document.getElementById('new-item-name').dataset.id=e.target.dataset.id;
-            document.getElementById('new-item-name').dataset.codigo=e.target.dataset.item_id;
-            document.getElementById('new-item-price').value=e.target.dataset.price;
-            document.getElementById('content-new-items').innerHTML="";
-        }
-
-        if(e.target.matches('#add-item-commander')){
-            const data_new_item={
-                "item_id":Number(document.getElementById('new-item-name').dataset.id),
-                "quantity":Number(document.getElementById('new-item-size').value),
-                "order_id":data.id,
-                "notes":""
-            };
-
-            const create=await useCreateItemcart({
-                data:data_new_item
-            });
-            
-            if(create.status===200){
-
-                const producto=create.data;
-
-                content_details.insertAdjacentHTML('afterbegin',`
-                    <div>
-                        <input data-codigo="${producto.item_id}" data-id="${producto.id}" data-descuento="0" data-name="${producto.name}" data-description="${producto.description}" data-price="${producto.price}" data-quantity="${producto.quantity}" type="checkbox" class="check-item" checked>
-                        <label>${producto.name}</label>
-                        <label>${producto.quantity}</label>
-                        <input class="product-price" value="${producto.price}">
-                        ${(producto.quantity>1) ? `<button class="product-desgloce" data-codigo="${producto.item_id}" data-id="${producto.id}" data-descuento="0" data-name="${producto.name}" data-description="${producto.description}" data-price="${producto.price}" data-quantity="${producto.quantity}">Desglozar item</button>` : ""}
-                        <button data-codigo="${producto.item_id}" data-id="${producto.id}" class="product-delete">Quitar</button>
-                    </div>
-                `);
-
-                Push({
-                    text:'Producto agregado.'
-                });
-
-                document.getElementById('new-item-name').value="";
-                document.getElementById('new-item-size').value="";
-                document.getElementById('new-item-price').value="";
-                
-            }else{
-                Push({
-                    text:'No se pudo agregar el producto'
-                });
-            }
-        }
-
         if(e.target.matches('.product-delete')){
             const id=e.target.dataset.id;
             const del=await useDeleteItemcart({id});
@@ -521,18 +523,30 @@ export default async function CardPay({data,content}){
                     text:'Producto eliminado.'
                 });
 
-                e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+                e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
                 
+                let checks=document.getElementsByClassName('check-item');
+                checks=[].slice.call(checks);
+                
+                let new_total=0;
+
+                checks.map(check=>{
+                    if(check.checked){
+                        new_total+=Number(check.dataset.price)*Number(check.dataset.quantity);
+                    }
+                });
+
+                document.getElementById('total-pay').textContent=`$ ${new_total}`;
+
             }else{
                 Push({
                     text:'No se pudo eliminar el producto'
                 });
             }
-
         }
-
     });
 
+    //  Para actualizar los valores de los ITEM´s y actualizar el RESUMEN de precios
     content_details.addEventListener('change',(e)=>{
         if(e.target.matches('.product-price')){
 
@@ -567,55 +581,13 @@ export default async function CardPay({data,content}){
             document.getElementById('total-pay').setAttribute('data-total',new_total);
             document.getElementById('total-pay').textContent=`$ ${new_total}`;
         }
-
     });
 
-    content_details.addEventListener('keyup',async (e)=>{
-        if(e.target.matches('#new-item-name')){
-            const content_new_items=document.getElementById('content-new-items');
-
-            if(e.target.value!=="" & e.target.value.length>3){
-                const results=await useSearchProduct({
-                    contributor_id:localStorage.getItem('cc'),
-                    name:e.target.value
-                });
-    
-                content_new_items.innerHTML="";
-                
-                results.data.map(item=>{
-                    content_new_items.insertAdjacentHTML('beforeend',`
-                        <button 
-                            data-id="${item.id}"
-                            data-name="${item.name}"
-                            data-price="${item.price}"  
-                            data-description="${item.description}" 
-                            data-descuento="${0}"
-                            data-subtotal="${0}"  
-                            data-tax="${0}"
-                            class="Cart__resultItem"
-                        >${item.name}</button>
-                    `);
-                });
-            }else{
-                content_new_items.innerHTML="";
-            }
-        }
-    })
-
-    // document.getElementById('dsct-pay').addEventListener('keyup',(e)=>{
-    //     if(e.target.matches('#dsct-pay')){
-    //         let prices=document.getElementsByClassName('check-item');
-    //         prices=[].slice.call(prices);
-    //         if(e.target.value>0){
-    //             prices.map((price)=>{
-    //                 if(price.checked){
-    //                     price.parentElement.children[3].value=price.dataset.price*(e.target.value/100)
-    //                     console.log(price)
-    //                 }
-    //             });
-    //         }
-    //     }
-    // })
+    btn_new_pays.addEventListener('click',(e)=>{
+        CardPayWay({
+            content:content_pay_ways
+        });
+    });
 
     document.getElementById('body').removeChild(document.getElementById('loader'));
 }

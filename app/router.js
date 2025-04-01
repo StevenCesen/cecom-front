@@ -18,7 +18,10 @@ import Product from "./pages/Product/Product.js";
 import Products from "./pages/Products/Products.js";
 import Reporte from "./pages/Reporte/Reporte.js";
 import Setting from "./pages/Setting/Setting.js";
+import Ticket from "./pages/Ticket/Ticket.js";
 import Tickets from "./pages/Tickets/Tickets.js";
+import TicketView from "./pages/TicketView/TicketView.js";
+import Tracking from "./pages/Tracking/Tracking.js";
 import Vouchers from "./pages/Vouchers/Vouchers.js";
 
 export default async function Router({title,body,app}){
@@ -90,6 +93,27 @@ export default async function Router({title,body,app}){
         title.textContent="Tickets";
         loader();
         Tickets({app});
+
+    }else if(hash==="#/tracking" & useSession()){
+        
+        title.textContent="Seguimiento de envíos";
+        // loader();
+        Tracking({app});
+
+    }else if(hash.split('/')[1]==="tickets" & useSession()){
+
+        title.textContent="Ticket";
+        const id=hash.split('/')[2];
+        loader();
+
+        if(id==="view"){
+            await TicketView({
+                id:hash.split('/')[3],
+                app
+            });
+        }else{
+            await Ticket({id,app});
+        }        
 
     }else if(hash.split('/')[1]==="menus" & useSession()){
 

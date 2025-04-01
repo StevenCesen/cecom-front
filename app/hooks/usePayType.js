@@ -1,10 +1,12 @@
 export default function usePayType(){
     const select=`
-        <select id="pay-type">
-            <option value="01">EFECTIVO</option>
-            <option value="02">TRANSFERENCIA</option>
-            <option value="03">DEPÓSITO</option>
-            <option value="04">OTROS</option>
+        <select class="pay-type" id="pay-type">
+            <option value="">-- Seleccionar --</option>
+            <option value="EFECTIVO">EFECTIVO</option>
+            <option value="AHORITA">AHORITA - BANCO DE LOJA</option>
+            <option value="DE UNA">DE UNA - BANCO PICHINCHA</option>
+            <option value="TARJETA CREDITO">TARJETA DE CRÉDITO - DATAFAST</option>
+            <option value="TARJETA DEBITO">TARJETA DE DEBITO - DATAFAST</option>
         </select>
     `;
 

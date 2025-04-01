@@ -8,7 +8,7 @@
     left: 50%;
     transform: translateX(-50%);
     border: 1px solid rgb(209, 209, 209);
-    padding: 20px 20px;
+    padding: 20px 10%;
     overflow-y: auto;
 }
 
@@ -27,176 +27,378 @@
     font-weight: bold;
 }
 
-.CardPay__client{
+.CardPay__section{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.CardPay__products{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px 20px;
+    background-color: var(--bg-primary-light);
+    border-radius: 5px;
+    border: 1px solid rgb(216, 216, 216);
+}
+
+.CardPay__SearchProducts{
+    margin-top: 20px;
+}
+
+.CardPay__previewProduct{
+    margin: 20px 0;
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.CardPay__previewProduct>label{
+    width:100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.CardPay__previewProduct>label>input,.CardPay__previewProduct>label>select{
+    width: 100%;
+    height: 40px;
+    background-color: inherit;
+    border: 1px solid rgb(211, 211, 211);
+}
+
+.CardPay__previewProduct>label>input{
+    padding-left: 10px;
+}
+
+.CardPay__action{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.CardPay__action>strong{
+    font-size: 18px;
+}
+
+.CardPay__action>button{
+    width: 120px;
+    height: 40px;
+    border: none;
+    background-color: var(--bg-primary-dark);
+    color: var(--color-primary-light);
+    font-weight: bold;
+    border-radius: 2px;
+}
+
+.CardPay__contentlist{
+    width: 100%;
+    border: 1px solid rgb(216, 216, 216);
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.CardPay__contentlist>div:last-child{
+    width: 100%;
+}
+
+.CardPay__listHead{
+    width: 100%;
+    padding: 20px 20px;
+    display: grid;
+    grid-template-columns: 40% 10% 10% 10% 10% 10% 10%;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgb(216, 216, 216);
+}
+
+.CardPay__listHead>label{
+    color: var(--color-secondary-light);
+    font-weight: bolder;
+}
+
+.CardPay__listItem{
+    width: 100%;
+    padding: 20px 20px;
+    display: grid;
+    grid-template-columns: 40% 10% 10% 10% 10% 10% 10%;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgb(216, 216, 216);
+}
+
+.CardPay__listItem>label{
+    width: 100%;
+}
+
+.CardPay__listItem>label>input[type=number]{
+    width: 100%;
+}
+
+.CardPay__datesInvoice{
+    width: 100%;
+}
+
+.CardPay__listItem>div{
     width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 20px;
-    position: relative;
-    gap: 10px;
-}
-
-.CardPay__result{
-    position: absolute;
-    width: 500px;
-    bottom:-80px;
-    background-color: var(--color-primary-light);
-    display: block;
-}
-
-.CardPay__result>button{
-    display: flex;
-    width: 100%;
-    height: 40px;
-}
-
-.CardPay__client>label{
-    width: 150px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
     flex-direction: column;
 }
 
-.CardPay__client>label>input{
-    height: 40px;
+.CardPay__datesClient{
     width: 100%;
-    border: none;
-    border-bottom: 2px solid var(--bg-primary-dark);
+    padding: 20px 20px;
+    border: 1px solid rgb(216, 216, 216);
+    margin-top: 20px;
 }
 
-.CardPay__client>label>input:focus{
-    outline: none;
+.CardPay__client{
+    display: none;
+    width: 100%;
+    padding: 20px 20px;
+    margin-top: 20px;
+    border: 1px solid rgb(216, 216, 216);
 }
 
-.CardPay__detail{
-    margin-bottom: 20px;
+.CardPay__client--active{
+    display: block;
 }
 
-.CardPay__detail>div{
+.CardPay__client>div{
     width: 100%;
     display: grid;
-    grid-template-columns: 16px 30% 10% 100px 15% 15%;
-    margin-bottom: 5px;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
 }
 
-.CardPay__detail>div>input[type=text]{
+.CardPay__client>div>label{
     width: 100%;
-    text-align: center;
-}
-
-.CardPay__detail>div>input[type=checkbox]{
-    width:16px;
-}
-
-.CardPay__totals{
-    margin-bottom: 20px;
-}
-
-.CardPay__totals>label:first-child{
-    font-size: 20px;
-}
-
-.CardPay__totals>label:last-child{
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.CardPay__descuento{
-
-}
-
-.CardPay__descuento>input{
-    width: 60px;
-    text-align: center;
-}
-
-.CardPay__payways{
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.CardPay__payways>div{
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.CardPay__payway{
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.CardPay__payway>label{
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    gap: 10px;
 }
 
-.CardPay__payway>label>select,.CardPay__payway>label>input{
-    height: 40px;
-}
-
-.CardPay__payway>label>select{
-    border: none;
-    background-color: var(--bg-primary-dark);
-    color: var(--color-primary-light);
-    font-weight: bold;
-}
-
-.CardPay__payway>label>input{
-    width: 140px;
-    border: none;
-    border-bottom: 2px solid var(--bg-primary-dark);
-}
-
-.CardPay__payway>label>input:focus{
-    outline: none;
-}
-
-.CardPay__pay{
-    width: 200px;
-    height: 40px;
-    border: none;
-    background-color: var(--bg-primary-dark);
-    color: var(--color-primary-light);
-    font-weight: bold;
-    font-size: 15px;
-}
-
-.CardPay__note{
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-.CardPay__note>textarea{
-    width: 400px;
-}
-
-.CardPay__addItems{
-    position: relative;
-}
-
-.CardPay__addItems>div{
-    position: absolute;
-    top: 40px;
-    left: 20px;
-    width: 400px;
-    background-color: var(--bg-primary-light);
-}
-
-.CardPay__addItems>div>button{
+.CardPay__client>div>label>input{
     width: 100%;
-    height: 35px;
+    height: 40px;
+    border: 2px;
+    background-color: inherit;
+    border: 1px solid rgb(211, 211, 211);
+}
+
+.CardPay__client>span{
     display: block;
+    margin-bottom: 20px;
+}
+
+.CardPay__datesResumen{
+    width: 100%;
+    padding: 20px 20px;
+    border: 1px solid rgb(216, 216, 216);
+    margin-top: 20px;
+}
+
+.CardPay__date{
+    width: 50%;
+    display: flex;
+    margin-top: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.CardPay__date>input{
+    width: 100%;
+    height: 40px;
+    background-color: var(--bg-primary-light);
+    border: 1px solid rgb(211, 211, 211);
+}
+
+.CardPay__btnGenerate{
+    width: 100%;
+    height: 40px;
+    background-color: var(--bg-primary-dark);
+    color: var(--color-primary-light);
+    font-weight: bold;
+    border-radius: 2px;
+    margin-top: 20px;
+}
+
+@media screen and (min-width:100px) and (max-width:650px) {
+    .CardPay{
+        width: 100%;
+        height: calc(100vh - var(--height-header));
+        border-radius: 5px;
+        background-color: var(--color-primary-light);
+        position: fixed;
+        top: calc(var(--height-header));
+        left: 0;
+        right: 0;
+        transform:initial;
+        border: 1px solid rgb(209, 209, 209);
+        padding: 10px 10px;
+        overflow-y: auto;
+    }
+    
+    .CardPay__close{
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    
+    .CardPay__section{
+        width: 100%;
+        display: block;
+        gap: initial;
+    }
+    
+    .CardPay__products{
+        width: 100%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 10px 10px;
+    }
+    
+    .CardPay__SearchProducts{
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    .CardPay__previewProduct{
+        width: 100%;
+        margin: 10px 0;
+        gap: 10px;
+    }
+    
+    .CardPay__previewProduct>label{
+        width:25% !important;
+    }
+    
+    .CardPay__previewProduct>label>input,.CardPay__previewProduct>label>select{
+        width: 100%;
+        height: 40px;
+    }
+    
+    .CardPay__action{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .CardPay__action>strong{
+        font-size: 18px;
+    }
+    
+    .CardPay__action>button{
+        width: 120px;
+        height: 40px;
+    }
+    
+    .CardPay__contentlist{
+        width: 100%;
+        border: 1px solid rgb(216, 216, 216);
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+    
+    .CardPay__listHead{
+        width: 100%;
+        padding: 10px 10px;
+        box-sizing: border-box;
+        grid-template-columns: 25% 10% 10% 10% 10% 10% 20%;
+        font-size: 12px;
+        display: grid;
+        justify-content: flex-start;
+        align-items: center;
+        gap: initial;
+    }
+
+    .CardPay__listHead>label{
+        width: 100%;
+        word-wrap: break-word;
+        text-align: center;
+    }
+    
+    .CardPay__listItem{
+        width: 100%;
+        padding: 10px 10px;
+        box-sizing: border-box;
+        display: grid;
+        grid-template-columns: 25% 10% 10% 10% 10% 10% 20%;
+        font-size: 12px;
+        justify-content: flex-start;
+        align-items: center;
+        gap: initial;
+    }
+
+    .CardPay__listItem>:nth-child(6){
+        text-align: center;
+    }
+    
+    .CardPay__datesClient{
+        width: 100%;
+        padding: 10px 10px;
+        margin-top: 20px;
+    }
+    
+    .CardPay__client{
+        width: 100%;
+        padding: 10px 10px;
+        margin-top: 20px;
+    }
+    
+    .CardPay__client>div{
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .CardPay__client>div>label{
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    
+    .CardPay__client>div>label>input{
+        width: 100%;
+        height: 40px;
+        border: 2px;
+    }
+    
+    .CardPay__client>span{
+        display: block;
+        margin-bottom: 20px;
+    }
+    
+    .CardPay__datesResumen{
+        width: 100%;
+        padding: 10px 10px;
+        border: 1px solid rgb(216, 216, 216);
+        margin-top: 20px;
+    }
+    
+    .CardPay__date{
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    .CardPay__date>input{
+        width: 100%;
+        height: 40px;
+    }
+    
+    .CardPay__btnGenerate{
+        width: 100%;
+        height: 40px;
+        margin-top: 20px;
+    }
 }

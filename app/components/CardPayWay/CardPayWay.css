@@ -1,0 +1,18 @@
+.CardPayWay{
+    width: 100%;
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 40% 35% 25%;
+    box-sizing: border-box;
+}
+
+.CardPayWay>label{
+    width: 100%;
+}
+
+.CardPayWay>label>input,.CardPayWay>label>select{
+    width: 90%;
+    height: 40px;
+    background-color: var(--bg-primary-light);
+    border: 1px solid rgb(211, 211, 211);
+}

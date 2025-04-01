@@ -1,6 +1,7 @@
 import loader from "../../components/Loader/Loader.js";
 import Push from "../../components/Push/Push.js";
 import {URL_BASE, URL_ROOT } from "../../hooks/env.js";
+import useGenerateQR from "../../hooks/useGenerateQR.js";
 import useReadCert from "../../hooks/useReadCert.js";
 
 export default async function Setting({app,data_contributor}) {
@@ -10,8 +11,6 @@ export default async function Setting({app,data_contributor}) {
             <path d="M5 21C4.45 21 3.97933 20.8043 3.588 20.413C3.19667 20.0217 3.00067 19.5507 3 19V5C3 4.45 3.196 3.97933 3.588 3.588C3.98 3.19667 4.45067 3.00067 5 3H19C19.55 3 20.021 3.196 20.413 3.588C20.805 3.98 21.0007 4.45067 21 5V19C21 19.55 20.8043 20.021 20.413 20.413C20.0217 20.805 19.5507 21.0007 19 21H5ZM6 17H18L14.25 12L11.25 16L9 13L6 17Z" fill="#AEAEAE"/>
         </svg>
     `;
-
-    console.log(data_contributor)
 
     if(data_contributor.contributor.logo_path!==null){
         imagen=`
@@ -133,32 +132,42 @@ export default async function Setting({app,data_contributor}) {
                 </form>
             </div>
 
-            <div class="Setting__me">
-                <h3>Cuentas bancarias</h3>
-                <form id="accounts">
-                    <label class="Setting__labelAccount">
-                        <label>BANCO DE LOJA | AHORROS</label>
-                    </label>
-
-                    <label class="Setting__labelAccount">
-                        <label>BANCO PICHINCHA | AHORROS</label>
-                    </label>
-
-                    <div class="Setting__labelAddAccount">
-                        <label>
-                            Nombre cuenta
-                            <input type="text" id="name-account">
-                        </label>
-                        <button id="add-account">Añadir cuenta</button>
-                    </div>
-                </form>
-            </div>
+            
 
         </div>
     `;
 
+    /*
+    <div class="Setting__me">
+                <h3>Cuenta de Whatsapp</h3>
+                <p class="Setting__text">Para configurar Whatsapp, abre la APP en tu celular y vincula el dispositivo escaneando el siguiente código.</p>
+                <div class="Setting__qr">
+                    <div id="qr-code"></div>
+                </div>
+            </div>
+    <div class="Setting__me">
+        <h3>Cuentas bancarias</h3>
+        <form id="accounts">
+            <label class="Setting__labelAccount">
+                <label>BANCO DE LOJA | AHORROS</label>
+            </label>
+
+            <label class="Setting__labelAccount">
+                <label>BANCO PICHINCHA | AHORROS</label>
+            </label>
+
+            <div class="Setting__labelAddAccount">
+                <label>
+                    Nombre cuenta
+                    <input type="text" id="name-account">
+                </label>
+                <button id="add-account">Añadir cuenta</button>
+            </div>
+        </form>
+    </div>
+    */
+
     app.insertAdjacentHTML('beforeend',template);
-    document.getElementById('body').removeChild(document.getElementById('loader'));
 
     const btn_update_password=document.getElementById('update-password');
     const new_password=document.getElementById('new-password');
@@ -169,8 +178,28 @@ export default async function Setting({app,data_contributor}) {
     const message_entidad=document.getElementById('entidad-cert');
     const btn_update_estab=document.getElementById('update-estab');
     const btn_update_prints=document.getElementById('update-impresion');
-    const btn_account=document.getElementById('add-account');
-    const name_account=document.getElementById('name-account');
+    // const btn_account=document.getElementById('add-account');
+    // const name_account=document.getElementById('name-account');
+    // const qr_code=document.getElementById('qr-code');
+
+    // const conn = new WebSocket('ws://193.46.198.228:8081');
+
+    // conn.onopen = function(e) {
+    //     console.log("Connection established!");
+    // };
+
+    // conn.onmessage = function(e) {
+    //     const data=JSON.parse(e.data);
+
+    //     qr_code.innerHTML="";
+
+    //     useGenerateQR({
+    //         string:data.qr_code,
+    //         selector:qr_code
+    //     });
+    // };
+
+    document.getElementById('body').removeChild(document.getElementById('loader'));
 
     /**
      *  Para actualizar el certificado de firma electrónica
@@ -393,24 +422,24 @@ export default async function Setting({app,data_contributor}) {
         document.getElementById('body').removeChild(document.getElementById('loader'));
     });
 
-    btn_account.addEventListener('click',async (e)=>{
-        e.preventDefault();
+    // btn_account.addEventListener('click',async (e)=>{
+    //     e.preventDefault();
 
-        if(name_account.value!=="" & name_account.value.length>5){
+    //     if(name_account.value!=="" & name_account.value.length>5){
 
-            document.getElementById('accounts').insertAdjacentHTML('beforebegin',`
-                <label class="Setting__labelAccount">
-                    <label>${name_account.value}</label>
-                </label>
-            `);
+    //         document.getElementById('accounts').insertAdjacentHTML('beforebegin',`
+    //             <label class="Setting__labelAccount">
+    //                 <label>${name_account.value}</label>
+    //             </label>
+    //         `);
 
-            name_account.value="";
+    //         name_account.value="";
 
-        }else{
-            Push({
-                text:'Por favor, revisa el nombre de la cuenta.'
-            });
-        }
-    });
+    //     }else{
+    //         Push({
+    //             text:'Por favor, revisa el nombre de la cuenta.'
+    //         });
+    //     }
+    // });
 
 }
