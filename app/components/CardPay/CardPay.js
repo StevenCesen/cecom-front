@@ -261,7 +261,7 @@ export default async function CardPay({data,context,content}){
     });
 
     btn_print_account.addEventListener('click',async (e)=>{
-        const data={
+        const data_order={
             'contributor_id':localStorage.getItem('cc'),
             'nro_order':data.id
         };
@@ -271,7 +271,7 @@ export default async function CardPay({data,context,content}){
             headers: {
                 Accept: 'application/json'
             },
-            body:new URLSearchParams(data)
+            body:new URLSearchParams(data_order)
         });
     
         const response=await request.json();
