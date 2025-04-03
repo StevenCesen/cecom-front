@@ -262,6 +262,9 @@ export default async function CardPay({data,context,content}){
     });
 
     btn_print_account.addEventListener('click',async (e)=>{
+
+        loader();
+
         const data_order={
             'contributor_id':localStorage.getItem('cc'),
             'nro_order':data.id
@@ -280,7 +283,8 @@ export default async function CardPay({data,context,content}){
         if(response.status===200){
             Push({
                 text:'Se imprimió la cuenta'
-            })
+            });
+            document.getElementById('body').removeChild(document.getElementById('loader'));
         }else{
             Push({
                 text:'Error, inténtalo de nuevo'
