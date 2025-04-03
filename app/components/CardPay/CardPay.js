@@ -185,6 +185,7 @@ export default async function CardPay({data,context,content}){
                             <label>Total a cobrar:</label>
                             <label id="total-pay" data-total="${total}">$ ${total}</label>
                         </div>
+                        <button id="print-account">Imprimir cuenta</button>
                     </div>
 
                     <div class="CardPay__datesResumen" id="content-pay-ways">
@@ -219,6 +220,7 @@ export default async function CardPay({data,context,content}){
     const btn_add_adicional=document.getElementById('btn-new-adicional');
     const content_details=document.getElementById('content-items');
     const btn_new_pays=document.getElementById('btn-new-pay');
+    const btn_print_account=document.getElementById('print-account');
 
     //  Importamos el CardDrop para buscar productos
     await CardDrop({
@@ -256,6 +258,33 @@ export default async function CardPay({data,context,content}){
     //  Insertamos el Card para información adicional
     CardInformationAdditional({
         content:content_pay_adicionales
+    });
+
+    btn_print_account.addEventListener('click',async (e)=>{
+        const data={
+            'contributor_id':localStorage.getItem('cc'),
+            'nro_order':data.id
+        };
+
+        const request=await fetch(`${URL_BASE}orders/account/${id}`,{
+            method:'POST',
+            headers: {
+                Accept: 'application/json'
+            },
+            body:new URLSearchParams(data)
+        });
+    
+        const response=await request.json();
+
+        if(response.status===200){
+            Push({
+                text:'Se imprimió la cuenta'
+            })
+        }else{
+            Push({
+                text:'Error, inténtalo de nuevo'
+            })
+        }
     });
 
     btn_pay.addEventListener('click',async (e)=>{
@@ -408,7 +437,7 @@ export default async function CardPay({data,context,content}){
                                 });
         
                                 console.log(voucher);
-                                
+
                                 if(voucher!==undefined){
                                     document.getElementById('body').removeChild(document.getElementById('loader'));
                                 }
