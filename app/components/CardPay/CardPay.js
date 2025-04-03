@@ -267,7 +267,7 @@ export default async function CardPay({data,context,content}){
             'nro_order':data.id
         };
 
-        const request=await fetch(`${URL_BASE}orders/account/${id}`,{
+        const request=await fetch(`${URL_BASE}orders/account`,{
             method:'POST',
             headers: {
                 Accept: 'application/json'
