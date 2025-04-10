@@ -19,7 +19,7 @@ export default function Header({body}){
 
     body.insertAdjacentHTML('afterbegin',template);
 
-    Nav({body});
+    // Nav({body});
 
     const btn_menu=document.getElementById('nav');
 

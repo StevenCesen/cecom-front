@@ -41,7 +41,7 @@ export default async function Commander({app}) {
         filters:`user_id=${localStorage.getItem('ui')}`
     });
 
-    first_category='Pendientes de hoy';
+    first_category=`Pendientes de hoy (${data_orders.data.length})`;
 
     data_orders.data.map(order=>{
         orders+=`
@@ -58,9 +58,9 @@ export default async function Commander({app}) {
 
     const template=`
         <div class="Orders">
-            <div class="Orders__nav">
+            <div class="Orders__nav" id="content-search-orders">
                 <h3>Comandas</h3>
-                <input class="Orders__search" type="search" placeholder="Nombre del cliente">
+                <input class="Orders__search" type="search" id="search-client-commander" placeholder="Nombre del cliente">
             </div>
 
             <div class="Orders__select">
@@ -100,6 +100,7 @@ export default async function Commander({app}) {
     const content_items=document.getElementById('content-items');
     const content_categories=document.getElementById('content-categories');
     const content_orders=document.getElementById('content-orders');
+    const content_search_orders=document.getElementById('content-search-orders');
     const btn_list=document.getElementById('list');
 
     btn_new_command.addEventListener('click',(e)=>{
@@ -113,6 +114,10 @@ export default async function Commander({app}) {
         loader();
         content_orders.innerHTML="";
         content_items.innerHTML="";
+        content_search_orders.removeChild(content_search_orders.children[1]);
+        content_search_orders.insertAdjacentHTML('beforeend',`
+            <input class="Orders__search" type="search" id="search-client-commander" placeholder="Nombre del cliente">
+        `);
 
         const data_orders=await useGetOrders({
             contributor_id:localStorage.getItem('cc'),
@@ -144,6 +149,10 @@ export default async function Commander({app}) {
 
             loader();
             content_orders.innerHTML="";
+            content_search_orders.removeChild(content_search_orders.children[1]);
+            content_search_orders.insertAdjacentHTML('beforeend',`
+                <input class="Orders__search" type="search" id="search-item-commander" placeholder="Nombre del producto">
+            `);
             
             let data_products=await useGetProducts({
                 contributor_id:localStorage.getItem('cc'),
@@ -152,6 +161,7 @@ export default async function Commander({app}) {
 
             content_items.innerHTML="";
             document.getElementById('category').textContent=e.target.dataset.name;
+            document.getElementById('category').dataset.type=e.target.dataset.type;
 
             data_products.data.map(item=>{
                 CardProductSelect({

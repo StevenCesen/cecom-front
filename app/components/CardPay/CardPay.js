@@ -75,6 +75,8 @@ export default async function CardPay({data,context,content}){
         });
     }
 
+    total=total.toFixed(2);
+
     const template=`
         <div class="CardPay">
             <button class="CardPay__close" id="close-pay">Regresar</button>
@@ -293,7 +295,7 @@ export default async function CardPay({data,context,content}){
     });
 
     btn_pay.addEventListener('click',async (e)=>{
-        loader();     
+        loader();
         const contributor=data.contributor;
         
         if(contributor.cert!==""){
@@ -517,35 +519,46 @@ export default async function CardPay({data,context,content}){
             const id=e.target.dataset.id;
             const description=e.target.dataset.description;
 
-            e.target.parentElement.parentElement.removeChild(e.target.parentElement.parentElement.children[e.target.parentElement.parentElement.children.length-1]);
-            e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+            e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement.parentElement.children[e.target.parentElement.parentElement.parentElement.children.length-1]);
+            // e.target.parentElement.parentElement.removeChild(e.target.parentElement);
             
             //  Insertamos los nuevos productos
             for (let i = 0; i < cantidad; i++) {
                 content_details.insertAdjacentHTML('beforeend',`
-                    <div>
-                        <input data-codigo="${codigo}" data-id="${id}" data-descuento="${dscto}" data-name="${name}" data-description="${description}" data-price="${price}" data-quantity="${1}" type="checkbox" class="check-item" checked>
-                        <label>${name}</label>
-                        <label>1</label>
-                        <input class="product-price" value="${price}">
-                        <button data-codigo="${codigo}" data-id="${id}" class="product-delete">Quitar</button>
+                    <div class="CardPay__listItem">
+                        <label>
+                            <input 
+                                data-codigo="${codigo}" 
+                                data-id="${id}" 
+                                data-descuento=${dscto} 
+                                data-name="${name}" 
+                                data-description="${description}" 
+                                data-price="${price}" 
+                                data-quantity="${1}" 
+                                type="checkbox" 
+                                class="check-item" 
+                                checked
+                            >
+                            <label>${name}</label>
+                        </label>
+                        <label>${1}</label>
+                        
+                        <input type="number" class="product-price" value="${price}">
+                        <input type="number" class="product-price" value="0.00">
+                        <input type="number" class="product-price" value="0.00">
+                        <label>${Number(price)}</label>
+
+                        <div>
+                            <button 
+                                data-codigo="${codigo}" 
+                                data-id="${id}" 
+                                class="product-delete" 
+                                class="product-delete"
+                            >Quitar</button>
+                        </div>
                     </div>
                 `);
             }
-
-            content_details.insertAdjacentHTML('beforeend',`
-                <div class="CardPay__addItems">
-                    <label></label>
-                    <input id="new-item-name" type="text" placeholder="Buscar producto">
-                    <input id="new-item-size" type="number" value="1">
-                    <input id="new-item-price" type="number" value="">
-                    <button id="add-item-commander">Agregar al pedido actual</button>
-                    <div id="content-new-items">
-
-                    </div>
-                </div>
-            `);
-
         }
 
         if(e.target.matches('.product-delete')){
@@ -595,8 +608,8 @@ export default async function CardPay({data,context,content}){
                 new_total+=Number(price.value);
             });
 
-            document.getElementById('total-pay').dataset.total=new_total;
-            document.getElementById('total-pay').textContent=`$ ${new_total}`;
+            document.getElementById('total-pay').dataset.total=new_total.toFixed(2);
+            document.getElementById('total-pay').textContent=`$ ${new_total.toFixed(2)}`;
         }
 
         if(e.target.matches('.check-item')){
@@ -612,8 +625,8 @@ export default async function CardPay({data,context,content}){
                 }
             });
 
-            document.getElementById('total-pay').setAttribute('data-total',new_total);
-            document.getElementById('total-pay').textContent=`$ ${new_total}`;
+            document.getElementById('total-pay').setAttribute('data-total',new_total.toFixed(2));
+            document.getElementById('total-pay').textContent=`$ ${new_total.toFixed(2)}`;
         }
     });
 

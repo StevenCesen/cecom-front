@@ -36,7 +36,7 @@ export default function Nav({body}){
                     <a href="#/logout">Cerrar sesión</a>
                 </div>
             `;
-        }else{
+        }else if(localStorage.getItem('ur')==='AP-UM2'){
             list=`
                 <div>
                     <a href="#/pedidos">Pedidos</a>
@@ -45,8 +45,19 @@ export default function Nav({body}){
                     <a href="#/logout">Cerrar sesión</a>
                 </div>
             `;
+        }else{
+            list="";
         }
     }
+
+    /*
+    <div>
+        <a href="#/tracking">Seguimiento de envíos</a>
+    </div>
+    <div>
+        <a href="#/tickets">Tickets</a>
+    </div>
+    */
 
     const template=`
         <div class="Nav" id="menu">

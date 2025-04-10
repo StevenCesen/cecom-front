@@ -11,7 +11,7 @@ export default function CardProductSelect({id,image,name,price,content}){
 
     const template=`
         <div class="CardProductSelect">
-            <a href="#/items/${id}">
+            <a >
                 ${imagen}
             </a>
             <p>${name}</p>

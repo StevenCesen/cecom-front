@@ -178,6 +178,9 @@ export default async function Router({title,body,app}){
         localStorage.removeItem('ui');   
         localStorage.removeItem('ur');
         location.hash="#/";
+
+        document.getElementById('body').removeChild(document.getElementById('menu'));
+
     }else{
         location.hash="#/";
     }

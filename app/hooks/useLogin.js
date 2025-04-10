@@ -1,3 +1,4 @@
+import Nav from "../components/Nav/Nav.js";
 import Push from "../components/Push/Push.js";
 import { URL_BASE } from "./env.js";
 import useSaveSession from "./useSaveSession.js";
@@ -23,6 +24,7 @@ export default async function useLogin({username,password}) {
                 });
             }else{
                 const response=await request.json();
+
                 useSaveSession({
                     data:response
                 });
@@ -32,6 +34,10 @@ export default async function useLogin({username,password}) {
                 }else{
                     location.hash='#/pedidos';
                 }
+
+                Nav({
+                    body:document.getElementById('body')
+                });
             }
 
         }else{

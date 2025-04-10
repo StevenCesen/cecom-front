@@ -1,7 +1,9 @@
+import CardProductSelect from "./app/components/CardProductSelect/CardProductSelect.js";
 import loader from "./app/components/Loader/Loader.js";
 import Push from "./app/components/Push/Push.js";
 import useCreateItemcart from "./app/hooks/useCreateItemcart.js";
 import useGetClients from "./app/hooks/useGetClients.js";
+import useGetOrders from "./app/hooks/useGetOrders.js";
 import useGetProducts from "./app/hooks/useGetProducts.js";
 import useSearchProduct from "./app/hooks/useSearchProduct.js";
 import Router from "./app/router.js";
@@ -239,6 +241,82 @@ document.addEventListener('keyup',async (e)=>{
             `);
         });
     }
+
+    if(e.target.matches('#search-client-commander')){
+        const content=document.getElementById('content-orders');
+
+        let orders_client={
+            data:[]
+        };
+
+        if(e.target.value.length>2 & e.target.value!==""){
+            const client_name=e.target.value;
+
+            content.innerHTML="";
+
+            orders_client=await useGetOrders({
+                contributor_id:localStorage.getItem('cc'),
+                filters:`client_name=${client_name}&user_id=${localStorage.getItem('ui')}`
+            });
+
+        }else if(e.target.value===""){
+
+            content.innerHTML="";
+            
+            orders_client=await useGetOrders({
+                contributor_id:localStorage.getItem('cc'),
+                filters:`user_id=${localStorage.getItem('ui')}`
+            });
+        }
+
+        document.getElementById('category').textContent=`Pendientes de hoy (${orders_client.data.length})`;
+
+        orders_client.data.map(order=>{
+            content.insertAdjacentHTML('beforeend',`
+                <div class="OrderItem">
+                    <h4>${order.client_name}</h4>
+                    <p>${order.floor} | ${order.table}</p>
+                    <p>${order.create_date}</p>
+                    <p># ${order.order_number_day}</p>
+                    <button data-id="${order.id}" class="CardOrder__view">Ver</button>
+                    <button data-id="${order.id}" class="CardOrder__finish">Finalizar</button>
+                </div> 
+            `);
+        });
+
+    }
+
+    if(e.target.matches('#search-item-commander')){
+        const content=document.getElementById('content-items');
+        let results={
+            data:[]
+        }
+
+        if(e.target.value!=="" & e.target.value.length>4){
+            results=await useSearchProduct({
+                contributor_id:localStorage.getItem('cc'),
+                name:e.target.value
+            });
+        }else{
+            results=await useGetProducts({
+                contributor_id:localStorage.getItem('cc'),
+                filters:`type=${document.getElementById('category').dataset.type}`
+            });
+        }
+
+        content.innerHTML="";
+            
+        results.data.map(item=>{
+            CardProductSelect({
+                id:item.id,
+                image:"",
+                name:item.name,
+                price:item.price,
+                content:content
+            });
+        });
+    }
+
 });
 
 window.addEventListener('hashchange',async (e)=>{

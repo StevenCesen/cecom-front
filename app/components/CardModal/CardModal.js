@@ -600,6 +600,7 @@ export default function CardModal({template,content}){
                 });
             }
         });
+        
     }else if(!!document.getElementById('save-ticket')){
         const btn_file_image=document.getElementById('file-ticket');
         const content_image=document.getElementById('preview-image');
