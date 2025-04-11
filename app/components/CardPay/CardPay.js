@@ -519,8 +519,12 @@ export default async function CardPay({data,context,content}){
             const id=e.target.dataset.id;
             const description=e.target.dataset.description;
 
-            e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement.parentElement.children[e.target.parentElement.parentElement.parentElement.children.length-1]);
+            const content_parent=e.target.parentElement.parentElement.parentElement;
+            const child=e.target.parentElement.parentElement;
+
+            //e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement.parentElement.children[e.target.parentElement.parentElement.parentElement.children.length-1]);
             // e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+            content_parent.removeChild(child);
             
             //  Insertamos los nuevos productos
             for (let i = 0; i < cantidad; i++) {
