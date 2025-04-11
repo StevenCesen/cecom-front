@@ -1,5 +1,6 @@
 import Header from "./components/Header/Header.js";
 import loader from "./components/Loader/Loader.js";
+import Nav from "./components/Nav/Nav.js";
 import useGetClients from "./hooks/useGetClients.js";
 import useGetContributor from "./hooks/useGetContributor.js";
 import useGetProduct from "./hooks/useGetProduct.js";
@@ -27,6 +28,7 @@ import Vouchers from "./pages/Vouchers/Vouchers.js";
 export default async function Router({title,body,app}){
     const hash=location.hash;
     Header({body});
+
     app.innerHTML="";
 
     if((hash==='' | hash==='#/' | hash==='#/login') & useSession()===false){
@@ -37,12 +39,14 @@ export default async function Router({title,body,app}){
     }else if(hash==='#/home' & useSession()){
         
         title.textContent="Inicio";
+        Nav({body});
         Home({contributor_id:localStorage.getItem('cc'),app});
 
     }else if(hash==='#/ventas' & useSession()){
 
         title.textContent="Ventas";
         loader();
+        Nav({body});
 
         const data=await useGetVouchers({
             contributor_id:localStorage.getItem('cc')
@@ -54,6 +58,7 @@ export default async function Router({title,body,app}){
         title.textContent="Clientes";
 
         loader();
+        Nav({body});
 
         const data=await useGetClients({
             contributor_id:localStorage.getItem('cc'),
@@ -67,6 +72,8 @@ export default async function Router({title,body,app}){
         title.textContent="Productos";
         loader();
 
+        Nav({body});
+
         const data=await useGetProducts({
             contributor_id:localStorage.getItem('cc'),
             filters:""
@@ -77,6 +84,7 @@ export default async function Router({title,body,app}){
         
         title.textContent="Pedidos";
         loader();
+        Nav({body});
         
         /** 
          * ADMINISTRADOR: AP-UA1
@@ -92,12 +100,14 @@ export default async function Router({title,body,app}){
 
         title.textContent="Tickets";
         loader();
+        Nav({body});
         Tickets({app});
 
     }else if(hash==="#/tracking" & useSession()){
         
         title.textContent="Seguimiento de envíos";
         // loader();
+        Nav({body});
         Tracking({app});
 
     }else if(hash.split('/')[1]==="tickets" & useSession()){
@@ -105,6 +115,7 @@ export default async function Router({title,body,app}){
         title.textContent="Ticket";
         const id=hash.split('/')[2];
         loader();
+        Nav({body});
 
         if(id==="view"){
             await TicketView({
@@ -119,6 +130,7 @@ export default async function Router({title,body,app}){
 
         title.textContent="Menús";
         const id=hash.split('/')[2];
+        Nav({body});
 
         if(id===undefined){
             Menus({contributor_id:localStorage.getItem('cc'),app});
@@ -130,6 +142,7 @@ export default async function Router({title,body,app}){
         title.textContent="Item seleccionado";
         
         loader();
+        Nav({body});
 
         const id=hash.split('/')[2];
         const data_product=await useGetProduct({id});
@@ -145,6 +158,7 @@ export default async function Router({title,body,app}){
         title.textContent="Item seleccionado";
 
         const id=hash.split('/')[2];
+        Nav({body});
 
         Product({
             id,
@@ -154,16 +168,19 @@ export default async function Router({title,body,app}){
     }else if(hash==='#/reportes' & useSession()){
         
         title.textContent="Balance";
+        Nav({body});
         Reporte({app});
 
     }else if(hash==='#/usuarios' & useSession()){
 
         title.textContent="Usuarios";
+        Nav({body});
         //  Faltaaaaa hacer
 
     }else if(hash==='#/configuracion' & useSession()){
 
         title.textContent="Configuración";
+        Nav({body});
         loader();
         const data_contributor=await useGetContributor({
             contributor_id:localStorage.getItem('cc')
