@@ -199,6 +199,7 @@ export default async function Router({title,body,app}){
         document.getElementById('body').removeChild(document.getElementById('menu'));
 
     }else{
+        Nav({body});
         location.hash="#/";
     }
 }
