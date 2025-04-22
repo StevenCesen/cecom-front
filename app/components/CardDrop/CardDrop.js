@@ -33,11 +33,11 @@ export default async function CardDrop({title,subtitle,placeholder,icon,datalist
                 data-context=${context}
                 class="CardDrop__item"
             >
-                <label>
+                <span>
                     ${icon}
                     ${item.name}
-                </label>
-                <label>${('price' in item) ? `$ ${item.price}` : item.identification}</label>
+                </span>
+                <span>${('price' in item) ? `$ ${item.price}` : item.identification}</span>
             </button>
         `;
     });

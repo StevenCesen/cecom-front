@@ -17,6 +17,10 @@
     cursor: pointer;
 }
 
+.CardDrop__button *{
+    pointer-events: none;
+}
+
 .CardDrop__button:focus,.CardDrop__button:hover,.CardDrop__item:hover,.CardDrop__item:focus{
     background-color: rgb(230, 230, 230) !important;
 }
@@ -76,6 +80,10 @@
     font-size: 14px;
     background-color: inherit;
     border: none;
+}
+
+.CardDrop__item *{
+    pointer-events: none;
 }
 
 .CardDrop__item>label:first-child{

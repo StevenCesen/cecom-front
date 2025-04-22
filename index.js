@@ -2,10 +2,13 @@ import CardProductSelect from "./app/components/CardProductSelect/CardProductSel
 import loader from "./app/components/Loader/Loader.js";
 import Push from "./app/components/Push/Push.js";
 import useCreateItemcart from "./app/hooks/useCreateItemcart.js";
+import useDeleteCartItem from "./app/hooks/useDeleteCartItem.js";
 import useGetClients from "./app/hooks/useGetClients.js";
 import useGetOrders from "./app/hooks/useGetOrders.js";
 import useGetProducts from "./app/hooks/useGetProducts.js";
 import useSearchProduct from "./app/hooks/useSearchProduct.js";
+import useUpdateCart from "./app/hooks/useUpdateCart.js";
+import useUpdateTotal from "./app/hooks/useUpdateTotal.js";
 import Router from "./app/router.js";
 
 document.addEventListener('DOMContentLoaded',async (e)=>{
@@ -152,6 +155,45 @@ document.addEventListener('click',async (e)=>{
 
         document.getElementById('body').removeChild(document.getElementById('loader'));
     }
+
+    // Delegación de evento para aumentar cantidad de un producto
+    if(e.target.matches('.Cart__itemMore')){
+        const input=e.target.previousElementSibling;
+        const val_total=e.target.parentElement.parentElement.nextElementSibling;
+
+        let new_value=Number(input.value)+1;
+        input.value=new_value;
+
+        val_total.textContent=`$ ${Number(new_value*e.target.dataset.price).toFixed(2)}`;
+        useUpdateTotal();
+        useUpdateCart();
+    }
+
+    // Delegación de evento para disminuir cantidad de un producto
+    if(e.target.matches('.Cart__itemMinus')){
+        const input=e.target.nextElementSibling;
+        const val_total=e.target.parentElement.parentElement.nextElementSibling;
+
+        if(input.value>1){
+            let new_value=Number(input.value)-1;
+            input.value=new_value;
+            val_total.textContent=`$ ${Number(new_value*e.target.dataset.price).toFixed(2)}`;
+            useUpdateTotal();
+            useUpdateCart();
+        }else{
+            Push({
+                text:'Elimina el producto.'
+            });
+        }
+    }
+
+    // Delegación de evento para eliminar un producto
+    if(e.target.matches('.remove-to-commander')){
+        const id=e.target.dataset.id;
+        useDeleteCartItem({id});
+        useUpdateTotal();
+    }
+
 });
 
 document.addEventListener('keyup',async (e)=>{

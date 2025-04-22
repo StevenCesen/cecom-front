@@ -51,7 +51,7 @@ export default async function Commander({app}) {
                 <p>${order.create_date}</p>
                 <p># ${order.order_number_day}</p>
                 <button data-id="${order.id}" class="CardOrder__view">Ver</button>
-                <button data-id="${order.id}" class="CardOrder__finish">Finalizar</button>
+                ${(order.status==='PENDIENTE') ? `<button data-id="${order.id}" class="CardOrder__finish">Finalizar</button>` : ''}
             </div>
         `;
     });
@@ -135,7 +135,7 @@ export default async function Commander({app}) {
                     <p>${order.create_date}</p>
                     <p># ${order.order_number_day}</p>
                     <button data-id="${order.id}" class="CardOrder__view">Ver</button>
-                    <button data-id="${order.id}" class="CardOrder__finish">Finalizar</button>
+                    ${(order.status==='PENDIENTE') ? `<button data-id="${order.id}" class="CardOrder__finish">Finalizar</button>` : ''}
                 </div>
             `;
         });
@@ -200,13 +200,19 @@ export default async function Commander({app}) {
     content_orders.addEventListener('click',async (e)=>{
         if(e.target.matches('.CardOrder__finish')){
             const id=e.target.dataset.id;
+            
+            loader();
             const update=await useUpdateOrder({id});
+            
+            const button=e.target;
+            button.parentElement.removeChild(button);
 
-            console.log(update);
+            document.getElementById('body').removeChild(document.getElementById('loader'));
 
             Push({
-                text:'Comanda completada'
+                text:'Comanda completada, !En Mesa¡'
             });
+
         }
 
         if(e.target.matches('.CardOrder__view')){

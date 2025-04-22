@@ -506,42 +506,43 @@ export default function CardModal({template,content}){
         const btn_generate_command=document.getElementById('generate-commander');
 
         content_list.addEventListener('click',(e)=>{
-            // Delegación de evento para aumentar cantidad de un producto
-            if(e.target.matches('.Cart__itemMore')){
-                const input=e.target.previousElementSibling;
-                const val_total=e.target.parentElement.parentElement.nextElementSibling;
+            // // Delegación de evento para aumentar cantidad de un producto
+            // if(e.target.matches('.Cart__itemMore')){
+            //     const input=e.target.previousElementSibling;
+            //     const val_total=e.target.parentElement.parentElement.nextElementSibling;
 
-                let new_value=Number(input.value)+1;
-                input.value=new_value;
-                val_total.textContent=`$ ${Number(new_value*e.target.dataset.price)}`;
-                useUpdateTotal();
-                useUpdateCart();
-            }
+            //     let new_value=Number(input.value)+1;
+            //     input.value=new_value;
 
-            // Delegación de evento para disminuir cantidad de un producto
-            if(e.target.matches('.Cart__itemMinus')){
-                const input=e.target.nextElementSibling;
-                const val_total=e.target.parentElement.parentElement.nextElementSibling;
+            //     val_total.textContent=`$ ${Number(new_value*e.target.dataset.price).toFixed(2)}`;
+            //     useUpdateTotal();
+            //     useUpdateCart();
+            // }
 
-                if(input.value>1){
-                    let new_value=Number(input.value)-1;
-                    input.value=new_value;
-                    val_total.textContent=`$ ${Number(new_value)*Number(e.target.dataset.price)}`;
-                    useUpdateTotal();
-                    useUpdateCart();
-                }else{
-                    Push({
-                        text:'Elimina el producto.'
-                    });
-                }
-            }
+            // // Delegación de evento para disminuir cantidad de un producto
+            // if(e.target.matches('.Cart__itemMinus')){
+            //     const input=e.target.nextElementSibling;
+            //     const val_total=e.target.parentElement.parentElement.nextElementSibling;
 
-            // Delegación de evento para eliminar un producto
-            if(e.target.matches('.remove-to-commander')){
-                const id=e.target.dataset.id;
-                useDeleteCartItem({id});
-                useUpdateTotal();
-            }
+            //     if(input.value>1){
+            //         let new_value=Number(input.value)-1;
+            //         input.value=new_value;
+            //         val_total.textContent=`$ ${Number(new_value*e.target.dataset.price).toFixed(2)}`;
+            //         useUpdateTotal();
+            //         useUpdateCart();
+            //     }else{
+            //         Push({
+            //             text:'Elimina el producto.'
+            //         });
+            //     }
+            // }
+
+            // // Delegación de evento para eliminar un producto
+            // if(e.target.matches('.remove-to-commander')){
+            //     const id=e.target.dataset.id;
+            //     useDeleteCartItem({id});
+            //     useUpdateTotal();
+            // }
         });
 
         btn_generate_command.addEventListener('click',async (e)=>{

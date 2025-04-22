@@ -158,7 +158,7 @@ export default function Cart({mode}){
                             <button data-price="${item.price}" class="Cart__itemMore">+</button>
                         </div>
                     </div>
-                    <label class="Cart__price">$ ${Number(item.price)*Number(item.quantity)}</label>
+                    <label class="Cart__price">$ ${Number(item.price)*Number(item.quantity).toFixed(2)}</label>
 
                     <button data-id="${item.id}"  class="Cart__button--delete remove-to-commander">
                         <svg data-id="${item.id}"  class="remove-to-commander" width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
